@@ -1,0 +1,152 @@
+.itemsPage{
+    display: flex;
+    flex-direction: column;
+    padding: 20px 10%;
+    gap: 20px;
+    color: var(--light-1);
+    background: var(--dark-1);
+    min-height: calc(100vh - 112px);
+}
+
+.itemsPage .search{
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.itemsPage .search img{
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    right: 12px;
+    cursor: pointer;
+}
+
+.itemsPage .search input{
+    background: var(--dark-2);
+    padding: 16px;
+    border: none;
+    border-radius: 8px;
+    color: var(--light-1);
+}
+
+.itemsPage .search input::placeholder{
+    color: var(--light-3);
+}
+
+.itemsPage .items{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content:flex-start;
+}
+
+.itemsPage .items .itemContainer{
+    flex: 1 1 calc((100% - 40px)/3);
+    max-width: calc((100% - 40px)/3);
+    aspect-ratio: 1/1;
+}
+
+.item{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    border-radius: 8px;
+    background: var(--dark-2);
+}
+
+.images{
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    overflow-x: auto; 
+    scroll-snap-type: x mandatory; 
+    scroll-padding: 0 ; 
+    scroll-behavior: smooth;
+    background: var(--dark-1);
+}
+
+.images img{
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    scroll-snap-align: center; 
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    background: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    cursor: pointer;
+}
+
+.itemDetails{
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    justify-content: space-between;
+}
+
+.main{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main h3{
+    font-size: x-large;
+}
+
+.main p{
+    font-size: medium;
+    color: var(--light-3);
+}
+
+.secondary{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.secondary h3{
+    font-size: x-large;
+    color: var(--green);
+}
+
+.buttons{
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttons button{
+    display: flex;
+    background: transparent;
+    padding: 12px;
+    border: none;
+    align-items: center;
+    outline: none;
+}
+
+.buttons img{
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+} 
+
+@media(max-width: 1024px){
+    .itemContainer{
+        flex: 1 1 calc(50% - 10px);
+        max-width: calc(50% - 10px);
+    }
+}
+
+@media(max-width: 768px){
+    .itemsPage{
+        padding: 20px;
+    }
+
+    .itemContainer{
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}

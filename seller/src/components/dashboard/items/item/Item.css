@@ -1,0 +1,179 @@
+.itemPage{
+    display: flex;
+    flex-direction: column;
+    padding: 20px 10%;
+    gap: 20px;
+    color: var(--light-1);
+    align-items: flex-end;
+    min-height: calc(100vh - 112px);
+    background: var(--dark-1);
+}
+
+.itemButtons{
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.itemButtons button{
+    padding: 14px 20px;
+    font-size: medium;
+    background: var(--dark-2);
+    color: var(--light-1);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.itemPage .item{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    border-radius: 8px;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.itemPage .images{
+    max-width: calc((100% - 40px)/3);
+    flex: 1 1 calc((100% - 40px)/3);
+    aspect-ratio: 1/1;
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0;
+    scroll-behavior: smooth;
+}
+
+.itemPage .images img{
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    scroll-snap-align: center;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.itemPage .itemDetails{
+    max-width: calc((100% - 40px)/3);
+    flex: 1 1 calc((100% - 40px)/3);
+    border-radius: 8px;
+    box-sizing: border-box;
+    aspect-ratio: 1/1;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    background: var(--dark-2);
+}
+
+.itemPage .primary{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.itemPage .primary h3{
+    font-size: x-large;
+    text-transform: capitalize;
+}
+
+.itemPage .primary p{
+    text-transform: capitalize;
+    font-size: medium;
+    color: var(--light-3);
+}
+
+.itemPage .tertiary{
+    margin-top: 30px;
+    color: var(--light-3);
+}
+
+.itemPage .secondary{
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.itemPage .secondary h3{
+    color: var(--green);
+    font-size: x-large;
+}
+
+.itemPage.secondary .buttons{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.itemPage .secondary .buttons button{
+    display: flex;
+    background: transparent;
+    border: none;
+    padding: 12px;
+    align-items: center;
+    outline: none;
+    border-radius: 24px;
+    color: var(--light-1);
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.itemPage .secondary .buttons button:hover{
+    background: var(--dark-3);
+}
+
+.itemPage .secondary .buttons img{
+    width: 24px;
+    height: 24px;
+}
+
+.itemPage .item .transactions{
+    max-width: calc((100% - 40px)/3);
+    flex: 1 1 calc((100% - 40px)/3);
+    border-radius: 8px;
+    background: var(--dark-2);
+    aspect-ratio: 1/1;
+    box-sizing: border-box;
+    padding: 24px;
+    text-transform: capitalize;
+}
+
+@media(max-width: 1024px){
+    .itemPage .item .images, .itemPage .item .itemDetails{
+        flex: 1 1 calc(50% - 10px);
+        max-width: calc(50% - 10px);
+    }
+
+    .itemPage .item .transactions{
+        max-width: 100%;
+        aspect-ratio: 2/1;
+    }
+}
+
+@media(max-width: 768px){
+    .itemPage{
+        padding: 20px;
+    }
+
+    .itemPage .item{
+        width: 100%;
+    }
+
+    .itemPage .item .images, .itemPage .item .itemDetails{
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    .itemPage .item .itemDetails{
+        aspect-ratio: 0;
+        height: fit-content;
+    }
+
+    .itemPage .item .transactions{
+        aspect-ratio: 1/1;
+    }
+}

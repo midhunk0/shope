@@ -1,0 +1,28 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root{
+   --light-1: #f8f9fa;
+   --light-2: #e9ecef;
+   --light-3: #dee2e6;
+   --light-4: #ced4da;
+   --dark-4: #6c757d;
+   --dark-3: #495057;
+   --dark-2: #343a40;
+   --dark-1: #212529;
+   --red: #ef233c;
+   --green: #73ba9b;
+}
+
+::-webkit-scrollbar{
+    width: 0;
+    height: 0;
+}
+
+::-webkit-input-placeholder{
+    color: #444444;
+}
+
