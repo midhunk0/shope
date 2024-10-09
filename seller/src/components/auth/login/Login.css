@@ -1,4 +1,4 @@
-.login{
+.loginPage{
     padding: 20px;
     height: calc(100vh - 40px);
     display: flex;
@@ -17,6 +17,7 @@
     scroll-behavior: smooth;
     padding: 0;
     margin: 0;
+    border-radius: 16px;
 }
 
 .loginImages img {
@@ -27,6 +28,7 @@
     box-sizing: border-box;
     flex-shrink: 0;
     scroll-snap-align: center; 
+    cursor: pointer;
 }
 
 .loginLogo{
@@ -62,7 +64,11 @@
     gap: 8px;
 }
 
-a:hover{
+.loginForm a{
+    color: var(--light-1);
+}
+
+.loginForm a:hover{
     color: var(--red);
 }
 
@@ -74,17 +80,17 @@ a:hover{
     color: var(--red);
 }
 
-.loginForm .loginPassword{
+.loginPassword{
     position: relative;
     display: flex;
     align-items: center;
 }
 
-.loginForm .loginPassword input{
+.loginPassword input{
     width: 100%;
 }
 
-.loginForm .loginPassword img{
+.loginPassword img{
     position: absolute;
     cursor: pointer;
     width: 24px;
@@ -111,7 +117,7 @@ a:hover{
         color: var(--red);
     }
 
-    .login{
+    .loginPage{
         height: calc(100vh - 40px);
         display: flex;
         gap: 20px;

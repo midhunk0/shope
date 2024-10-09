@@ -1,4 +1,4 @@
-.register{
+.registerPage{
     padding: 20px;
     height: calc(100vh - 40px);
     display: flex;
@@ -15,6 +15,7 @@
     scroll-snap-type: x mandatory; 
     scroll-padding: 0 ; 
     scroll-behavior: smooth;
+    border-radius: 16px;
 }
 
 .registerImages img {
@@ -27,7 +28,7 @@
     scroll-snap-align: center; 
 }
 
-.logo{
+.registerLogo{
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -36,7 +37,7 @@
     color: var(--red);
 }
 
-.logo hr{
+.registerLogo hr{
     margin-top: 0;
 }
 
@@ -48,27 +49,27 @@
     justify-content: center;
 }
 
-form{
+.registerForm form{
     display: flex;
     flex-direction: column;
     gap: 20px;
     width: 70%;
 }
 
-span{
+.registerForm span{
     display: flex;
     gap: 8px;
 }
 
-a{
+.registerForm a{
     color: var(--light-1);
 }
 
-a:hover{
+.registerForm a:hover{
     color: var(--red);
 }
 
-input{
+.registerForm input{
     padding: 16px;
     border-radius: 8px;
     border: none;
@@ -94,7 +95,7 @@ input{
     right: 16px;
 }
 
-button{
+.registerForm button{
     padding: 16px;
     border: none;
     border-radius: 8px;
@@ -103,17 +104,17 @@ button{
     cursor: pointer;
 }
 
-button:hover {
+.registerForm button:hover {
     color: var(--red);
     background: var(--light-1);
 }
 
 @media (max-width: 920px) {
-    .logo{
+    .registerLogo{
         color: var(--red);
     }
 
-    .register{
+    .registerPage{
         height: calc(100vh - 40px);
         display: flex;
         gap: 20px;
@@ -155,14 +156,14 @@ button:hover {
         scroll-snap-align: center; 
     }
 
-    form{
+    .registerForm form{
         width: 70%;
     }
 
 }
 
 @media (max-width: 570px) {
-    form{
+    .registerForm form{
         margin-top: 30px;
         width: 90%;
     }

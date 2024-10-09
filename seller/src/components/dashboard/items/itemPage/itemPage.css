@@ -1,0 +1,46 @@
+.itemPage {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 10%;
+    gap: 20px;
+    color: var(--light-1);
+    align-items: flex-end;
+    min-height: calc(100vh - 112px);
+    background: var(--dark-1);
+}
+
+.itemButtons {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.itemButtons button {
+    padding: 14px 20px;
+    font-size: medium;
+    background: var(--dark-2);
+    color: var(--light-1);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.itemContainer{
+    max-width: calc((100% - 20px)/2);
+}
+
+@media(max-width: 1024px){
+    .itemContainer{
+        max-width: calc(50% - 10px);
+    }
+}
+
+@media(max-width: 768px){
+    .itemPage{
+        padding: 20px;
+    }
+
+    .itemContainer{
+        max-width: 100%;
+    }
+}
+

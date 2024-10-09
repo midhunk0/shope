@@ -22,7 +22,7 @@ export function Topbar(){
                 <h6><Link to="/dashboard/transactions">Transactions</Link></h6>
                 <h6 onClick={logoutUser}><Link to="/">Logout</Link></h6>
             </div>
-            <div className="topbarDropdown">
+            <div className="topbarDropdown" onClick={toggleDropdown}>
                 <img src={closed ? "/icons/menu.png" : "/icons/close.png"} alt="img" onClick={toggleDropdown}/>
                 {!closed ? (
                     <div className="dropdownOptions">

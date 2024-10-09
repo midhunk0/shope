@@ -54,7 +54,7 @@ export function Register(){
     }
 
     return(
-        <div className="register">
+        <div className="registerPage">
             <div className="registerForm">
                 <form onSubmit={registerUser}>
                     <h1>Create an account</h1>
@@ -77,7 +77,7 @@ export function Register(){
                 {images.map((image, index)=>(
                     <img key={index} src={image} alt="img"/>
                 ))}
-                <div className="logo">
+                <div className="registerLogo">
                     <h3>Shope.</h3>
                     <hr/>
                 </div>

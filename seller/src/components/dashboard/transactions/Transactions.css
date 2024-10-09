@@ -1,0 +1,17 @@
+.transactionsPage{
+    padding: 20px 10%;
+    min-height: calc(100vh - 112px);
+    background: var(--dark-1);
+    color: var(--light-1);
+}
+
+@media(max-width: 1024px){
+
+}
+
+
+@media(max-width: 768px){
+    .transactionsPage{
+        padding: 20px;
+    }
+}

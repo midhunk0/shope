@@ -50,7 +50,7 @@ export function Login(){
     }
 
     return(
-        <div className="login">
+        <div className="loginPage">
             <div className="loginForm">
                 <form onSubmit={loginUser}>
                     <h1>Login to account</h1>
