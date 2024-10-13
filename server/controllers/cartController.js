@@ -4,6 +4,26 @@ const User=require("../models/authModel");
 const Item=require("../models/itemModel");
 const { returnUserId }=require("../helpers/authHelper");
 
+const inCart=async(req, res)=>{
+    try{
+        const userId=await returnUserId(req, res);
+        const { itemId }=req.params;
+        const user=await User.findById(userId);
+        if(!user){
+            return res.status(400).json({ message: "User not found" });
+        }
+        const cart=await Cart.findOne({ userId: userId });
+        if(!cart){
+            return res.status(400).json({ message: "No cart found" });
+        }
+        const isIn=cart.itemIds.includes(itemId);
+        return res.status(200).json({ cart: isIn });
+    }
+    catch(err){
+        return res.status(500).json({ error: err.message });
+    }
+}
+
 const addToCart=async(req, res)=>{
     try{
         const userId=await returnUserId(req, res);
@@ -98,6 +118,7 @@ const fetchCart=async(req, res)=>{
 }
 
 module.exports={
+    inCart,
     addToCart,
     removeFromCart,
     fetchCart

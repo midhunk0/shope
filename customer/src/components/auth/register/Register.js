@@ -1,23 +1,27 @@
 // @ts-nocheck
 import React, { useState } from "react";
-import "./Login.css"
+import "./Register.css";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export function Login(){
+export function Register(){
     const [userData, setUserData]=useState({
-        credential: "",
+        username: "", 
+        name: "",
+        email: "",
+        phone: "",
         password: "",
         role: "seller"
-    });
+
+    })
     const [visible, setVisible]=useState(false);
     const images=[
-        "/images/bose.jpg",
-        "/images/apple-watch.jpg",
         "/images/dji.jpg",
-        "/images/pocket-camera.jpg",
+        "/images/apple-watch.jpg",
+        "/images/i-phone.jpg",
+        "/images/bose.jpg",
         "/images/logi-mouse.jpg",
-        "/images/i-phone.jpg"
+        "/images/pocket-camera.jpg",
     ];
     const navigate=useNavigate();
     const apiUrl=process.env.REACT_APP_BACKEND_URL;
@@ -25,12 +29,11 @@ export function Login(){
     function toggleVisible(){
         setVisible(!visible);
     }
-    
-    async function loginUser(e){
+
+    async function registerUser(e){
         e.preventDefault();
         try{
-            console.log(apiUrl);
-            const response=await fetch(`${apiUrl}/loginUser`, {
+            const response=await fetch(`${apiUrl}/registerUser`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(userData),
@@ -42,7 +45,7 @@ export function Login(){
                 navigate("/dashboard");
             }
             else{
-                toast.error(result.message);
+                toast.error(result.messsage);
             }
         }
         catch(error){
@@ -51,27 +54,30 @@ export function Login(){
     }
 
     return(
-        <div className="loginPage">
-            <div className="loginForm">
-                <form onSubmit={loginUser}>
-                    <h1>Login to account</h1>
+        <div className="registerPage">
+            <div className="registerForm">
+                <form onSubmit={registerUser}>
+                    <h1>Create an account</h1>
                     <span>
-                        <p>Don't have an account?</p>
-                        <Link to="/register">Register</Link>
+                        <p>Already have an account?</p>
+                        <Link to="/login">Login</Link>
                     </span>
-                    <input type="text" placeholder="Username or Email" onChange={(e)=>setUserData({...userData, credential: e.target.value})}/>
-                    <div className="loginPassword">
+                    <input type="text" placeholder="Username" onChange={(e)=>setUserData({...userData, username: e.target.value})}/>
+                    <input type="text" placeholder="Name" onChange={(e)=>setUserData({...userData, name: e.target.value})}/>
+                    <input type="email" placeholder="Email" onChange={(e)=>setUserData({...userData, email: e.target.value})}/>
+                    <input type="text" placeholder="Phone Number" onChange={(e)=>setUserData({...userData, phone: e.target.value})}/>
+                    <div className="registerPassword">
                         <input type={visible ? "text" : "password"} placeholder="Password" onChange={(e)=>setUserData({...userData, password: e.target.value})}/>
                         <img src={visible ? "/icons/show.png" : "/icons/hide.png"} alt="img" onClick={toggleVisible}/>
                     </div>
-                    <button type="submit">Login</button>
+                    <button type="submit">Register</button>
                 </form>
             </div>
-            <div className="loginImages">
+            <div className="registerImages">
                 {images.map((image, index)=>(
                     <img key={index} src={image} alt="img"/>
                 ))}
-                <div className="loginLogo">
+                <div className="registerLogo">
                     <h3>Shope.</h3>
                     <hr/>
                 </div>

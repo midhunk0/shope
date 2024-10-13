@@ -1,10 +1,10 @@
 // @ts-nocheck
 import React, { useState } from "react";
-import "./Create.css"
+import "./Create.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export function Create(){
+export function Create() {
     const [itemData, setItemData]=useState({
         name: "",
         type: "",
@@ -23,7 +23,7 @@ export function Create(){
     function drop(e){
         e.preventDefault();
         const newImages=[];
-        for(let i=0;i<e.dataTransfer.files.length;i++){
+        for (let i=0;i<e.dataTransfer.files.length;i++){
             var image=e.dataTransfer.files[i].name;
             newImages.push(image);
         }
@@ -36,7 +36,7 @@ export function Create(){
 
     function fileInput(e){
         const newImages=[];
-        for(let i=0;i<e.target.files.length;i++){
+        for (let i=0;i<e.target.files.length;i++) {
             var image=e.target.files[i].name;
             newImages.push(image);
         }
@@ -50,6 +50,7 @@ export function Create(){
 
     async function createSellItem(e){
         e.preventDefault();
+
         try{
             const formData=new FormData();
             for(const key in itemData){
@@ -59,30 +60,37 @@ export function Create(){
             if(images.files?.length){
                 Array.from(images.files).forEach((image)=>{
                     formData.append("images", image);
-                })
+                });
             }
-            console.log(JSON.stringify(formData));
-            const response=await fetch(`${apiUrl}/createSellItem`, {
-                method: "POST",
-                // headers: { "Content-Type": "application/json" },
-                body: formData,
-                credentials: "include"
-            });
+
+            const response=await toast.promise(
+                fetch(`${apiUrl}/createSellItem`, {
+                    method: "POST",
+                    body: formData,
+                    credentials: "include",
+                }),
+                {
+                    pending: "Creating item...",
+                    success: false,
+                    error: false
+                }
+            );
+
             const result=await response.json();
             if(response.ok){
                 toast.success(result.message);
                 navigate("/dashboard");
-            }
+            } 
             else{
                 toast.error(result.message);
             }
-        }
+        } 
         catch(error){
             console.log(error);
-        }
+        } 
     }
 
-    return(
+    return (
         <div className="create">
             <form onSubmit={createSellItem}>
                 <div className="createButtons">
@@ -92,21 +100,21 @@ export function Create(){
                 <div className="createInputs">
                     <div className="inputBlock">
                         <label htmlFor="name">Name</label>
-                        <input type="text" id="name" onChange={(e)=>setItemData({...itemData, name: e.target.value})}/>
+                        <input type="text" id="name" onChange={(e) => setItemData({ ...itemData, name: e.target.value })} />
                     </div>
                     <div className="uploads">
                         <p>Upload the Images</p>
                         <div className="dropArea" onDrop={drop} onDragOver={drag}>
                             <p>Drag and drop images here</p>
-                            <input type="file" id="images" onChange={fileInput} multiple/>
+                            <input type="file" id="images" onChange={fileInput} multiple />
                             <label htmlFor="images">Browse Files</label>
                         </div>
-                        {imageList.length>0 && (
+                        {imageList.length > 0 && (
                             <div className="fileList">
-                                {imageList.map((file, index)=>(
+                                {imageList.map((file, index) => (
                                     <div className="fileItem" key={index}>
                                         <p>{file}</p>
-                                        <img src="/icons/close.png" alt="img" onClick={()=>remove(index)}/>
+                                        <img src="/icons/close.png" alt="img" onClick={() => remove(index)} />
                                     </div>
                                 ))}
                             </div>
@@ -114,19 +122,19 @@ export function Create(){
                     </div>
                     <div className="inputBlock">
                         <label htmlFor="typetype">Type</label>
-                        <input type="text" id="type" onChange={(e)=>setItemData({...itemData, type: e.target.value})}/>
+                        <input type="text" id="type" onChange={(e) => setItemData({ ...itemData, type: e.target.value })} />
                     </div>
                     <div className="inputBlock">
                         <label htmlFor="description">Description</label>
-                        <input type="text" id="description" onChange={(e)=>setItemData({...itemData, description: e.target.value})}/>
+                        <input type="text" id="description" onChange={(e) => setItemData({ ...itemData, description: e.target.value })} />
                     </div>
                     <div className="inputBlock">
                         <label htmlFor="price">Price</label>
-                        <input type="text" id="price" onChange={(e)=>setItemData({...itemData, price: e.target.value})}/>
+                        <input type="text" id="price" onChange={(e) => setItemData({ ...itemData, price: e.target.value })} />
                     </div>
                     <div className="inputBlock">
                         <label htmlFor="pieceLeft">Piece Left</label>
-                        <input type="text" id="pieceLeft" onChange={(e)=>setItemData({...itemData, pieceLeft: e.target.value})}/>
+                        <input type="text" id="pieceLeft" onChange={(e) => setItemData({ ...itemData, pieceLeft: e.target.value })} />
                     </div>
                 </div>
             </form>

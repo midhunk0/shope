@@ -25,6 +25,7 @@
     color: var(--light-1);
     border: none;
     border-radius: 8px;
+    cursor: pointer;
 }
 
 .updateInputs{

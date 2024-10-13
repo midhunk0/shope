@@ -8,7 +8,7 @@ const Sell=require("../models/sellModel");
 const registerUser=async(req, res)=>{
     try{
         const { name, username, email, phone, password, role }=req.body;
-        if(!name || !username || !email || !phone || !password || !role){
+        if(!name || !username || !email || !phone || !password){
             return res.status(400).json({ message: "All entries are needed" });
         }
         const usernameExist=await User.findOne({ username });
@@ -53,13 +53,22 @@ const registerUser=async(req, res)=>{
 
 const loginUser=async(req, res)=>{
     try{
-        const { credential, password }=req.body;
+        const { credential, password, role }=req.body;
         if(!credential || !password){
             return res.status(400).json({ message: "All fields are required" });
         }
         const user=await User.findOne({ $or: [{ username: credential }, { email: credential }]});
         if(!user){
             return res.status(400).json({ message: "No user found" });
+        }
+        const isRoleMatches=await user.role===role;
+        if(!isRoleMatches){
+            if(role==="seller"){
+                return res.status(400).json({ message: "You are not a seller" });
+            }
+            else{
+                return res.status(400).json({ message: "You are not a customer" });
+            }
         }
         const isPasswordValid=await comparePassword(password, user.password);
         if(!isPasswordValid){

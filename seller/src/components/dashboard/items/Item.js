@@ -10,7 +10,7 @@ export function Item({ item, onClick }){
 
     function updateItem(e, itemId){
         e.stopPropagation();
-        navigate("/dashboard/update", { state: {itemId}})
+        navigate(`/dashboard/update/${itemId}`);
     }
 
     async function deleteItem(e, itemId){
@@ -23,6 +23,7 @@ export function Item({ item, onClick }){
             const result=await response.json();
             if(response){
                 toast.success(result.message);
+                window.location.reload();
             }
             else{
                 toast.error(result.message);
@@ -61,9 +62,6 @@ export function Item({ item, onClick }){
                                 </button>
                             </div>
                         </div>
-                        {/* <div className="tertiary">
-                            <p>{item.description}</p>
-                        </div> */}
                     </div>
                 )}
         </div>

@@ -7,8 +7,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Dashboard } from './components/dashboard/Dashboard';
 import { Create } from './components/dashboard/create/Create';
-import { ItemsPage } from './components/dashboard/items/itemsPage/itemsPage';
-import { ItemPage } from './components/dashboard/items/itemPage/itemPage';
+import { ItemsPage } from './components/dashboard/items/itemsPage/ItemsPage';
+import { ItemPage } from './components/dashboard/items/itemPage/ItemPage';
 import { Update } from './components/dashboard/update/Update';
 import { Transactions } from './components/dashboard/transactions/Transactions';
 
@@ -24,7 +24,7 @@ function App() {
                     <Route path="items" element={<ItemsPage/>}/>
                     <Route path="item" element={<ItemPage/>}/>
                     <Route path="add" element={<Create/>}/>
-                    <Route path="update" element={<Update/>}/>
+                    <Route path="update/:itemId" element={<Update/>}/>
                     <Route path="transactions" element={<Transactions/>}/>
                 </Route>
             </Routes>

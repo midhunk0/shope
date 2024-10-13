@@ -14,7 +14,7 @@ export function ItemPage(){
 
     async function fetchSellItem(){
         try{
-            const response=await fetch(`${apiUrl}/fetchSellItem/${itemId}`, {
+            const response=await fetch(`${apiUrl}/fetchItem/${itemId}`, {
                 method: "GET",
                 credentials: "include"
             });

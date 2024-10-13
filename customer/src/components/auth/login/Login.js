@@ -8,7 +8,7 @@ export function Login(){
     const [userData, setUserData]=useState({
         credential: "",
         password: "",
-        role: "seller"
+        role: "customer"
     });
     const [visible, setVisible]=useState(false);
     const images=[
@@ -21,7 +21,7 @@ export function Login(){
     ];
     const navigate=useNavigate();
     const apiUrl=process.env.REACT_APP_BACKEND_URL;
-
+    
     function toggleVisible(){
         setVisible(!visible);
     }

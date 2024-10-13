@@ -4,6 +4,26 @@ const User=require("../models/authModel");
 const Item=require("../models/itemModel");
 const { returnUserId }=require("../helpers/authHelper");
 
+const inWishlist=async(req, res)=>{
+    try{
+        const userId=await returnUserId(req, res);
+        const { itemId }=req.params;
+        const user=await User.findById(userId);
+        if(!user){
+            return res.status(400).json({ message: "User not found" });
+        }
+        const wishlist=await Wishlist.findOne({ userId: userId });
+        if(!wishlist){
+            return res.status(400).json({ message: "No wishlist found" });
+        }
+        const isIn=wishlist.itemIds.includes(itemId);
+        return res.status(200).json({ liked: isIn });
+    }
+    catch(err){
+        return res.status(500).json({ error: err.message });
+    }
+}
+
 const toggleWishlist=async(req, res)=>{
     try{
         const userId=await returnUserId(req, res);
@@ -75,6 +95,7 @@ const fetchWishlist=async(req, res)=>{
 }
 
 module.exports={
+    inWishlist,
     toggleWishlist, 
     fetchWishlist
 }
