@@ -48,6 +48,11 @@
 .primary h3{
     font-size: x-large;
     text-transform: capitalize;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 60%;
+    color: var(--light-1);
 }
 
 .primary p{

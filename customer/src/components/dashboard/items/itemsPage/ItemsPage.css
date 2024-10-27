@@ -1,21 +1,88 @@
 .itemsPage{
     display: flex;
-    flex-direction: column;
-    padding: 20px 10%;
+    padding: 20px;
     gap: 20px;
     color: var(--light-1);
     background: var(--dark-1);
     min-height: calc(100vh - 112px);
 }
 
-.itemsSearch{
+.itemsOptions{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 20%;
+}
+
+.itemsSort{
+    display: flex;
+    gap: 12px;
+    align-items: start;
+}
+
+.sortButtons{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.sortButtons button{
+    width: 100%;
+}
+
+.itemsFilters{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filterAndSort{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.itemsFilters button, .itemsSort button{
+    padding: 12px;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    text-transform: capitalize;
+    cursor: pointer;
+    background: var(--light-1);
+    text-align: start;
+}
+
+.itemTypes button, .sortTypes button{
+    border-radius: 0;
+    border: 1px solid black;
+    border-bottom: none;
+}
+
+.itemTypes button:hover, .sortTypes button:hover{
+    background: var(--light-3);
+}
+
+.itemTypes button:first-child, .sortTypes button:first-child{
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.itemTypes button:last-child, .sortTypes button:last-child{
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom: 1px solid black;
+}
+
+.itemsSearch, .itemsFilters, .itemsSort{
     position: relative;
     display: flex;
-    flex-direction: row-reverse;
     align-items: center;
 }
 
-.itemsSearch img{
+.itemsSearch img, .itemsFilters img, .itemsSort img{
     position: absolute;
     width: 24px;
     height: 24px;
@@ -23,28 +90,111 @@
     cursor: pointer;
 }
 
-.itemsSearch input{
+.itemsSearch input, .itemsFilters input, .itemsSort input{
     background: var(--dark-2);
     padding: 16px;
     border: none;
     border-radius: 8px;
     color: var(--light-1);
+    width: 100%;
+
 }
 
-.itemsSearch input::placeholder{
+.itemsSearch input::placeholder, .itemsFilters input::placeholder, .itemsSort input::placeholder{
     color: var(--light-3);
+}
+
+.filterDropdown{
+    display: none;
 }
 
 .items {
     display: grid;
     gap: 20px;
+    width: 80%;
     grid-template-columns: repeat(auto-fill, minmax(calc(33.33% - 20px), 1fr)); /* 3 columns with gap calculation */
     justify-content: space-between;
 }
 
 @media (max-width: 1024px) {
-    .items {
+    .items, .itemsOptions {
         grid-template-columns: repeat(auto-fill, minmax(calc(50% - 20px), 1fr)); /* 2 columns for medium screens */
+    }
+}
+
+@media(max-width: 909px){
+    .itemsPage{
+        flex-direction: column;
+    }
+
+    .itemsSearch{
+        width: 75%;
+    }
+
+    .itemsOptions{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        align-items: baseline;
+        justify-content: space-around;
+    }
+
+    .filterAndSort{
+        flex-direction: row;
+        align-items: baseline;
+        width: 100%;
+    }
+
+    .itemsSearch{
+        margin-right: auto;
+    }
+
+    .itemsFilters, .itemsSort{
+        position: relative;
+    }
+
+    .itemsSort{
+        width: 100%;
+    }
+
+    .itemsFilters{
+        width: 75%;
+    }
+
+    .itemsFilters button{
+        width: 100%;
+    }
+
+    .itemsSort button{
+        width: 100%;
+    }
+
+    .itemTypes, .sortTypes{
+        /* position: absolute; */
+        top: calc(100% + 24px);
+        z-index: 1;
+        /* width: 100%; */
+        /* right: 0; */
+    }
+
+    .sortTypes{
+        width: 100%;
+    }
+
+    .itemTypes{
+        right: 0;
+    }
+
+    .sortTypes{
+        margin-right: 20px;
+    }
+
+    .itemsSearch input{
+        width: 100%;
+    }
+
+    .items{
+        width: 100%;
     }
 }
 
@@ -55,5 +205,35 @@
 
     .items {
         grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); /* 1 column for small screens */
+    }
+}
+
+@media(max-width: 512px){
+    .itemsSearch{
+        width: 100%;
+    }
+
+    .itemsOptions{
+        display: flex;
+        /* align-items: baseline; */
+        align-items: center;
+    }
+
+    .filterAndSort{
+        display: none;
+    }
+
+    .filterDropdown{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .filterDropdown img{
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+    }
+    .filterAndSortDropdown{
+        display: flex;
     }
 }

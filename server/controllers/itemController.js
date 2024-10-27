@@ -54,7 +54,7 @@ const fetchItems=async(req, res)=>{
         if(!user){
             return res.status(400).json({ message: "No user found" });
         }
-        const items=await Item.find();
+        const items=await Item.find().sort({ updatedAt: -1 });
         const itemsWithImages=items.map((item)=>{
             const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${item._id}/${index}`);
             return{

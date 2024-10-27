@@ -4,6 +4,7 @@
     flex-direction: column;
     border-radius: 8px;
     background: var(--dark-2);
+    height: fit-content;
 }
 
 .images{
@@ -52,6 +53,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 60%;
+    color: var(--light-1);
 }
 
 .primary p{

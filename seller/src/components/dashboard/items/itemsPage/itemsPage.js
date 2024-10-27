@@ -7,6 +7,8 @@ import { Item } from "../Item";
 
 export function ItemsPage(){
     const [items, setItems]=useState([]);
+    const [searchItem, setSearchItem]=useState("");
+    const [filteredItems, setFilteredItems]=useState([]);
     const apiUrl=process.env.REACT_APP_BACKEND_URL;
     const navigate=useNavigate();
 
@@ -19,6 +21,7 @@ export function ItemsPage(){
             const result=await response.json();
             if(response.ok){
                 setItems(result);
+                setFilteredItems(result);
                 toast.success(response.message);
             }
             else{
@@ -38,15 +41,29 @@ export function ItemsPage(){
         navigate("/dashboard/item", { state: { itemId }});
     }
 
+    function searchItems(){
+        if(searchItem!==""){
+            const filteredItems=items.filter(item=>item.name.toLowerCase().includes(searchItem.toLowerCase()));
+            setFilteredItems(filteredItems);
+        }
+        else{
+            setFilteredItems(items);
+        }
+    }
+
+    useEffect(()=>{
+        searchItems();
+    }, [searchItem]);
+
     return(
         <div className="itemsPage">
             <div className="itemsSearch">
                 <img src="/icons/search.png" alt="img"/>
-                <input type="text" placeholder="Search"/>
+                <input type="text" placeholder="Search" onChange={(e)=>setSearchItem(e.target.value)}/>
             </div>
             <div className="items">
-                {items.length>0 ? (
-                    items.map((item, index)=>(
+                {filteredItems.length>0 ? (
+                    filteredItems.map((item, index)=>(
                         item ? (
                             <Item item={item} key={index} onClick={()=>viewItem(item._id)}/>
                         ):(
