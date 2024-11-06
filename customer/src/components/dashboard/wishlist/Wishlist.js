@@ -32,7 +32,7 @@ export function Wishlist(){
 
     function searchItems(){
         if(searchItem!==""){
-            const filteredItems=wishlistItems.filter(item=>item.name.toLowerCase().include(searchItem.toLowerCase()));
+            const filteredItems=wishlistItems.filter(item=>item.name.toLowerCase().includes(searchItem.toLowerCase()));
             setFilteredItems(filteredItems);
         }
         else{

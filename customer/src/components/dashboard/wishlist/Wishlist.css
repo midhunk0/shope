@@ -53,6 +53,10 @@
         padding: 20px;
     }
 
+    .wishlistSearch input{
+        width: 100%;
+    }
+
     .wishlistItems{
         grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); /* 1 column for small screens */
     }

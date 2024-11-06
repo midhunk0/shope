@@ -7,34 +7,24 @@
     min-height: calc(100vh - 112px);
 }
 
-.itemsOptions{
+.allOptions{
     display: flex;
     flex-direction: column;
     gap: 20px;
     width: 20%;
 }
 
-.itemsSort{
-    display: flex;
-    gap: 12px;
-    align-items: start;
-}
-
-.sortButtons{
+.itemsOptions{
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
     width: 100%;
 }
 
-.sortButtons button{
-    width: 100%;
-}
-
-.itemsFilters{
+.itemsSort, .itemsFilters{
     display: flex;
-    flex-direction: column;
     gap: 10px;
+    flex-direction: column;
 }
 
 .filterAndSort{
@@ -43,8 +33,12 @@
     gap: 20px;
 }
 
+.filterDropdownIcon{
+    display: none;
+}
+
 .itemsFilters button, .itemsSort button{
-    padding: 12px;
+    padding: 16px;
     width: 100%;
     border: none;
     outline: none;
@@ -55,10 +49,15 @@
     text-align: start;
 }
 
+.itemsSort button img, .itemsFilters button img{
+    filter: invert(1);
+    width: 24px;
+    height: 24px;
+}
+
 .itemTypes button, .sortTypes button{
     border-radius: 0;
     border: 1px solid black;
-    border-bottom: none;
 }
 
 .itemTypes button:hover, .sortTypes button:hover{
@@ -76,7 +75,7 @@
     border-bottom: 1px solid black;
 }
 
-.itemsSearch, .itemsFilters, .itemsSort{
+.itemsSearch, .itemsFilters button, .itemsSort button{
     position: relative;
     display: flex;
     align-items: center;
@@ -90,7 +89,7 @@
     cursor: pointer;
 }
 
-.itemsSearch input, .itemsFilters input, .itemsSort input{
+.itemsSearch input{
     background: var(--dark-2);
     padding: 16px;
     border: none;
@@ -100,7 +99,7 @@
 
 }
 
-.itemsSearch input::placeholder, .itemsFilters input::placeholder, .itemsSort input::placeholder{
+.itemsSearch input::placeholder{
     color: var(--light-3);
 }
 
@@ -122,35 +121,25 @@
     }
 }
 
-@media(max-width: 909px){
+@media(max-width: 992px){
     .itemsPage{
         flex-direction: column;
     }
 
-    .itemsSearch{
-        width: 75%;
-    }
-
-    .itemsOptions{
-        display: flex;
+    .allOptions{
+        gap: 20px;
         flex-direction: row;
         width: 100%;
         align-items: baseline;
-        justify-content: space-around;
     }
 
     .filterAndSort{
         flex-direction: row;
-        align-items: baseline;
         width: 100%;
     }
 
-    .itemsSearch{
-        margin-right: auto;
-    }
-
-    .itemsFilters, .itemsSort{
-        position: relative;
+    .itemsSearch input{
+        width: 100%;
     }
 
     .itemsSort{
@@ -158,38 +147,6 @@
     }
 
     .itemsFilters{
-        width: 75%;
-    }
-
-    .itemsFilters button{
-        width: 100%;
-    }
-
-    .itemsSort button{
-        width: 100%;
-    }
-
-    .itemTypes, .sortTypes{
-        /* position: absolute; */
-        top: calc(100% + 24px);
-        z-index: 1;
-        /* width: 100%; */
-        /* right: 0; */
-    }
-
-    .sortTypes{
-        width: 100%;
-    }
-
-    .itemTypes{
-        right: 0;
-    }
-
-    .sortTypes{
-        margin-right: 20px;
-    }
-
-    .itemsSearch input{
         width: 100%;
     }
 
@@ -199,24 +156,34 @@
 }
 
 @media (max-width: 768px) {
-    .itemsPage {
-        padding: 20px;
+    .itemsOptions{
+        width: 50%;
+    }
+
+    .filterAndSort{
+        width: 100%;
     }
 
     .items {
-        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); /* 1 column for small screens */
+        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); 
     }
 }
 
-@media(max-width: 512px){
+@media(max-width: 576px){
     .itemsSearch{
         width: 100%;
     }
 
+    .allOptions{
+        flex-direction: column;
+        gap: 0;
+    }
+
     .itemsOptions{
-        display: flex;
-        /* align-items: baseline; */
+        flex-direction: row;
         align-items: center;
+        position: relative;
+        width: 100%;
     }
 
     .filterAndSort{
@@ -226,14 +193,23 @@
     .filterDropdown{
         display: flex;
         flex-direction: column;
+        position: relative;
+        width: 100%;
     }
 
-    .filterDropdown img{
+    .filterDropdownIcon{
+        display: contents;
+    }
+
+    .filterDropdownIcon img{
         width: 24px;
         height: 24px;
         cursor: pointer;
     }
+
     .filterAndSortDropdown{
         display: flex;
+        gap: 20px;
+        margin-top: 20px;
     }
 }

@@ -3,7 +3,7 @@
     align-items: center;
     justify-content: space-between;
     background: var(--red);
-    padding: 20px 10%;
+    padding: 20px;
 }
 
 .topbar h4{
@@ -66,6 +66,7 @@
     padding: 20px;
     width: 114px;
     right: 0;
+    top: 52px;
     z-index: 1;
     display: flex;
     flex-direction: column;
@@ -79,7 +80,7 @@
     }
 
     .topbarDropdown{
-        display: block;
+        display: contents;
     }
 
     .topbar{
