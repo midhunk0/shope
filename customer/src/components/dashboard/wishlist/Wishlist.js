@@ -46,10 +46,12 @@ export function Wishlist(){
 
     return(
         <div className="wishlistPage">
-            <div className="wishlistSearch">
-                <img src="/icons/search.png" alt="img"/>
-                <input type="text" placeholder="Search" onChange={(e)=>setSearchItem(e.target.value)}/>
-            </div>
+            {filteredItems.length>0 && (
+                <div className="wishlistSearch">
+                    <img src="/icons/search.png" alt="img"/>
+                    <input type="text" placeholder="Search" onChange={(e)=>setSearchItem(e.target.value)}/>
+                </div>
+            )}
             <div className="wishlistItems">
                 {filteredItems.length>0 ? (
                     filteredItems.map((item, index)=>(

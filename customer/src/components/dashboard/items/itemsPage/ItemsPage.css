@@ -1,10 +1,11 @@
 .itemsPage{
     display: flex;
-    padding: 20px;
+    padding: 20px 5%;
     gap: 20px;
     color: var(--light-1);
     background: var(--dark-1);
-    min-height: calc(100vh - 112px);
+    height: calc(100vh - 112px);
+    overflow: hidden;
 }
 
 .allOptions{
@@ -113,9 +114,10 @@
     width: 80%;
     grid-template-columns: repeat(auto-fill, minmax(calc(33.33% - 20px), 1fr)); /* 3 columns with gap calculation */
     justify-content: space-between;
+    overflow: scroll;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
     .items, .itemsOptions {
         grid-template-columns: repeat(auto-fill, minmax(calc(50% - 20px), 1fr)); /* 2 columns for medium screens */
     }
@@ -124,6 +126,7 @@
 @media(max-width: 992px){
     .itemsPage{
         flex-direction: column;
+        padding: 20px;
     }
 
     .allOptions{
@@ -211,5 +214,11 @@
         display: flex;
         gap: 20px;
         margin-top: 20px;
+    }
+}
+
+@media(max-width: 384px){
+    .filterAndSortDropdown{
+        flex-direction: column;
     }
 }

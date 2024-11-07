@@ -3,7 +3,7 @@
     align-items: center;
     justify-content: space-between;
     background: var(--red);
-    padding: 20px;
+    padding: 20px 5%;
 }
 
 .topbar h4{
@@ -74,16 +74,24 @@
     background: var(--red);
 }
 
-@media (max-width: 768px){
+/* Topbar.css */
+.topbar .active{
+    color: var(--dark-1); 
+}
+
+
+@media(max-width: 992px){
+    .topbar{
+        padding: 20px;
+    }
+}
+
+@media (max-width: 576px){
     .topbarOptions{
         display: none;
     }
 
     .topbarDropdown{
         display: contents;
-    }
-
-    .topbar{
-        padding: 20px;
     }
 }

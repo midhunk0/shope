@@ -1,40 +1,106 @@
+// import React, { useState } from "react";
+// import { Link } from "react-router-dom";
+// import "./Topbar.css";
+
+// export function Topbar(){
+//     const [closed, setClosed]=useState(true);
+
+//     function toggleDropdown(){
+//         setClosed(!closed);
+//     }
+
+//     function logoutUser(){
+
+//     }
+
+//     return(
+//         <div className="topbar">
+//             <h4><Link to="/dashboard">Shope.</Link></h4>
+//             <div className="topbarOptions">
+//                 <h6><Link to="/dashboard/items">Items</Link></h6>
+//                 <h6><Link to="/dashboard/wishlist">Wishlist</Link></h6>
+//                 <h6><Link to="/dashboard/cart">Cart</Link></h6>
+//                 <h6><Link to="/dashboard/profile">Profile</Link></h6>
+//             </div>
+//             <div className="topbarDropdown" onClick={toggleDropdown}>
+//                 <img src={closed ? "/icons/menu.png" : "/icons/close.png"} alt="img" onClick={toggleDropdown}/>
+//                 {!closed ? (
+//                     <div className="dropdownOptions">
+//                         <h6><Link to="/dashboard/items">Items</Link></h6>
+//                         <h6><Link to="/dashboard/wishlist">Wishlist</Link></h6>
+//                         <h6><Link to="/dashboard/cart">Cart</Link></h6>
+//                         <h6><Link to="/dashboard/profile">Profile</Link></h6>
+//                     </div>
+//                 ) : (
+//                     <></>
+//                 )}
+//             </div>
+//         </div>
+//     )
+// };
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Topbar.css";
 
-export function Topbar(){
-    const [closed, setClosed]=useState(true);
+export function Topbar() {
+    const [closed, setClosed] = useState(true);
+    const location = useLocation();
 
-    function toggleDropdown(){
+    const navItems = [
+        { path: "/dashboard/items", label: "Items" },
+        { path: "/dashboard/wishlist", label: "Wishlist" },
+        { path: "/dashboard/cart", label: "Cart" },
+        { path: "/dashboard/profile", label: "Profile" },
+    ];
+
+    function toggleDropdown() {
         setClosed(!closed);
     }
 
-    function logoutUser(){
-
-    }
-
-    return(
+    return (
         <div className="topbar">
             <h4><Link to="/dashboard">Shope.</Link></h4>
             <div className="topbarOptions">
-                <h6><Link to="/dashboard/items">Items</Link></h6>
-                <h6><Link to="/dashboard/wishlist">Wishlist</Link></h6>
-                <h6><Link to="/dashboard/cart">Cart</Link></h6>
-                <h6><Link to="/dashboard/profile">Profile</Link></h6>
+                {navItems.map((item) => (
+                    <h6 key={item.path}>
+                        <Link
+                            to={item.path}
+                            className={location.pathname === item.path ? "active" : ""}
+                        >
+                            {item.label}
+                        </Link>
+                    </h6>
+                ))}
             </div>
             <div className="topbarDropdown" onClick={toggleDropdown}>
-                <img src={closed ? "/icons/menu.png" : "/icons/close.png"} alt="img" onClick={toggleDropdown}/>
-                {!closed ? (
+                <img src={closed ? "/icons/menu.png" : "/icons/close.png"} alt="menu icon"/>
+                {!closed && (
                     <div className="dropdownOptions">
-                        <h6><Link to="/dashboard/items">Items</Link></h6>
-                        <h6><Link to="/dashboard/wishlist">Wishlist</Link></h6>
-                        <h6><Link to="/dashboard/cart">Cart</Link></h6>
-                        <h6><Link to="/dashboard/profile">Profile</Link></h6>
+                        {navItems.map((item) => (
+                            <h6 key={item.path}>
+                                <Link
+                                    to={item.path}
+                                    className={location.pathname === item.path ? "active" : ""}
+                                >
+                                    {item.label}
+                                </Link>
+                            </h6>
+                        ))}
                     </div>
-                ) : (
-                    <></>
                 )}
             </div>
         </div>
-    )
-};
+    );
+}
