@@ -1,7 +1,7 @@
 .homePage{
     display: flex;
     background: var(--dark-1);
-    padding: 20px 10%;
+    padding: 20px 5%;
     flex-direction: column;
 }
 

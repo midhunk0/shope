@@ -1,34 +1,100 @@
-.cartPage{
+.cartPage {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     padding: 20px 5%;
     gap: 20px;
     color: var(--light-1);
     background: var(--dark-1);
-    min-height: calc(100vh - 112px);
+    height: calc(100vh - 112px);
+    overflow: hidden;
 }
 
-.cartItems{
-    display: grid;
+.cartItems {
+    display: flex;
+    flex-direction: column;
     gap: 20px;
-    grid-template-columns: repeat(auto-fill, minmax(calc(33.33% - 20px), 1fr)); 
+    width: 50%;
+    max-height: 100%;
+    overflow: scroll;
+}
+
+.cartItemDetails {
+    display: flex;
+    gap: 20px;
+    border-radius: 8px;
+    /* width: 80%; */
+}
+
+.counter {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.counter button {
+    padding: 10px;
+    border-radius: 8px;
+    background: var(--dark-2);
+    border: none;
+    color: var(--light-1);
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.counter p {
+    font-size: 1.2rem;
+    margin: 0;
+    color: var(--light-1);
+}
+
+.counter button img{
+    width: 24px;
+    height: 24px;
+}
+
+.cartSubmit{
+    display: flex;
+    justify-content: center;
+    width: 50%;
+}
+
+.cartSubmit form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 80%;
+}
+
+.cartSubmit form input{
+    padding: 16px;
+    border-radius: 8px;
+    border: none;
+    background: var(--light-1);
+    color: var(--red);
+    outline: none;
+}
+
+.summary{
+    display: flex;
+    flex-direction: column;
+    background: var(--dark-2);
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.summary hr{
+    margin: 10px 0;
+}
+
+.cost{
+    display: flex;
     justify-content: space-between;
 }
 
-@media (max-width: 1200px) {
-    .cartItems{
-        grid-template-columns: repeat(auto-fill, minmax(calc(50% - 20px), 1fr)); 
-    }
-}
-
-@media(max-width: 992px){
-    .cartPage {
-        padding: 20px;
-    }
-}
-
-@media (max-width: 768px) {
-    .cartItems{
-        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); 
-    }
+.cost p{
+    font-weight: bold;
 }
