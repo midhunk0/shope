@@ -4,6 +4,7 @@ import "./Wishlist.css";
 import { Item } from "../items/Item";
 
 export function Wishlist(){
+    const [loading, setLoading]=useState(true);
     const [wishlistItems, setWishlistItems]=useState([]);
     const [searchItem, setSearchItem]=useState("");
     const [filteredItems, setFilteredItems]=useState([]);
@@ -17,6 +18,7 @@ export function Wishlist(){
             });
             const result=await response.json();
             if(response.ok){
+                setLoading(false);
                 setWishlistItems(result);
                 setFilteredItems(result);
             }
@@ -42,29 +44,29 @@ export function Wishlist(){
 
     useEffect(()=>{
         searchItems();
-    }, [searchItem]);
+    }, [searchItem, wishlistItems]);
 
     return(
-        <div className="wishlistPage">
-            {filteredItems.length>0 && (
-                <div className="wishlistSearch">
-                    <img src="/icons/search.png" alt="img"/>
-                    <input type="text" placeholder="Search" onChange={(e)=>setSearchItem(e.target.value)}/>
-                </div>
-            )}
-            <div className="wishlistItems">
-                {filteredItems.length>0 ? (
-                    filteredItems.map((item, index)=>(
-                        item ? (
+        loading ? (
+            <p className="loading">Loading...</p>
+        ) : (
+            filteredItems.length>0 ? (
+                <div className="wishlistPage">
+                    <div className="wishlistSearch">
+                            <img src="/icons/search.png" alt="img"/>
+                            <input type="text" placeholder="Search" onChange={(e)=>setSearchItem(e.target.value)}/>
+                        </div>
+                    <div className="wishlistItems">
+                        {filteredItems.map((item, index)=>(
                             <Item item={item} key={index}/>
-                        ):(
-                            null
-                        )
-                    ))
-                ):(
+                        ))}
+                    </div>
+                </div>
+            ) : (
+                <div className="emptyItemsPage">
                     <p>No items</p>
-                )}
-            </div>
-        </div>
+                </div>
+            )
+        )
     )
 }

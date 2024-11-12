@@ -4,6 +4,7 @@ import "./Cart.css";
 import { Item } from "../items/Item";
 
 export function Cart(){
+    const [loading, setLoading]=useState(true);
     const [cartItems, setCartItems]=useState([]);
     const [count, setCount]=useState([]);
     const [details, setDetails]=useState({
@@ -24,6 +25,7 @@ export function Cart(){
             const result=await response.json();
             const filteredResult = result.filter(item => item !== null);
             if(response.ok){
+                setLoading(false);
                 setCartItems(filteredResult);
                 setCount(filteredResult.map(()=>1));
             }
@@ -72,44 +74,51 @@ export function Cart(){
     }
 
     return(
-        <div className="cartPage">
-            <div className="cartItems">
-                {cartItems.length>0 ? (
-                    cartItems.map((item, index)=>(
-                        item ? (
-                            <div key={index} className="cartItemDetails">
-                                <Item item={item} onItemRemoved={handleItemRemoved}/>
-                                <div className="counter">
-                                    <button onClick={()=>changeCount(index, '-')}><img src="/icons/minus.png" alt="img"/></button>
-                                    <p>{count[index]}</p>
-                                    <button onClick={()=>changeCount(index, '+')}><img src="/icons/add.png" alt="img"/></button>
+        loading ? (
+            <p className="loading">Loading...</p>
+        ) : (
+            cartItems.length>0 ? (
+                <div className="cartPage">
+                    <div className="cartItems">
+                        {cartItems.map((item, index)=>(
+                            item ? (
+                                <div key={index} className="cartItemDetails">
+                                    <Item item={item} onItemRemoved={handleItemRemoved}/>
+                                    <div className="counter">
+                                        <button onClick={()=>changeCount(index, '-')}><img src="/icons/minus.png" alt="img"/></button>
+                                        <p>{count[index]}</p>
+                                        <button onClick={()=>changeCount(index, '+')}><img src="/icons/add.png" alt="img"/></button>
+                                    </div>
+                                </div>
+                            ):(
+                                null
+                            )
+                        ))}
+                    </div>
+                    <div className="cartSubmit">
+                        <form onSubmit={submitCart}>
+                            <h2>Shipping Details</h2>
+                            <input type="text" placeholder="Name" onChange={(e)=>setDetails({...details, name: e.target.value})}/>
+                            <input type="text" placeholder="Phone" onChange={(e)=>setDetails({...details, phone: e.target.value})}/>
+                            <input type="text" placeholder="Email" onChange={(e)=>setDetails({...details, email: e.target.value})}/>
+                            <input type="text" placeholder="Address" onChange={(e)=>setDetails({...details, address: e.target.value})}/>
+                            <div className="summary">
+                                <p>Summary</p>
+                                <hr/>
+                                <div className="cost">
+                                    <p>Total cost</p>
+                                    <p>{cost}</p>
                                 </div>
                             </div>
-                        ):(
-                            null
-                        )
-                    ))
-                ):(
-                    <p>No items</p>
-                )}
-            </div>
-            <div className="cartSubmit">
-                <form onSubmit={submitCart}>
-                    <h2>Shipping Details</h2>
-                    <input type="text" placeholder="Name" onChange={(e)=>setDetails({...details, name: e.target.value})}/>
-                    <input type="text" placeholder="Phone" onChange={(e)=>setDetails({...details, phone: e.target.value})}/>
-                    <input type="text" placeholder="Email" onChange={(e)=>setDetails({...details, email: e.target.value})}/>
-                    <input type="text" placeholder="Address" onChange={(e)=>setDetails({...details, address: e.target.value})}/>
-                    <div className="summary">
-                        <p>Summary</p>
-                        <hr/>
-                        <div className="cost">
-                            <p>Total cost</p>
-                            <p>{cost}</p>
-                        </div>
+                            <button onClick={submitCart}>SEND</button>
+                        </form>
                     </div>
-                </form>
-            </div>
-        </div>
+                </div>
+            ):(
+                <div className="emptyCart">
+                    <p>Cart is empty</p>
+                </div>
+            )
+        )
     )
 }

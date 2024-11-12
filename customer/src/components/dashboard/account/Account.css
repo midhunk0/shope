@@ -1,0 +1,145 @@
+.profile{
+    display: flex;
+    flex-direction: column;
+    padding: 20px 5%;
+    background: var(--dark-1);
+    color: var(--light-1);
+    min-height: calc(100vh - 112px);
+}
+
+.profileButtons{
+    display: flex;
+    gap: 20px;
+}
+
+.profileButtons button{
+    padding: 16px 40px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.activeTab{
+    background: var(--dark-2);
+    color: var(--light-1);
+}
+
+.inactiveTab{
+    background: var(--light-1);
+    color: var(--dark-2);
+}
+
+.userDetails{
+    display: flex;
+    flex-direction: column;
+}
+
+.userDetails form{
+    display: flex;
+    gap: 20px;
+}
+
+.imgDiv{
+    width: 30%;
+}
+
+.imgDiv img{
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.updateForm{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: 20px;
+}
+
+.updateDiv{
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    align-items: center;
+}
+
+.updateDiv label{
+    width: 20%;
+}
+
+.updateDiv input{
+    padding: 16px;
+    outline: none;
+    border: none;
+    width: 80%;
+    border-radius: 8px;
+    background: var(--light-1);
+    color: var(--red);
+}
+
+.updateButton{
+    background: var(--green);
+    color: var(--light-1);
+}
+
+.logoutButton{
+    background: var(--dark-2);
+    color: var(--light-1);
+}
+
+.deleteButton{
+    background: var(--red);
+    color: var(--light-1);
+}
+
+@media(max-width: 992px){
+    .profile{
+        padding: 20px;
+    }
+
+    .updateForm{
+        width: 70%;
+    }
+}
+
+@media(max-width: 768px){
+    .userDetails form{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .imgDiv, .updateForm{
+        width: 100%;
+    }
+}
+
+@media(max-width: 576px){
+    .imgDiv, .updateForm{
+        width: 100%;
+    }
+
+    .profileButtons{
+        flex-direction: column;
+    }
+
+    .profileButtons button{
+        width: 100%;
+    }
+
+    .updateForm{
+        gap: 20px;
+    }
+
+    .updateDiv{
+        flex-direction: column;
+        width: 100%;
+        gap: 4px;
+        align-items: start;
+    }
+
+    .updateDiv input{
+        width: calc(100% - 32px);
+    }
+}

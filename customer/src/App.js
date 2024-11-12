@@ -10,8 +10,8 @@ import { ItemsPage } from './components/dashboard/items/itemsPage/ItemsPage';
 import { ItemPage } from './components/dashboard/items/itemPage/ItemPage';
 import { Wishlist } from './components/dashboard/wishlist/Wishlist';
 import { Cart } from './components/dashboard/cart/Cart';
-import { Profile } from './components/dashboard/profile/Profile';
 import { Home } from './components/dashboard/home/Home';
+import { Account } from './components/dashboard/account/Account';
 
 function App() {
     return (
@@ -23,10 +23,10 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard/>}>
                     <Route path="" element={<Home/>}/>
                     <Route path="items" element={<ItemsPage/>}/>
-                    <Route path="item" element={<ItemPage/>}/>
+                    <Route path="item/:itemId" element={<ItemPage/>}/>
                     <Route path="wishlist" element={<Wishlist/>}/>
                     <Route path="cart" element={<Cart/>}/>
-                    <Route path="profile" element={<Profile/>}/>
+                    <Route path="account" element={<Account/>}/>
                 </Route>
             </Routes>
             <ToastContainer 

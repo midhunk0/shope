@@ -29,7 +29,6 @@ export function Login(){
     async function loginUser(e){
         e.preventDefault();
         try{
-            console.log(apiUrl);
             const response=await fetch(`${apiUrl}/loginUser`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

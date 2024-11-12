@@ -4,6 +4,7 @@ const User=require("../models/authModel");
 const Cart=require("../models/cartModel");
 const Wishlist=require("../models/wishlistModel");
 const Sell=require("../models/sellModel");
+const { returnUserId } = require("../helpers/authHelper");
 
 const registerUser=async(req, res)=>{
     try{
@@ -85,7 +86,12 @@ const loginUser=async(req, res)=>{
 
 const logoutUser=async(req, res)=>{
     try{
-        res.cookie("auth", "", { httpOnly: true, secure: true, sameSite: "strict" });
+        res.cookie("auth", "", { 
+            httpOnly: true, 
+            secure: true, 
+            sameSite: "strict",
+            expires: new Date(0)
+        });
         return res.status(200).json({ message: "Logout successful" });
     }
     catch(err){
@@ -93,8 +99,71 @@ const logoutUser=async(req, res)=>{
     }
 }
 
+const getProfile=async(req, res)=>{
+    try{
+        const userId=await returnUserId(req, res);
+        if(!userId){
+            return res.status(400).json({ message: "userId not found" });
+        }
+        const user=await User.findById(userId).select("name username email phone address");
+        if(!user){
+            return res.status(400).json({ message: "User not found" });
+        }
+        return res.status(200).json({ user });
+    }
+    catch(err){
+        return res.status(500).json({ message: err.message });
+    }
+}
+
+const updateUser=async(req, res)=>{
+    try{
+        const userId=await returnUserId(req, res);
+        const updateDetails=req.body;
+        const updateUser=await User.findByIdAndUpdate(userId, updateDetails, { new: true });
+        if(updateUser){
+            return res.status(200).json({ message: "User details updated successfully" });
+        }
+        return res.status(400).json({ message: "User not found" });
+    }
+    catch(err){
+        return res.status(500).json({ message: err.message });
+    }
+}
+
+const deleteUser=async(req, res)=>{
+    try{
+        const userId=await returnUserId(req, res);
+        res.cookie("auth", "", { 
+            httpOnly: true, 
+            secure: true, 
+            sameSite: "strict",
+            expires: new Date(0)
+        });
+        const user=await User.findByIdAndDelete(userId);
+        if(user){
+            return res.status(200).json({ message: "Account deleted successfully" });
+        }
+        return res.status(400).json({ message: "User not found" });
+    }
+    catch(err){
+        return res.status(500).json({ message: err.message });
+    }
+}
+
+const isAuth=(req, res)=>{
+    if(req.cookies.auth){
+        return res.status(200).json({ authenticated: true });
+    }
+    return res.status(200).json({ authenticated: false });
+}
+
 module.exports={
     registerUser, 
     loginUser, 
-    logoutUser
+    logoutUser,
+    getProfile,
+    updateUser,
+    deleteUser,
+    isAuth
 }

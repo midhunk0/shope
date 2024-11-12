@@ -12,7 +12,7 @@ export function Item({ item, onClick, onItemRemoved }){
     const apiUrl=process.env.REACT_APP_BACKEND_URL;
 
     function viewItem(itemId){
-        navigate("/dashboard/item", { state: { itemId }});
+        navigate(`/dashboard/item/${itemId}`);
     }
 
     async function inWishlist(){
@@ -119,8 +119,10 @@ export function Item({ item, onClick, onItemRemoved }){
         }
     }
 
-    function buyItem(e){
-
+    async function buyItem(e){
+        e.stopPropagation();
+        await addToCart(e);
+        navigate("/dashboard/cart");
     }
 
     return(
@@ -143,13 +145,13 @@ export function Item({ item, onClick, onItemRemoved }){
                         <div className="secondary">
                             <h3>${item.price}</h3>
                             <div className="buttons">
-                                <button type="button" onClick={(e)=>toggleWishlist(e, item._id)}>
+                                <button type="button" onClick={(e)=>toggleWishlist(e)}>
                                     <img src={liked ? "/icons/unlike.png" : "/icons/like.png"} alt="img"/>
                                 </button>
-                                <button type="button" onClick={cart ? (e)=>removeFromCart(e, item._id) : (e)=>addToCart(e, item._id)}>
+                                <button type="button" onClick={cart ? (e)=>removeFromCart(e) : (e)=>addToCart(e, item._id)}>
                                     <img src={cart ? "/icons/cart.png" : "/icons/addToCart.png"} alt="img"/>
                                 </button>
-                                <button className="buyButton" type="button" onClick={(e)=>buyItem(e, item._id)}>
+                                <button className="buyButton" type="button" onClick={(e)=>buyItem(e)}>
                                     <img src="/icons/buy.png" alt="img"/>
                                 </button>
                             </div>

@@ -10,7 +10,7 @@ export function Topbar() {
         { path: "/dashboard/items", label: "Items" },
         { path: "/dashboard/wishlist", label: "Wishlist" },
         { path: "/dashboard/cart", label: "Cart" },
-        { path: "/dashboard/profile", label: "Profile" },
+        { path: "/dashboard/account", label: "Account" },
     ];
 
     function toggleDropdown() {

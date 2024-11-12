@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useEffect, useState } from "react";
 import "./ItemPage.css";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { Item } from "../Item";
 import { toast } from "react-toastify";
 
@@ -9,7 +9,7 @@ export function ItemPage(){
     const [item, setItem]=useState(null);
     const navigate=useNavigate();
     const location=useLocation();
-    const { itemId }=location.state;
+    const { itemId }=useParams();
     const apiUrl=process.env.REACT_APP_BACKEND_URL;
 
     async function fetchSellItem(){

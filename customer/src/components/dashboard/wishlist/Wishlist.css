@@ -44,6 +44,16 @@
     justify-content: space-between;
 }
 
+.emptyItemsPage{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 72px);
+    background: var(--dark-1);
+    color: var(--light-1);
+    width: 100%;
+}
+
 @media (max-width: 1200px) {
     .wishlistItems{
         grid-template-columns: repeat(auto-fill, minmax(calc(50% - 20px), 1fr)); 
