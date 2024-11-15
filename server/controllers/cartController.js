@@ -16,7 +16,7 @@ const inCart=async(req, res)=>{
         if(!cart){
             return res.status(400).json({ message: "No cart found" });
         }
-        const isIn=cart.itemIds.includes(itemId);
+        const isIn=cart.items.some(item=>item.itemId===itemId);
         return res.status(200).json({ cart: isIn });
     }
     catch(err){
@@ -28,6 +28,7 @@ const addToCart=async(req, res)=>{
     try{
         const userId=await returnUserId(req, res);
         const { itemId }=req.params;
+        const count=1;
         const item=await Item.findById(itemId);
         if(!item){
             return res.status(400).json({ message: "No item found" });
@@ -40,9 +41,10 @@ const addToCart=async(req, res)=>{
         if(!cart){
             return res.status(400).json({ message: "No cart found" });
         }
-        const index=cart.itemIds.indexOf(itemId);
+        const index=cart.items.indexOf(itemId);
         if(index===-1){
-            cart.itemIds.push(itemId);
+            cart.items.push({ itemId, count });
+            cart.cost+=item.price;
         }
         else{
             return res.status(400).json({ message: "Item already in the cart" });
@@ -71,15 +73,46 @@ const removeFromCart=async(req, res)=>{
         if(!cart){
             return res.status(400).json({ message: "No cart found" });
         }
-        const index=cart.itemIds.indexOf(itemId);
+        const index=cart.items.findIndex(item=>item.itemId===itemId);
         if(index!==-1){
-            cart.itemIds.splice(index, 1);
+            cart.cost-=item.price*cart.items[index].count;
+            cart.items.splice(index, 1);
         }
         else{
             return res.status(400).json({ message: "Item is not present in the cart" });
         }
         await cart.save();
         return res.status(200).json({ message: "Item removed from the cart" });
+    }
+    catch(err){
+        return res.status(500).json({ error: err.message });
+    }
+}
+
+const changeCount=async(req, res)=>{
+    try{
+        const userId=await returnUserId(req, res);
+        const { itemId, op }=req.body;
+        const cart=await Cart.findOne({ userId: userId });
+        if(!cart){
+            return res.status(400).json({ message: "No cart found" });
+        }
+        const item=cart.items.find(item=>item.itemId===itemId);
+        if(!item){
+            return res.status(400).json({ message: "Item not found" })
+        }
+        const itemDetails=await Item.findById(itemId);
+        if(op==="+" && item.count<itemDetails.pieceLeft){
+            item.count+=1;
+            cart.cost+=itemDetails.price;
+        }
+        else if(op==="-" && item.count>1){
+            item.count-=1;
+            cart.cost-=itemDetails.price;
+        }
+        else{}
+        await cart.save();
+        return res.status(200).json(cart);
     }
     catch(err){
         return res.status(500).json({ error: err.message });
@@ -99,18 +132,40 @@ const fetchCart=async(req, res)=>{
             return res.status(400).json({ message: "No cart found" });
         }
         const cartItems=await Promise.all(
-            cart.itemIds.map(async (id)=>{
-                const cartItem=await Item.findById(id);
+            cart.items.map(async (item)=>{
+                const cartItem=await Item.findById(item.itemId);
                 if(cartItem){
-                    const imageUrls=cartItem.images.map((_, index)=>`${apiUrl}/fetchImage/${id}/${index}`);
+                    const cartItemsObject=cartItem.toObject();
+                    delete cartItemsObject.images;
+                    const imageUrls=cartItem.images.map((_, index)=>`${apiUrl}/fetchImage/${item.itemId}/${index}`);
                     return{
-                        ...cartItem.toObject(),
-                        imageUrls
+                        ...cartItemsObject,
+                        imageUrls,
+                        count: item.count
                     }
                 }
             })
         )
-        return res.status(200).json(cartItems)
+        return res.status(200).json({ cartItems, cost: cart.cost });
+    }
+    catch(err){
+        return res.status(500).json({ error: err.message });
+    }
+}
+
+const cartCheckout=async(req, res)=>{
+    try{
+        const userId=await returnUserId(req, res);
+        const user=await User.findById(userId);
+        const { cost }=req.body;
+        if(!user){
+            return res.status(400).json({ message: "User not found" });
+        }
+        const cart=await Cart.findOne({ userId: userId });
+        if(!cart){
+            return res.status(400).json({ mesage: "No cart found" });
+        }
+        return res.status(200).json({ cart, cost: cost });
     }
     catch(err){
         return res.status(500).json({ error: err.message });
@@ -121,5 +176,7 @@ module.exports={
     inCart,
     addToCart,
     removeFromCart,
-    fetchCart
+    fetchCart,
+    cartCheckout,
+    changeCount
 }

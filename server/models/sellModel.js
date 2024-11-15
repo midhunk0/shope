@@ -6,10 +6,25 @@ const sellSchema=new mongoose.Schema({
         required: true
     },
     itemIds: {
-        type: [],
+        type: [String],
         required: true
-    }
-});
+    },
+    transactions: [{
+        customerId: {
+            type: String,
+            required: true
+        },
+        itemId: {
+            type: String,
+            required: true
+        },
+        count: {
+            type: Number,
+            required: true,
+            min: 1
+        }
+    }]
+}, { timestamps: true });
 
 const Sell=mongoose.model("Sell", sellSchema);
 

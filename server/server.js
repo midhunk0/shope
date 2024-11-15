@@ -10,6 +10,7 @@ const itemRouter=require("./routes/itemRoute");
 const wishlistRouter=require("./routes/wishlistRoute");
 const cartRouter=require("./routes/cartRoute");
 const sellRouter=require("./routes/sellRoute");
+const orderRouter=require("./routes/orderRoute");
 
 const app=express();
 
@@ -39,6 +40,7 @@ app.use("/", itemRouter);
 app.use("/", wishlistRouter);
 app.use("/", cartRouter);
 app.use("/", sellRouter);
+app.use("/", orderRouter);
 
 const port=process.env.PORT;
 app.listen(port, ()=>{

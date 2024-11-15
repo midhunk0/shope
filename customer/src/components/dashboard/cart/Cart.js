@@ -2,11 +2,14 @@
 import React, { useState, useEffect } from "react";
 import "./Cart.css";
 import { Item } from "../items/Item";
+import { trefoil } from 'ldrs'
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export function Cart(){
+    trefoil.register()
     const [loading, setLoading]=useState(true);
     const [cartItems, setCartItems]=useState([]);
-    const [count, setCount]=useState([]);
     const [details, setDetails]=useState({
         name: "",
         phone: "",
@@ -15,6 +18,7 @@ export function Cart(){
     })
     const [cost, setCost]=useState(0);
     const apiUrl=process.env.REACT_APP_BACKEND_URL;
+    const navigate=useNavigate();
 
     async function fetchCartItems(){
         try{
@@ -23,11 +27,11 @@ export function Cart(){
                 credentials: "include"
             });
             const result=await response.json();
-            const filteredResult = result.filter(item => item !== null);
+            const filteredResult = result.cartItems.filter(item => item !== null);
             if(response.ok){
+                setCost(result.cost);
                 setLoading(false);
                 setCartItems(filteredResult);
-                setCount(filteredResult.map(()=>1));
             }
         }
         catch(error){
@@ -39,43 +43,64 @@ export function Cart(){
         fetchCartItems();
     }, []);
 
-    function changeCount(index, op){
-        setCount(prevCount=>prevCount.map((count, i)=>{
-            if(i===index){
-                if(op==='+' && count<cartItems[i].pieceLeft){
-                    return count+1;
-                }
-                else if(op==='-' && count>1){
-                    return count-1;
-                }
+    async function changeCount(itemId, op){
+        try{
+            const response=await fetch(`${apiUrl}/changeCount`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ itemId, op })
+            });
+            const result=await response.json();
+            if(response.ok){
+                setCartItems(prevItems=>
+                    prevItems.map(item=>
+                        item.itemId===itemId ? { ...item, count: result.item.count } : item
+                    )
+                )
+                fetchCartItems();
             }
-            return count;
-        }))
+        }
+        catch(error){
+            console.log(error);
+        }
     }
 
-    function updateCost() {
-        let total=0;
-        cartItems.map((item, index)=>{
-            total+=item.price*count[index];
-        })
-        setCost(total);
+    async function submitCart(){
+        try{
+            const response=await fetch(`${apiUrl}/makeOrder`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify(details)
+            })
+            const result=await response.json();
+            if(response.ok){
+                toast.success(result.message);
+                navigate("/dashboard/account");
+            }
+        }
+        catch(error){
+            console.log(error);
+        }
     }
-
-    useEffect(() => {
-        updateCost();
-    }, [count, cartItems]);
-
+    
     function handleItemRemoved(){
         fetchCartItems();
     }
 
-    function submitCart(){
-
-    }
-
     return(
         loading ? (
-            <p className="loading">Loading...</p>
+            <div className="loading">
+                <l-trefoil
+                    size="50"
+                    stroke="5"
+                    stroke-length="0.15"
+                    bg-opacity="0.1"
+                    speed="1.4" 
+                    color="var(--red)"
+                ></l-trefoil>
+            </div>
         ) : (
             cartItems.length>0 ? (
                 <div className="cartPage">
@@ -83,11 +108,11 @@ export function Cart(){
                         {cartItems.map((item, index)=>(
                             item ? (
                                 <div key={index} className="cartItemDetails">
-                                    <Item item={item} onItemRemoved={handleItemRemoved}/>
+                                    <Item item={item} onItemsChanged={handleItemRemoved}/>
                                     <div className="counter">
-                                        <button onClick={()=>changeCount(index, '-')}><img src="/icons/minus.png" alt="img"/></button>
-                                        <p>{count[index]}</p>
-                                        <button onClick={()=>changeCount(index, '+')}><img src="/icons/add.png" alt="img"/></button>
+                                        <button onClick={()=>changeCount(item._id, '-')}><img src="/icons/minus.png" alt="img"/></button>
+                                        <p>{item.count}</p>
+                                        <button onClick={()=>changeCount(item._id, '+')}><img src="/icons/add.png" alt="img"/></button>
                                     </div>
                                 </div>
                             ):(
@@ -98,10 +123,10 @@ export function Cart(){
                     <div className="cartSubmit">
                         <form onSubmit={submitCart}>
                             <h2>Shipping Details</h2>
-                            <input type="text" placeholder="Name" onChange={(e)=>setDetails({...details, name: e.target.value})}/>
-                            <input type="text" placeholder="Phone" onChange={(e)=>setDetails({...details, phone: e.target.value})}/>
-                            <input type="text" placeholder="Email" onChange={(e)=>setDetails({...details, email: e.target.value})}/>
-                            <input type="text" placeholder="Address" onChange={(e)=>setDetails({...details, address: e.target.value})}/>
+                            <input type="text" required placeholder="Name" onChange={(e)=>setDetails({...details, name: e.target.value})}/>
+                            <input type="text" required placeholder="Phone" onChange={(e)=>setDetails({...details, phone: e.target.value})}/>
+                            <input type="email" required placeholder="Email" onChange={(e)=>setDetails({...details, email: e.target.value})}/>
+                            <input type="text" required placeholder="Address" onChange={(e)=>setDetails({...details, address: e.target.value})}/>
                             <div className="summary">
                                 <p>Summary</p>
                                 <hr/>
@@ -110,7 +135,7 @@ export function Cart(){
                                     <p>{cost}</p>
                                 </div>
                             </div>
-                            <button onClick={submitCart}>SEND</button>
+                            <button type="button" onClick={submitCart}>SEND</button>
                         </form>
                     </div>
                 </div>

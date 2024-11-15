@@ -24,7 +24,7 @@ const createSellItem=async(req, res)=>{
                 image: file.buffer
             }));
         }
-        const item=new Item({ name, type, description, price, pieceLeft, images });
+        const item=new Item({ userId, name, type, description, price, pieceLeft, images });
         await item.save();
         const selling=await Sell.findOne({ userId: userId });
         if(!selling){
@@ -161,10 +161,40 @@ const deleteSellItem=async(req, res)=>{
     }
 }
 
+const fetchTransactions=async(req, res)=>{
+    try{
+        const userId=await returnUserId(req, res);
+        const user=await User.findById(userId);
+        if(!user){
+            return res.status(400).json({ message: "User not found" });
+        }
+        const sell=await Sell.findOne({ userId: userId });
+        if(!sell){
+            return res.status(400).json({ message: "Sell list not found" });
+        }
+        const transactionDetails=await Promise.all(
+            sell.transactions.map(async (transaction)=>{
+                const user=await User.findById(transaction.customerId);
+                const item=await Item.findById(transaction.itemId);
+                return ({
+                    user: user.username,
+                    item: item.name,
+                    count: transaction.count
+                })
+            })
+        )
+        return res.json(transactionDetails);
+    }
+    catch(err){
+        return res.status(500).json({ error: err.message });
+    }
+}
+
 module.exports={
     createSellItem,
     fetchSellItems,
     fetchSellItem,
     updateSellItem,
-    deleteSellItem
+    deleteSellItem,
+    fetchTransactions
 }

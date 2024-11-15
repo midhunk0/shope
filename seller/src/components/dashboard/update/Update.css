@@ -1,6 +1,6 @@
 .updatePage{
     display: flex;
-    padding: 20px 10%;
+    padding: 20px 5%;
     color: var(--light-1);
     background: var(--dark-1);
     min-height: calc(100vh - 112px);

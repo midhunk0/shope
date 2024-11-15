@@ -1,5 +1,5 @@
 .transactionsPage{
-    padding: 20px 10%;
+    padding: 20px 5%;
     min-height: calc(100vh - 112px);
     background: var(--dark-1);
     color: var(--light-1);

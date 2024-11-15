@@ -2,8 +2,11 @@
 import React, { useState, useEffect } from "react";
 import "./Wishlist.css";
 import { Item } from "../items/Item";
+import { trefoil } from 'ldrs'
+
 
 export function Wishlist(){
+    trefoil.register()
     const [loading, setLoading]=useState(true);
     const [wishlistItems, setWishlistItems]=useState([]);
     const [searchItem, setSearchItem]=useState("");
@@ -30,7 +33,7 @@ export function Wishlist(){
 
     useEffect(()=>{
         fetchWishlistItems();
-    }, [wishlistItems]);
+    }, []);
 
     function searchItems(){
         if(searchItem!==""){
@@ -44,11 +47,24 @@ export function Wishlist(){
 
     useEffect(()=>{
         searchItems();
-    }, [searchItem, wishlistItems]);
+    }, [searchItem]);
+
+    function handleItemRemoved(){
+        fetchWishlistItems();
+    }
 
     return(
         loading ? (
-            <p className="loading">Loading...</p>
+            <div className="loading">
+                <l-trefoil
+                    size="50"
+                    stroke="5"
+                    stroke-length="0.15"
+                    bg-opacity="0.1"
+                    speed="1.4" 
+                    color="var(--red)"
+                ></l-trefoil>
+            </div>
         ) : (
             filteredItems.length>0 ? (
                 <div className="wishlistPage">
@@ -58,7 +74,7 @@ export function Wishlist(){
                         </div>
                     <div className="wishlistItems">
                         {filteredItems.map((item, index)=>(
-                            <Item item={item} key={index}/>
+                            <Item item={item} key={index} onItemsChanged={handleItemRemoved}/>
                         ))}
                     </div>
                 </div>

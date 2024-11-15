@@ -3,8 +3,11 @@ import React, { useEffect, useState } from "react";
 import "./ItemsPage.css"
 import { toast } from "react-toastify";
 import { Item } from "../Item";
+import { trefoil } from 'ldrs'
 
 export function ItemsPage(){
+    trefoil.register()
+
     const [loading, setLoading]=useState(true);
     const [items, setItems]=useState([]);
     const [searchItem, setSearchItem]=useState("");
@@ -90,7 +93,16 @@ export function ItemsPage(){
 
     return(
         loading ? (
-            <p className="loading">Loading...</p>
+            <div className="loading">
+                <l-trefoil
+                    size="50"
+                    stroke="5"
+                    stroke-length="0.15"
+                    bg-opacity="0.1"
+                    speed="1.4" 
+                    color="var(--red)"
+                ></l-trefoil>
+            </div>
         ) : (
             <div className="itemsPage">
                 <div className="allOptions">

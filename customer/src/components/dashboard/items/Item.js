@@ -4,7 +4,7 @@ import "./Item.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export function Item({ item, onClick, onItemRemoved }){
+export function Item({ item, onClick, onItemsChanged }){
     const [liked, setLiked]=useState(false);
     const [cart, setCart]=useState(false);
     const [refresh, setRefresh]=useState(false);
@@ -64,6 +64,7 @@ export function Item({ item, onClick, onItemRemoved }){
             if(response.ok){
                 toast.success(result.message);
                 setRefresh(!refresh);
+                onItemsChanged()
             }
             else{
                 toast.error(result.message);
@@ -108,7 +109,7 @@ export function Item({ item, onClick, onItemRemoved }){
             if(response.ok){
                 toast.success(result.message);
                 setRefresh(!refresh);
-                onItemRemoved();
+                onItemsChanged();
             }
             else{
                 toast.error(result.message);

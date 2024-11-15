@@ -1,6 +1,10 @@
 const mongoose=require("mongoose");
 
 const itemsSchema=new mongoose.Schema({
+    userId: {
+        type: String,
+        required: true
+    },
     name: {
         type: String,
         required: true
@@ -14,11 +18,13 @@ const itemsSchema=new mongoose.Schema({
     },
     price: {
         type: Number,
-        required: true
+        required: true,
+        min: 0
     },
     pieceLeft: {
         type: Number,
-        required: true
+        required: true,
+        min: 0
     },
     images: [{
         imageName: String,

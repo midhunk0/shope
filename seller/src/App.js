@@ -11,6 +11,7 @@ import { ItemsPage } from './components/dashboard/items/itemsPage/ItemsPage';
 import { ItemPage } from './components/dashboard/items/itemPage/ItemPage';
 import { Update } from './components/dashboard/update/Update';
 import { Transactions } from './components/dashboard/transactions/Transactions';
+import { Account } from './components/dashboard/account/Account';
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                     <Route path="add" element={<Create/>}/>
                     <Route path="update/:itemId" element={<Update/>}/>
                     <Route path="transactions" element={<Transactions/>}/>
+                    <Route path="account" element={<Account/>}/>
                 </Route>
             </Routes>
             <ToastContainer 

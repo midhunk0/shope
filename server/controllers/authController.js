@@ -5,6 +5,7 @@ const Cart=require("../models/cartModel");
 const Wishlist=require("../models/wishlistModel");
 const Sell=require("../models/sellModel");
 const { returnUserId } = require("../helpers/authHelper");
+const Orders = require("../models/orderModel");
 
 const registerUser=async(req, res)=>{
     try{
@@ -26,7 +27,8 @@ const registerUser=async(req, res)=>{
         if(role==="seller"){
             const sellItems=new Sell({
                 userId: user._id,
-                itemIds: []
+                itemIds: [],
+                transactions: []
             });
             await sellItems.save();
         }
@@ -41,6 +43,11 @@ const registerUser=async(req, res)=>{
                 itemIds: []
             })
             await wishlist.save();
+            const orders=new Orders({
+                userId: user._id,
+                orders: []
+            })
+            await orders.save();
         }
         else{}
         const token=generateToken(user._id);

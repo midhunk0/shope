@@ -1,21 +1,21 @@
 // @ts-nocheck
 import React, { useEffect, useState } from "react";
 import "./Account.css";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export function Account(){
     const [switchTab, setSwitchTab]=useState("profile");
-    const [orderDetails, setOrderDetails]=useState({});
-    const [updateDetails, setUpdateDetails]=useState({
+    const [userDetails, setUserDetails]=useState({
         name: "",
         username: "",
         email: "",
         phone: "",
         address: ""
     });
-    const apiUrl=process.env.REACT_APP_BACKEND_URL;
+    const [transactions, setTransactions]=useState({});
     const navigate=useNavigate();
+    const apiUrl=process.env.REACT_APP_BACKEND_URL;
 
     function onSwitchTab(tab){
         setSwitchTab(tab);
@@ -30,7 +30,7 @@ export function Account(){
                 });
                 const result=await response.json();
                 if(response.ok){
-                    setUpdateDetails({
+                    setUserDetails({
                         name: result.user?.name || "", 
                         username: result.user?.username || "",
                         email: result.user?.email || "",
@@ -55,7 +55,7 @@ export function Account(){
             const response=await fetch(`${apiUrl}/updateUser`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updateDetails),
+                body: JSON.stringify(userDetails),
                 credentials: "include"
             });
             const result=await response.json();
@@ -111,13 +111,13 @@ export function Account(){
 
     async function fetchOrders(){
         try{
-            const response=await fetch(`${apiUrl}/fetchOrders`, {
+            const response=await fetch(`${apiUrl}/fetchTransactions`, {
                 method: "GET",
                 credentials: "include"
             });
             const result=await response.json();
             if(response.ok){
-                setOrderDetails(result);
+                setTransactions(result);
             }
         }   
         catch(error){
@@ -128,15 +128,15 @@ export function Account(){
     useEffect(()=>{
         fetchOrders();
     }, []);
-    
+
     return(
-        <div className="profile">
-            <div className="profileButtons">
+        <div className="account">
+            <div className="switchButtons">
                 <button className={switchTab==="profile"?"activeTab":"inactiveTab"} onClick={()=>onSwitchTab("profile")}>Profile</button>
-                <button className={switchTab==="orders"?"activeTab":"inactiveTab"}  onClick={()=>onSwitchTab("orders")}>Orders</button>
+                <button className={switchTab==="transactions"?"activeTab":"inactiveTab"} onClick={()=>onSwitchTab("transactions")}>Transactions</button>
             </div>
             {switchTab==="profile" ? (
-                <div className="userDetails">
+                <div className="profileDetails">
                     <h1>Profile</h1>
                     <form>
                         <div className="imgDiv">
@@ -145,56 +145,56 @@ export function Account(){
                         <div className="updateForm">
                             <div className="updateDiv">
                                 <label>Name</label>
-                                <input type="text" value={updateDetails.name} onChange={(e)=>setUpdateDetails({...updateDetails, name: e.target.value})}/>
+                                <input type="text" value={userDetails.name} onChange={(e)=>setUserDetails({...userDetails, name: e.target.value})}/>
                             </div>
                             <div className="updateDiv">
-                                <label>Username</label>
-                                <input type="text" value={updateDetails.username} onChange={(e)=>setUpdateDetails({...updateDetails, username: e.target.value})}/>
+                                <label>username</label>
+                                <input type="text" value={userDetails.username} onChange={(e)=>setUserDetails({...userDetails, username: e.target.value})}/>
                             </div>
                             <div className="updateDiv">
                                 <label>Email</label>
-                                <input type="email" value={updateDetails.email} onChange={(e)=>setUpdateDetails({...updateDetails, email: e.target.value})}/>
+                                <input type="email" value={userDetails.email} onChange={(e)=>setUserDetails({...userDetails, email: e.target.value})}/>
                             </div>
                             <div className="updateDiv">
                                 <label>Phone</label>
-                                <input type="text" value={updateDetails.phone} onChange={(e)=>setUpdateDetails({...updateDetails, phone: e.target.value})}/>
+                                <input type="text" value={userDetails.phone} onChange={(e)=>setUserDetails({...userDetails, phone: e.target.value})}/>
                             </div>
                             <div className="updateDiv">
                                 <label>Address</label>
-                                <input type="text" value={updateDetails.address} onChange={(e)=>setUpdateDetails({...updateDetails, address: e.target.value})}/>
+                                <input type="text" value={userDetails.address} onChange={(e)=>setUserDetails({...userDetails, address: e.target.value})}/>
                             </div>
                             <div className="profileButtons">
-                                <button type="button" className="updateButton" onClick={updateUser}>Update</button>
-                                <button type="button" className="logoutButton" onClick={logoutUser}>Logout</button>
-                                <button type="button" className="deleteButton" onClick={deleteUser}>Delete</button>
+                                <button type="button" className="updateButton" onClick={updateUser}>Update</button>                                
+                                <button type="button" className="logoutButton" onClick={logoutUser}>Logout</button>            
+                                <button type="button" className="deleteButton" onClick={deleteUser}>Delete</button>                                
                             </div>
                         </div>
                     </form>
                 </div>
             ):(
-                <div className="orders">
-                    <h1>My Orders</h1>
-                    {orderDetails.length>0 ? (
-                        <table className="orderDetails">
+                <div className="transactions">
+                    <h1>Transactions</h1>
+                    {transactions.length>0 ? (
+                        <table className="transactionDetails">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Total</th>
-                                    <th>Status</th>
+                                    <th>Customer</th>
+                                    <th>Item</th>
+                                    <th>Count</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {orderDetails.map((order, index)=>(
+                                {transactions.map((transaction, index)=>(
                                     <tr key={index}>
-                                        <td>{new Date(order.date).toLocaleDateString()}</td>
-                                        <td>$ {order.total}</td>
-                                        <td>{order.status}</td>
-                                    </tr>    
+                                        <td>{transaction.user}</td>
+                                        <td>{transaction.item}</td>
+                                        <td>{transaction.count}</td>
+                                    </tr>
                                 ))}
                             </tbody>
                         </table>
-                    ) : (
-                        <p>Nothing purchesed</p>
+                    ):(
+                        <p>No transaction completed</p>
                     )}
                 </div>
             )}

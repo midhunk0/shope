@@ -11,7 +11,7 @@ export function Register(){
         email: "",
         phone: "",
         password: "",
-        role: "seller"
+        role: "customer"
 
     })
     const [visible, setVisible]=useState(false);

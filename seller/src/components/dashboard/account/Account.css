@@ -1,4 +1,4 @@
-.profile{
+.account{
     display: flex;
     flex-direction: column;
     padding: 20px 5%;
@@ -7,12 +7,12 @@
     min-height: calc(100vh - 112px);
 }
 
-.profileButtons{
+.switchButtons, .profileButtons{
     display: flex;
     gap: 20px;
 }
 
-.profileButtons button{
+.switchButtons button, .profileButtons button{
     padding: 16px 40px;
     border-radius: 8px;
     border: none;
@@ -30,12 +30,16 @@
     color: var(--dark-2);
 }
 
-.userDetails{
+.profileDetails{
     display: flex;
     flex-direction: column;
 }
 
-.userDetails form{
+h1{
+    margin: 20px 0;
+}
+
+.profileDetails form{
     display: flex;
     gap: 20px;
 }
@@ -94,7 +98,7 @@
     color: var(--light-1);
 }
 
-.orderDetails {
+.transactionDetails {
     border-collapse: collapse;
     width: 100%;
     background: var(--dark-2);
@@ -103,31 +107,31 @@
     margin: 16px 0; 
 }
 
-.orderDetails th, .orderDetails td {
+.transactionDetails th, .transactionDetails td {
     padding: 16px;
     text-align: center;
 }
 
-.orderDetails th {
+.transactionDetails th {
     border-bottom: 1px solid var(--light-1);
     color: var(--light-1);
     font-weight: bold;
 }
 
-.orderDetails tbody tr td {
+.transactionDetails tbody tr td {
     color: var(--light-3);
 }
 
-.orderDetails tbody tr:hover {
+.transactionDetails tbody tr:hover {
     background-color: var(--dark-3);
 }
 
-.orderDetails tbody tr:last-child td {
+.transactionDetails tbody tr:last-child td {
     border-bottom: none;
 }
 
 @media(max-width: 992px){
-    .profile{
+    .account{
         padding: 20px;
     }
 
@@ -137,7 +141,7 @@
 }
 
 @media(max-width: 768px){
-    .userDetails form{
+    .profileDetails form{
         flex-direction: column;
         align-items: center;
     }
@@ -152,11 +156,11 @@
         width: 100%;
     }
 
-    .profileButtons{
+    .profileButtons, .switchButtons{
         flex-direction: column;
     }
 
-    .profileButtons button{
+    .profileButtons button, .switchButtons button{
         width: 100%;
     }
 
