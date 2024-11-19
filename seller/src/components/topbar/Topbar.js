@@ -32,7 +32,6 @@ export function Topbar(){
                         <h6><Link to="/dashboard/transactions" className={location.pathname==="/dashboard/transactions" ? "active" : ""}>Transactions</Link></h6>
                         <h6><Link to="/dashboard/account" className={location.pathname==="/dashboard/account" ? "active" : ""}>Account</Link></h6>
                     </div>
-
                 ) : (
                     <></>
                 )}

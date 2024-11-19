@@ -102,7 +102,7 @@ const changeCount=async(req, res)=>{
             return res.status(400).json({ message: "Item not found" })
         }
         const itemDetails=await Item.findById(itemId);
-        if(op==="+" && item.count<itemDetails.pieceLeft){
+        if(op==="+" && item.count<=itemDetails.pieceLeft){
             item.count+=1;
             cart.cost+=itemDetails.price;
         }
@@ -135,14 +135,15 @@ const fetchCart=async(req, res)=>{
             cart.items.map(async (item)=>{
                 const cartItem=await Item.findById(item.itemId);
                 if(cartItem){
-                    const cartItemsObject=cartItem.toObject();
-                    delete cartItemsObject.images;
                     const imageUrls=cartItem.images.map((_, index)=>`${apiUrl}/fetchImage/${item.itemId}/${index}`);
+                    const rating=cartItem.ratings.length>0 ? cartItem.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/cartItem.ratings.length : 0;
+                    const { images, ratings, ...itemWithImages }=cartItem.toObject();
                     return{
-                        ...cartItemsObject,
-                        imageUrls,
+                        ...itemWithImages,
+                        imageUrls, 
+                        rating,
                         count: item.count
-                    }
+                    };
                 }
             })
         )

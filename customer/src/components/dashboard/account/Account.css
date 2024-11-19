@@ -1,4 +1,4 @@
-.profile{
+.account{
     display: flex;
     flex-direction: column;
     padding: 20px 5%;
@@ -30,12 +30,12 @@
     color: var(--dark-2);
 }
 
-.userDetails{
+.account{
     display: flex;
     flex-direction: column;
 }
 
-.userDetails form{
+.account form{
     display: flex;
     gap: 20px;
 }
@@ -94,40 +94,8 @@
     color: var(--light-1);
 }
 
-.orderDetails {
-    border-collapse: collapse;
-    width: 100%;
-    background: var(--dark-2);
-    border-radius: 8px;
-    overflow: hidden;
-    margin: 16px 0; 
-}
-
-.orderDetails th, .orderDetails td {
-    padding: 16px;
-    text-align: center;
-}
-
-.orderDetails th {
-    border-bottom: 1px solid var(--light-1);
-    color: var(--light-1);
-    font-weight: bold;
-}
-
-.orderDetails tbody tr td {
-    color: var(--light-3);
-}
-
-.orderDetails tbody tr:hover {
-    background-color: var(--dark-3);
-}
-
-.orderDetails tbody tr:last-child td {
-    border-bottom: none;
-}
-
 @media(max-width: 992px){
-    .profile{
+    .account{
         padding: 20px;
     }
 
@@ -137,7 +105,7 @@
 }
 
 @media(max-width: 768px){
-    .userDetails form{
+    .account form{
         flex-direction: column;
         align-items: center;
     }

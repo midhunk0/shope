@@ -5,8 +5,6 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 export function Account(){
-    const [switchTab, setSwitchTab]=useState("profile");
-    const [orderDetails, setOrderDetails]=useState({});
     const [updateDetails, setUpdateDetails]=useState({
         name: "",
         username: "",
@@ -16,10 +14,6 @@ export function Account(){
     });
     const apiUrl=process.env.REACT_APP_BACKEND_URL;
     const navigate=useNavigate();
-
-    function onSwitchTab(tab){
-        setSwitchTab(tab);
-    }
 
     useEffect(()=>{
         async function getProfile(){
@@ -108,96 +102,42 @@ export function Account(){
             console.log(error);
         }
     }
-
-    async function fetchOrders(){
-        try{
-            const response=await fetch(`${apiUrl}/fetchOrders`, {
-                method: "GET",
-                credentials: "include"
-            });
-            const result=await response.json();
-            if(response.ok){
-                setOrderDetails(result);
-            }
-        }   
-        catch(error){
-            console.log(error);
-        }
-    }
-
-    useEffect(()=>{
-        fetchOrders();
-    }, []);
     
     return(
-        <div className="profile">
-            <div className="profileButtons">
-                <button className={switchTab==="profile"?"activeTab":"inactiveTab"} onClick={()=>onSwitchTab("profile")}>Profile</button>
-                <button className={switchTab==="orders"?"activeTab":"inactiveTab"}  onClick={()=>onSwitchTab("orders")}>Orders</button>
-            </div>
-            {switchTab==="profile" ? (
-                <div className="userDetails">
-                    <h1>Profile</h1>
-                    <form>
-                        <div className="imgDiv">
-                            <img src="/images/bose.jpg" alt="img"/>
-                        </div>
-                        <div className="updateForm">
-                            <div className="updateDiv">
-                                <label>Name</label>
-                                <input type="text" value={updateDetails.name} onChange={(e)=>setUpdateDetails({...updateDetails, name: e.target.value})}/>
-                            </div>
-                            <div className="updateDiv">
-                                <label>Username</label>
-                                <input type="text" value={updateDetails.username} onChange={(e)=>setUpdateDetails({...updateDetails, username: e.target.value})}/>
-                            </div>
-                            <div className="updateDiv">
-                                <label>Email</label>
-                                <input type="email" value={updateDetails.email} onChange={(e)=>setUpdateDetails({...updateDetails, email: e.target.value})}/>
-                            </div>
-                            <div className="updateDiv">
-                                <label>Phone</label>
-                                <input type="text" value={updateDetails.phone} onChange={(e)=>setUpdateDetails({...updateDetails, phone: e.target.value})}/>
-                            </div>
-                            <div className="updateDiv">
-                                <label>Address</label>
-                                <input type="text" value={updateDetails.address} onChange={(e)=>setUpdateDetails({...updateDetails, address: e.target.value})}/>
-                            </div>
-                            <div className="profileButtons">
-                                <button type="button" className="updateButton" onClick={updateUser}>Update</button>
-                                <button type="button" className="logoutButton" onClick={logoutUser}>Logout</button>
-                                <button type="button" className="deleteButton" onClick={deleteUser}>Delete</button>
-                            </div>
-                        </div>
-                    </form>
+        <div className="account">
+            <h1>Profile</h1>
+            <form>
+                <div className="imgDiv">
+                    <img src="/images/bose.jpg" alt="img"/>
                 </div>
-            ):(
-                <div className="orders">
-                    <h1>My Orders</h1>
-                    {orderDetails.length>0 ? (
-                        <table className="orderDetails">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Total</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {orderDetails.map((order, index)=>(
-                                    <tr key={index}>
-                                        <td>{new Date(order.date).toLocaleDateString()}</td>
-                                        <td>$ {order.total}</td>
-                                        <td>{order.status}</td>
-                                    </tr>    
-                                ))}
-                            </tbody>
-                        </table>
-                    ) : (
-                        <p>Nothing purchesed</p>
-                    )}
+                <div className="updateForm">
+                    <div className="updateDiv">
+                        <label>Name</label>
+                        <input type="text" value={updateDetails.name} onChange={(e)=>setUpdateDetails({...updateDetails, name: e.target.value})}/>
+                    </div>
+                    <div className="updateDiv">
+                        <label>Username</label>
+                        <input type="text" value={updateDetails.username} onChange={(e)=>setUpdateDetails({...updateDetails, username: e.target.value})}/>
+                    </div>
+                    <div className="updateDiv">
+                        <label>Email</label>
+                        <input type="email" value={updateDetails.email} onChange={(e)=>setUpdateDetails({...updateDetails, email: e.target.value})}/>
+                    </div>
+                    <div className="updateDiv">
+                        <label>Phone</label>
+                        <input type="text" value={updateDetails.phone} onChange={(e)=>setUpdateDetails({...updateDetails, phone: e.target.value})}/>
+                    </div>
+                    <div className="updateDiv">
+                        <label>Address</label>
+                        <input type="text" value={updateDetails.address} onChange={(e)=>setUpdateDetails({...updateDetails, address: e.target.value})}/>
+                    </div>
+                    <div className="profileButtons">
+                        <button type="button" className="updateButton" onClick={updateUser}>Update</button>
+                        <button type="button" className="logoutButton" onClick={logoutUser}>Logout</button>
+                        <button type="button" className="deleteButton" onClick={deleteUser}>Delete</button>
+                    </div>
                 </div>
-            )}
+            </form>
         </div>
     )
 }

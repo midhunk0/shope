@@ -7,7 +7,7 @@
     height: fit-content;
 }
 
-.images{
+.item-images{
     width: 100%;
     display: flex;
     gap: 20px;
@@ -15,12 +15,12 @@
     scroll-snap-type: x mandatory; 
     scroll-padding: 0 ; 
     scroll-behavior: smooth;
-    background: var(--dark-1);
+    /* background: var(--dark-1); */
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
 
-.images img{
+.item-images img{
     width: 100%;
     box-sizing: border-box;
     flex-shrink: 0;
@@ -33,20 +33,21 @@
     cursor: pointer;
 }
 
-.itemDetails{
+.item-details{
     display: flex;
     flex-direction: column;
     padding: 12px;
+    gap: 12px;
     justify-content: space-between;
 }
 
-.primary{
+.item-details-primary{
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.primary h3{
+.item-details-primary h3{
     font-size: x-large;
     text-transform: capitalize;
     white-space: nowrap;
@@ -56,7 +57,7 @@
     color: var(--light-1);
 }
 
-.primary p{
+.item-details-primary p{
     text-transform: capitalize;
     font-size: medium;
     white-space: nowrap;
@@ -66,26 +67,33 @@
     color: var(--light-3);
 }
 
-.secondary{
+.item-details-secondary{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 12px;
 }
 
-.secondary h3{
+.item-details-secondary h3{
     color: var(--green);
     font-size: x-large;
 }
 
-.buttons{
+.item-details-tertiary{
+    display: flex;
+}
+
+.item-details-tertiary img{
+    width: 24px;
+    height: 24px;
+}
+
+.item-details-buttons{
     position: relative;
     display: flex;
     justify-content: space-between;
-    /* gap: 10px; */
 }
 
-.buttons button{
+.item-details-buttons button{
     position: relative;
     display: flex;
     background: transparent;
@@ -99,34 +107,23 @@
     transition: background 0.3s ease;
 }
 
-.buttons button:hover{
+.item-details-buttons button:hover{
     background: var(--dark-3);
 }
 
 
-.buttons img{
+.item-details-buttons img{
     width: 24px;
     height: 24px;
 }
 
-.buttons .buyButton{
+.item-details-buttons .buyButton{
     background: var(--green);   
     /* padding: 8px 12px;  */
     font-size: large;
 }
 
-.buttons .buyButton:hover{
+.item-details-buttons .buyButton:hover{
     background: var(--red);  
 }
 
-
-.tertiary{
-    margin-top: 30px;
-    color: var(--light-3);
-}
-
-@media(max-width: 768px){
-    .itemsPage{
-        padding: 20px;
-    }
-}

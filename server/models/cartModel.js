@@ -1,22 +1,27 @@
 const mongoose=require("mongoose");
 
+const itemSchema=new mongoose.Schema({
+    itemId: {
+        type: String,
+        required: true
+    },
+    count: {
+        type: Number,
+        required: true,
+        default: 1,
+        min: 1
+    }
+}, { _id: false });
+
 const cartSchema=new mongoose.Schema({
     userId: {
         type: String,
         required: true
     },
-    items: [{
-        itemId: {
-            type: String,
-            required: true
-        },
-        count: {
-            type: Number,
-            required: true,
-            default: 1,
-            min: 1
-        }
-    }],
+    items: {
+        type: [itemSchema],
+        required: true
+    },
     cost: {
         type: Number,
         default: 0

@@ -1,0 +1,133 @@
+.orders{
+    display: flex;
+    flex-direction: column;
+    padding: 20px 5%;
+    background: var(--dark-1);
+    color: var(--light-1);
+    min-height: calc(100vh - 112px);
+}
+
+.orders-details{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.orders-order-details{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--light-1);
+    cursor: pointer;
+}
+
+.orders-order-items{
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.orders-order-item{
+    display: flex;
+    gap: 20px;
+    text-transform: capitalize;
+    background: var(--dark-2);
+    border-radius: 8px;
+}
+
+.orders-order-item-images{
+    width: 40%;
+    display: flex;
+    gap: 20px;
+    overflow-x: auto; 
+    scroll-snap-type: x mandatory; 
+    scroll-padding: 0 ; 
+    scroll-behavior: smooth;
+    border-radius: 8px;
+}
+
+.orders-order-item-images img{
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    scroll-snap-align: center; 
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.orders-order-item-details{
+    width: 60%;
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
+}
+
+.orders-order-item-first{
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.orders-order-item-first h3{
+    font-size: x-large;
+    color: var(--green);
+}
+
+.orders-order-item-first h4{
+    font-size: larger;
+    color: var(--green);
+}
+
+.orders-order-item-first p{
+    color: var(--light-3);
+}
+
+.orders-order-item-ratings{
+    display: flex;
+}
+
+.orders-order-item-ratings img{
+    width: 24px;
+    height: 24px;
+}
+
+.orders-order-item-second{
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    text-align: right;
+}
+
+.status-completed{
+    color: var(--green);
+}
+
+.status-pending{
+    color: var(--yellow);
+}
+
+.orders-order-other-details{
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    gap: 10px;
+    text-transform: capitalize;
+    text-align: right;
+}
+
+.orders-order-other-details span{
+    color: var(--green);
+}
+
+.orders-order-other-details p{
+    font-size: medium;
+}
+
+.orders-order-other-details p:last-child{
+    font-size: x-large;
+}

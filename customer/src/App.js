@@ -12,6 +12,8 @@ import { Wishlist } from './components/dashboard/wishlist/Wishlist';
 import { Cart } from './components/dashboard/cart/Cart';
 import { Home } from './components/dashboard/home/Home';
 import { Account } from './components/dashboard/account/Account';
+import { Orders } from './components/dashboard/orders/Orders';
+import { Order } from './components/dashboard/orders/order/Order';
 
 function App() {
     return (
@@ -26,6 +28,8 @@ function App() {
                     <Route path="item/:itemId" element={<ItemPage/>}/>
                     <Route path="wishlist" element={<Wishlist/>}/>
                     <Route path="cart" element={<Cart/>}/>
+                    <Route path="orders" element={<Orders/>}/>
+                    <Route path="order/:orderId" element={<Order/>}/>
                     <Route path="account" element={<Account/>}/>
                 </Route>
             </Routes>

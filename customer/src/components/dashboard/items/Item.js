@@ -128,7 +128,7 @@ export function Item({ item, onClick, onItemsChanged }){
 
     return(
         <div className="item" onClick={onClick}>
-            <div className="images">
+            <div className="item-images">
                 {item && item.imageUrls?.length>0 ? (
                     item.imageUrls.map((imageUrl, index)=>(
                         <img src={imageUrl} alt="img" key={index} onClick={()=>viewItem(item._id)}/>
@@ -138,14 +138,14 @@ export function Item({ item, onClick, onItemsChanged }){
                 )}
             </div>
                 {item && (
-                    <div className="itemDetails">
-                        <div className="primary">
+                    <div className="item-details">
+                        <div className="item-details-primary">
                             <h3>{item.name}</h3>
                             <p>{item.type}</p>
                         </div>
-                        <div className="secondary">
+                        <div className="item-details-secondary">
                             <h3>${item.price}</h3>
-                            <div className="buttons">
+                            <div className="item-details-buttons">
                                 <button type="button" onClick={(e)=>toggleWishlist(e)}>
                                     <img src={liked ? "/icons/unlike.png" : "/icons/like.png"} alt="img"/>
                                 </button>
@@ -156,6 +156,14 @@ export function Item({ item, onClick, onItemsChanged }){
                                     <img src="/icons/buy.png" alt="img"/>
                                 </button>
                             </div>
+                        </div>
+                        <div className="item-details-tertiary">
+                            {Array.from({ length: item.rating }).map((_, index)=>(
+                                <img key={index} src="/icons/star-filled.png" alt="img"/>
+                            ))}
+                            {Array.from({ length: 5-item.rating }).map((_, index)=>(
+                                <img key={index} src="/icons/star.png" alt="img"/>
+                            ))}
                         </div>
                     </div>
                 )}

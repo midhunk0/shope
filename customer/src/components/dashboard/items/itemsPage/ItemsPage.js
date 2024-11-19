@@ -105,39 +105,39 @@ export function ItemsPage(){
             </div>
         ) : (
             <div className="itemsPage">
-                <div className="allOptions">
-                    <div className="itemsOptions">
-                        <div className="itemsSearch">
+                <div className="itemsPage-all">
+                    <div className="itemsPage-options">
+                        <div className="itemsPage-search">
                             <img src="/icons/search.png" alt="img"/>
                             <input type="text" placeholder="Search" onChange={(e)=>setSearchItem(e.target.value)}/>
                         </div>
-                        <div className="filterDropdownIcon">
+                        <div className="itemsPage-expand">
                             <img src={openAll ? "/icons/up.png" : "/icons/down.png"} alt="" onClick={openFiltersDropdown}/>
                         </div>
                     </div>
 
-                    <div className="filterDropdown">
+                    <div className="itemsPage-filter-dropdown">
                         {openAll ? (
-                            <div className="filterAndSortDropdown">
-                                <div className="itemsSort">
+                            <div className="itemsPage-filter-and-sort-dropdown">
+                                <div className="itemsPage-sort">
                                     <button onClick={openSortList}>
                                         {sortOrder}
                                         <img src={openSort ? "/icons/up.png" : "/icons/down.png"} alt="img"/>
                                     </button>
                                     {openSort && (
-                                        <div className="sortTypes">
+                                        <div className="itemsPage-sort-types">
                                             <button value="Price low to high" onClick={()=>handleSort("Price low to high")}>Price low to high</button>
                                             <button value="Price high to low" onClick={()=>handleSort("Price high to low")}>Price high to low</button>
                                         </div>
                                     )}
                                 </div>
-                                <div className="itemsFilters">
+                                <div className="itemsPage-filters">
                                     <button onClick={openList}>
                                         {selectedCategory}
                                         <img src={open ? "/icons/up.png" : "/icons/down.png"} alt="img"/>
                                     </button>
                                     {open && (
-                                        <div className="itemTypes">
+                                        <div className="itemsPage-item-types">
                                             <button value="All items" onClick={()=>handleCategory("All items")}>All items</button>
                                             {[...new Set(items.map(item=>item.type))].map((type, index)=>(
                                                 <button value={type} key={index} onClick={()=>handleCategory(type)}>{type}</button>
@@ -149,26 +149,26 @@ export function ItemsPage(){
                         ) : (<div></div>)}
                     </div>
 
-                    <div className="filterAndSort">
-                        <div className="itemsSort">
+                    <div className="itemsPage-filter-and-sort">
+                        <div className="itemsPage-sort">
                             <button onClick={openSortList}>
                                 {sortOrder}
                                 <img src={openSort ? "/icons/up.png" : "/icons/down.png"} alt="img"/>
                             </button>
                             {openSort && (
-                                <div className="sortTypes">
+                                <div className="itemsPage-sort-types">
                                     <button value="Price low to high" onClick={()=>handleSort("Price low to high")}>Price low to high</button>
                                     <button value="Price high to low" onClick={()=>handleSort("Price high to low")}>Price high to low</button>
                                 </div>
                             )}
                         </div>
-                        <div className="itemsFilters">
+                        <div className="itemsPage-filters">
                             <button onClick={openList}>
                                 {selectedCategory}
                                 <img src={open ? "/icons/up.png" : "/icons/down.png"} alt="img"/>
                             </button>
                             {open && (
-                                <div className="itemTypes">
+                                <div className="itemsPage-item-types">
                                     <button value="All items" onClick={()=>handleCategory("All items")}>All items</button>
                                     {[...new Set(items.map(item=>item.type))].map((type, index)=>(
                                         <button value={type} key={index} onClick={()=>handleCategory(type)}>{type}</button>
@@ -179,7 +179,7 @@ export function ItemsPage(){
                     </div>
                 </div>
 
-                <div className="items">
+                <div className="itemsPage-items">
                     {filteredItems.length>0 ? (
                         filteredItems.map((item, index)=>(
                             item ? (

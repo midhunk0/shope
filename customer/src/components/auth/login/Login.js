@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import "./Login.css"
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -11,17 +11,17 @@ export function Login(){
         role: "customer"
     });
     const [visible, setVisible]=useState(false);
-    const images=[
+    const images=useMemo(()=>[
         "/images/bose.jpg",
         "/images/apple-watch.jpg",
         "/images/dji.jpg",
         "/images/pocket-camera.jpg",
         "/images/logi-mouse.jpg",
         "/images/i-phone.jpg"
-    ];
+    ], []);
     const navigate=useNavigate();
     const apiUrl=process.env.REACT_APP_BACKEND_URL;
-    
+
     function toggleVisible(){
         setVisible(!visible);
     }
@@ -49,28 +49,32 @@ export function Login(){
         }
     }
 
+    function handleInputChange(e){
+        setUserData({ ...userData, [e.target.name]: e.target.value });
+    }
+
     return(
-        <div className="loginPage">
-            <div className="loginForm">
+        <div className="login">
+            <div className="login-form">
                 <form onSubmit={loginUser}>
                     <h1>Login to account</h1>
                     <span>
                         <p>Don't have an account?</p>
                         <Link to="/register">Register</Link>
                     </span>
-                    <input type="text" placeholder="Username or Email" onChange={(e)=>setUserData({...userData, credential: e.target.value})}/>
-                    <div className="loginPassword">
-                        <input type={visible ? "text" : "password"} placeholder="Password" onChange={(e)=>setUserData({...userData, password: e.target.value})}/>
+                    <input type="text" name="credential" placeholder="Username or Email" onChange={handleInputChange}/>
+                    <div className="login-password">
+                        <input type={visible ? "text" : "password"} name="password" placeholder="Password" onChange={handleInputChange}/>
                         <img src={visible ? "/icons/show.png" : "/icons/hide.png"} alt="img" onClick={toggleVisible}/>
                     </div>
                     <button type="submit">Login</button>
                 </form>
             </div>
-            <div className="loginImages">
+            <div className="login-images">
                 {images.map((image, index)=>(
                     <img key={index} src={image} alt="img"/>
                 ))}
-                <div className="loginLogo">
+                <div className="login-logo">
                     <h3>Shope.</h3>
                     <hr/>
                 </div>

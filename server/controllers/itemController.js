@@ -35,8 +35,11 @@ const fetchItem=async(req, res)=>{
             return res.status(400).json({ message: "Item not found" });
         }
         const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${itemId}/${index}`);
+        const rating=item.ratings.length>0 ? item.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/item.ratings.length : 0;
+        const { images, ratings, ...itemData }=item.toObject();
         const itemWithImages={
-            ...item.toObject(),
+            ...itemData,
+            rating,
             imageUrls
         }
         return res.status(200).json(itemWithImages);
@@ -57,12 +60,14 @@ const fetchItems=async(req, res)=>{
         const items=((await Item.find({ pieceLeft: { $gt: 0 }}).sort({ updatedAt: -1 })));
         const itemsWithImages=items.map((item)=>{
             const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${item._id}/${index}`);
+            const rating=item.ratings.length>0 ? item.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/item.ratings.length : 0;
+            const { images, ratings, ...itemWithImages }=item.toObject();
             return{
-                ...item.toObject(),
-                imageUrls
+                ...itemWithImages,
+                imageUrls, 
+                rating
             };
         });
-
         return res.status(200).json(itemsWithImages);
     }
     catch(err){

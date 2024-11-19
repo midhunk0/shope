@@ -1,4 +1,4 @@
-.wishlistPage{
+.whishlist{
     display: flex;
     flex-direction: column;
     padding: 20px 5%;
@@ -8,14 +8,14 @@
     min-height: calc(100vh - 112px);
 }
 
-.wishlistSearch{
+.wishlist-search{
     position: relative;
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
 }
 
-.wishlistSearch img{
+.wishlist-search img{
     position: absolute;
     width: 24px;
     height: 24px;
@@ -23,7 +23,7 @@
     cursor: pointer;
 }
 
-.wishlistSearch input{
+.wishlist-search input{
     background: var(--dark-2);
     padding: 16px;
     border: none;
@@ -33,18 +33,18 @@
     width: calc(33.33% - 46px);
 }
 
-.wishlistSearch input::placeholder{
+.wishlist-search input::placeholder{
     color: var(--light-3);
 }
 
-.wishlistItems{
+.wishlist-items{
     display: grid;
     gap: 20px;
     grid-template-columns: repeat(auto-fill, minmax(calc(33.33% - 20px), 1fr)); 
     justify-content: space-between;
 }
 
-.emptyItemsPage{
+.wishlist-empty{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -55,27 +55,27 @@
 }
 
 @media (max-width: 1200px) {
-    .wishlistItems{
+    .wishlist-items{
         grid-template-columns: repeat(auto-fill, minmax(calc(50% - 20px), 1fr)); 
     }
 
-    .wishlistSearch input{
+    .wishlist-search input{
         width: calc(50% - 42px);
     }
 }
 
 @media(max-width: 992px){
-    .wishlistPage {
+    .whishlist {
         padding: 20px;
     }
 }
 
 @media (max-width: 768px) {
-    .wishlistSearch input{
+    .wishlist-search input{
         width: 100%;
     }
 
-    .wishlistItems{
+    .wishlist-items{
         grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); 
     }
 }

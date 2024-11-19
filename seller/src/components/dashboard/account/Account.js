@@ -109,95 +109,41 @@ export function Account(){
         }
     }
 
-    async function fetchOrders(){
-        try{
-            const response=await fetch(`${apiUrl}/fetchTransactions`, {
-                method: "GET",
-                credentials: "include"
-            });
-            const result=await response.json();
-            if(response.ok){
-                setTransactions(result);
-            }
-        }   
-        catch(error){
-            console.log(error);
-        }
-    }
-
-    useEffect(()=>{
-        fetchOrders();
-    }, []);
-
     return(
         <div className="account">
-            <div className="switchButtons">
-                <button className={switchTab==="profile"?"activeTab":"inactiveTab"} onClick={()=>onSwitchTab("profile")}>Profile</button>
-                <button className={switchTab==="transactions"?"activeTab":"inactiveTab"} onClick={()=>onSwitchTab("transactions")}>Transactions</button>
-            </div>
-            {switchTab==="profile" ? (
-                <div className="profileDetails">
-                    <h1>Profile</h1>
-                    <form>
-                        <div className="imgDiv">
-                            <img src="/images/bose.jpg" alt="img"/>
-                        </div>
-                        <div className="updateForm">
-                            <div className="updateDiv">
-                                <label>Name</label>
-                                <input type="text" value={userDetails.name} onChange={(e)=>setUserDetails({...userDetails, name: e.target.value})}/>
-                            </div>
-                            <div className="updateDiv">
-                                <label>username</label>
-                                <input type="text" value={userDetails.username} onChange={(e)=>setUserDetails({...userDetails, username: e.target.value})}/>
-                            </div>
-                            <div className="updateDiv">
-                                <label>Email</label>
-                                <input type="email" value={userDetails.email} onChange={(e)=>setUserDetails({...userDetails, email: e.target.value})}/>
-                            </div>
-                            <div className="updateDiv">
-                                <label>Phone</label>
-                                <input type="text" value={userDetails.phone} onChange={(e)=>setUserDetails({...userDetails, phone: e.target.value})}/>
-                            </div>
-                            <div className="updateDiv">
-                                <label>Address</label>
-                                <input type="text" value={userDetails.address} onChange={(e)=>setUserDetails({...userDetails, address: e.target.value})}/>
-                            </div>
-                            <div className="profileButtons">
-                                <button type="button" className="updateButton" onClick={updateUser}>Update</button>                                
-                                <button type="button" className="logoutButton" onClick={logoutUser}>Logout</button>            
-                                <button type="button" className="deleteButton" onClick={deleteUser}>Delete</button>                                
-                            </div>
-                        </div>
-                    </form>
+            <h1>Profile</h1>
+            <form>
+                <div className="imgDiv">
+                    <img src="/images/bose.jpg" alt="img"/>
                 </div>
-            ):(
-                <div className="transactions">
-                    <h1>Transactions</h1>
-                    {transactions.length>0 ? (
-                        <table className="transactionDetails">
-                            <thead>
-                                <tr>
-                                    <th>Customer</th>
-                                    <th>Item</th>
-                                    <th>Count</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {transactions.map((transaction, index)=>(
-                                    <tr key={index}>
-                                        <td>{transaction.user}</td>
-                                        <td>{transaction.item}</td>
-                                        <td>{transaction.count}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    ):(
-                        <p>No transaction completed</p>
-                    )}
+                <div className="updateForm">
+                    <div className="updateDiv">
+                        <label>Name</label>
+                        <input type="text" value={userDetails.name} onChange={(e)=>setUserDetails({...userDetails, name: e.target.value})}/>
+                    </div>
+                    <div className="updateDiv">
+                        <label>username</label>
+                        <input type="text" value={userDetails.username} onChange={(e)=>setUserDetails({...userDetails, username: e.target.value})}/>
+                    </div>
+                    <div className="updateDiv">
+                        <label>Email</label>
+                        <input type="email" value={userDetails.email} onChange={(e)=>setUserDetails({...userDetails, email: e.target.value})}/>
+                    </div>
+                    <div className="updateDiv">
+                        <label>Phone</label>
+                        <input type="text" value={userDetails.phone} onChange={(e)=>setUserDetails({...userDetails, phone: e.target.value})}/>
+                    </div>
+                    <div className="updateDiv">
+                        <label>Address</label>
+                        <input type="text" value={userDetails.address} onChange={(e)=>setUserDetails({...userDetails, address: e.target.value})}/>
+                    </div>
+                    <div className="profileButtons">
+                        <button type="button" className="updateButton" onClick={updateUser}>Update</button>                                
+                        <button type="button" className="logoutButton" onClick={logoutUser}>Logout</button>            
+                        <button type="button" className="deleteButton" onClick={deleteUser}>Delete</button>                                
+                    </div>
                 </div>
-            )}
+            </form>
         </div>
     )
 }

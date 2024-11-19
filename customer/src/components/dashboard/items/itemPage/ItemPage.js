@@ -1,14 +1,13 @@
 // @ts-nocheck
 import React, { useEffect, useState } from "react";
 import "./ItemPage.css";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Item } from "../Item";
 import { toast } from "react-toastify";
 
 export function ItemPage(){
     const [item, setItem]=useState(null);
     const navigate=useNavigate();
-    const location=useLocation();
     const { itemId }=useParams();
     const apiUrl=process.env.REACT_APP_BACKEND_URL;
 
@@ -42,10 +41,10 @@ export function ItemPage(){
 
     return(
         <div className="itemPage">
-            <div className="itemButtons">
+            <div className="itemPage-buttons">
                 <button type="button" onClick={goBack}>Back</button>
             </div>
-            <div className="itemContainer">
+            <div className="itemPage-item">
                 {item ? (
                     <Item item={item}/>
                 ):(

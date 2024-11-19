@@ -1,4 +1,4 @@
-.itemPage {
+.itemPage{
     display: flex;
     flex-direction: column;
     padding: 20px 10%;
@@ -9,12 +9,12 @@
     background: var(--dark-1);
 }
 
-.itemButtons {
+.itemPage-buttons{
     display: flex;
     flex-direction: row-reverse;
 }
 
-.itemButtons button {
+.itemPage-buttons button{
     padding: 14px 20px;
     font-size: medium;
     background: var(--dark-2);
@@ -24,12 +24,12 @@
     cursor: pointer;
 }
 
-.itemContainer{
+.itemPage-item{
     max-width: calc((100% - 40px)/3);
 }
 
 @media(max-width: 1024px){
-    .itemContainer{
+    .itemPage-item{
         max-width: calc(50% - 10px);
     }
 }
@@ -39,7 +39,7 @@
         padding: 20px;
     }
 
-    .itemContainer{
+    .itemPage-item{
         max-width: 100%;
     }
 }

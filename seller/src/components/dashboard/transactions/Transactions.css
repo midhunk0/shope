@@ -1,17 +1,40 @@
-.transactionsPage{
+.transactions{
+    display: flex;
+    flex-direction: column;
     padding: 20px 5%;
-    min-height: calc(100vh - 112px);
     background: var(--dark-1);
     color: var(--light-1);
+    min-height: calc(100vh - 112px);
 }
 
-@media(max-width: 1024px){
-
+.transactionDetails {
+    border-collapse: collapse;
+    width: 100%;
+    background: var(--dark-2);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 16px 0; 
 }
 
+.transactionDetails th, .transactionDetails td {
+    padding: 16px;
+    text-align: center;
+}
 
-@media(max-width: 768px){
-    .transactionsPage{
-        padding: 20px;
-    }
+.transactionDetails th {
+    border-bottom: 1px solid var(--light-1);
+    color: var(--light-1);
+    font-weight: bold;
+}
+
+.transactionDetails tbody tr td {
+    color: var(--light-3);
+}
+
+.transactionDetails tbody tr:hover {
+    background-color: var(--dark-3);
+}
+
+.transactionDetails tbody tr:last-child td {
+    border-bottom: none;
 }

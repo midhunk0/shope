@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import "./Register.css";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -15,14 +15,14 @@ export function Register(){
 
     })
     const [visible, setVisible]=useState(false);
-    const images=[
+    const images=useMemo(()=>[
         "/images/dji.jpg",
         "/images/apple-watch.jpg",
         "/images/i-phone.jpg",
         "/images/bose.jpg",
         "/images/logi-mouse.jpg",
         "/images/pocket-camera.jpg",
-    ];
+    ], []);
     const navigate=useNavigate();
     const apiUrl=process.env.REACT_APP_BACKEND_URL;
 
@@ -53,31 +53,34 @@ export function Register(){
         }
     }
 
+    function handleInputChange(e){
+        setUserData({ ...userData, [e.target.name]: e.target.value });
+    }
     return(
-        <div className="registerPage">
-            <div className="registerForm">
+        <div className="register">
+            <div className="register-form">
                 <form onSubmit={registerUser}>
                     <h1>Create an account</h1>
                     <span>
                         <p>Already have an account?</p>
                         <Link to="/login">Login</Link>
                     </span>
-                    <input type="text" placeholder="Username" onChange={(e)=>setUserData({...userData, username: e.target.value})}/>
-                    <input type="text" placeholder="Name" onChange={(e)=>setUserData({...userData, name: e.target.value})}/>
-                    <input type="email" placeholder="Email" onChange={(e)=>setUserData({...userData, email: e.target.value})}/>
-                    <input type="text" placeholder="Phone Number" onChange={(e)=>setUserData({...userData, phone: e.target.value})}/>
-                    <div className="registerPassword">
-                        <input type={visible ? "text" : "password"} placeholder="Password" onChange={(e)=>setUserData({...userData, password: e.target.value})}/>
+                    <input type="text" name="username" placeholder="Username" onChange={handleInputChange}/>
+                    <input type="text" name="name" placeholder="Name" onChange={handleInputChange}/>
+                    <input type="email" name="email" placeholder="Email" onChange={handleInputChange}/>
+                    <input type="text" name="phone" placeholder="Phone Number" onChange={handleInputChange}/>
+                    <div className="register-password">
+                        <input type={visible ? "text" : "password"} name="password" placeholder="Password" onChange={handleInputChange}/>
                         <img src={visible ? "/icons/show.png" : "/icons/hide.png"} alt="img" onClick={toggleVisible}/>
                     </div>
                     <button type="submit">Register</button>
                 </form>
             </div>
-            <div className="registerImages">
+            <div className="register-images">
                 {images.map((image, index)=>(
                     <img key={index} src={image} alt="img"/>
                 ))}
-                <div className="registerLogo">
+                <div className="register-logo">
                     <h3>Shope.</h3>
                     <hr/>
                 </div>

@@ -4,7 +4,6 @@ import "./Wishlist.css";
 import { Item } from "../items/Item";
 import { trefoil } from 'ldrs'
 
-
 export function Wishlist(){
     trefoil.register()
     const [loading, setLoading]=useState(true);
@@ -67,19 +66,19 @@ export function Wishlist(){
             </div>
         ) : (
             filteredItems.length>0 ? (
-                <div className="wishlistPage">
-                    <div className="wishlistSearch">
+                <div className="whishlist">
+                    <div className="wishlist-search">
                             <img src="/icons/search.png" alt="img"/>
                             <input type="text" placeholder="Search" onChange={(e)=>setSearchItem(e.target.value)}/>
                         </div>
-                    <div className="wishlistItems">
+                    <div className="wishlist-items">
                         {filteredItems.map((item, index)=>(
                             <Item item={item} key={index} onItemsChanged={handleItemRemoved}/>
                         ))}
                     </div>
                 </div>
             ) : (
-                <div className="emptyItemsPage">
+                <div className="wishlist-empty">
                     <p>No items</p>
                 </div>
             )

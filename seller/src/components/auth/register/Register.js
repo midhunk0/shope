@@ -40,12 +40,13 @@ export function Register(){
                 credentials: "include"
             });
             const result=await response.json();
+            console.log(result);
             if(response.ok){
                 toast.success(result.message);
                 navigate("/dashboard");
             }
             else{
-                toast.error(result.messsage);
+                toast.error(result.message);
             }
         }
         catch(error){

@@ -20,6 +20,30 @@ export function Cart(){
     const apiUrl=process.env.REACT_APP_BACKEND_URL;
     const navigate=useNavigate();
 
+    useEffect(()=>{
+        async function fetchProfile(){
+            try{
+                const response=await fetch(`${apiUrl}/getProfile`, {
+                    method: "GET",
+                    credentials: "include"
+                });
+                const result=await response.json();
+                if(response.ok){
+                    setDetails({
+                        name: result.user.name || "", 
+                        email: result.user.email || "",
+                        phone: result.user.phone || "",
+                        address: result.user.address || ""
+                    })
+                }
+            }
+            catch(error){
+                console.log(error);
+            }
+        }
+        fetchProfile();
+    }, [apiUrl]);
+
     async function fetchCartItems(){
         try{
             const response=await fetch(`${apiUrl}/fetchCart`, {
@@ -121,12 +145,12 @@ export function Cart(){
                         ))}
                     </div>
                     <div className="cartSubmit">
-                        <form onSubmit={submitCart}>
+                        <form>
                             <h2>Shipping Details</h2>
-                            <input type="text" required placeholder="Name" onChange={(e)=>setDetails({...details, name: e.target.value})}/>
-                            <input type="text" required placeholder="Phone" onChange={(e)=>setDetails({...details, phone: e.target.value})}/>
-                            <input type="email" required placeholder="Email" onChange={(e)=>setDetails({...details, email: e.target.value})}/>
-                            <input type="text" required placeholder="Address" onChange={(e)=>setDetails({...details, address: e.target.value})}/>
+                            <input type="text" required placeholder="Name" value={details.name} onChange={(e)=>setDetails({...details, name: e.target.value})}/>
+                            <input type="text" required placeholder="Phone" value={details.phone} onChange={(e)=>setDetails({...details, phone: e.target.value})}/>
+                            <input type="email" required placeholder="Email" value={details.email} onChange={(e)=>setDetails({...details, email: e.target.value})}/>
+                            <input type="text" required placeholder="Address" value={details.address} onChange={(e)=>setDetails({...details, address: e.target.value})}/>
                             <div className="summary">
                                 <p>Summary</p>
                                 <hr/>
