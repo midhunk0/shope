@@ -101,7 +101,7 @@ export function Cart(){
             const result=await response.json();
             if(response.ok){
                 toast.success(result.message);
-                navigate("/dashboard/account");
+                navigate("/dashboard/order");
             }
         }
         catch(error){
@@ -111,6 +111,10 @@ export function Cart(){
     
     function handleItemRemoved(){
         fetchCartItems();
+    }
+    
+    function handleChangeInput(e){
+        setDetails({ ...details, [e.target.name]: e.target.value });
     }
 
     return(
@@ -127,13 +131,13 @@ export function Cart(){
             </div>
         ) : (
             cartItems.length>0 ? (
-                <div className="cartPage">
-                    <div className="cartItems">
+                <div className="cart">
+                    <div className="cart-items">
                         {cartItems.map((item, index)=>(
                             item ? (
-                                <div key={index} className="cartItemDetails">
+                                <div key={index} className="cart-item-details">
                                     <Item item={item} onItemsChanged={handleItemRemoved}/>
-                                    <div className="counter">
+                                    <div className="cart-item-counter">
                                         <button onClick={()=>changeCount(item._id, '-')}><img src="/icons/minus.png" alt="img"/></button>
                                         <p>{item.count}</p>
                                         <button onClick={()=>changeCount(item._id, '+')}><img src="/icons/add.png" alt="img"/></button>
@@ -144,17 +148,17 @@ export function Cart(){
                             )
                         ))}
                     </div>
-                    <div className="cartSubmit">
+                    <div className="cart-submit">
                         <form>
                             <h2>Shipping Details</h2>
-                            <input type="text" required placeholder="Name" value={details.name} onChange={(e)=>setDetails({...details, name: e.target.value})}/>
-                            <input type="text" required placeholder="Phone" value={details.phone} onChange={(e)=>setDetails({...details, phone: e.target.value})}/>
-                            <input type="email" required placeholder="Email" value={details.email} onChange={(e)=>setDetails({...details, email: e.target.value})}/>
-                            <input type="text" required placeholder="Address" value={details.address} onChange={(e)=>setDetails({...details, address: e.target.value})}/>
-                            <div className="summary">
+                            <input type="text" required placeholder="Name" value={details.name} name="name" onChange={handleChangeInput}/>
+                            <input type="text" required placeholder="Phone" value={details.phone} name="phone" onChange={handleChangeInput}/>
+                            <input type="email" required placeholder="Email" value={details.email} name="email" onChange={handleChangeInput}/>
+                            <input type="text" required placeholder="Address" value={details.address} name="address" onChange={handleChangeInput}/>
+                            <div className="cart-summary">
                                 <p>Summary</p>
                                 <hr/>
-                                <div className="cost">
+                                <div className="cart-cost">
                                     <p>Total cost</p>
                                     <p>{cost}</p>
                                 </div>
@@ -164,8 +168,8 @@ export function Cart(){
                     </div>
                 </div>
             ):(
-                <div className="emptyCart">
-                    <p>Cart is empty</p>
+                <div className="cart-empty">
+                    <p>Nothing in the cart</p>
                 </div>
             )
         )

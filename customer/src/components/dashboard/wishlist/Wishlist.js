@@ -79,7 +79,7 @@ export function Wishlist(){
                 </div>
             ) : (
                 <div className="wishlist-empty">
-                    <p>No items</p>
+                    <p>Nothing in the wishlist</p>
                 </div>
             )
         )

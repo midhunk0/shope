@@ -15,7 +15,6 @@
     scroll-snap-type: x mandatory; 
     scroll-padding: 0 ; 
     scroll-behavior: smooth;
-    /* background: var(--dark-1); */
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
@@ -119,7 +118,6 @@
 
 .item-details-buttons .buyButton{
     background: var(--green);   
-    /* padding: 8px 12px;  */
     font-size: large;
 }
 

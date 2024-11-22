@@ -13,11 +13,6 @@ export function Home(){
         "/images/meta.jpg",
         "/images/google.jpg",
         "/images/nothing.jpeg",
-        // "/images/apple-watch.jpg",
-        // "/images/dji.jpg",
-        // "/images/pocket-camera.jpg",
-        // "/images/logi-mouse.jpg",
-        // "/images/i-phone.jpg"
     ];
     const apiUrl=process.env.REACT_APP_BACKEND_URL;
 
@@ -45,9 +40,9 @@ export function Home(){
     }, []);
 
     return(
-        <div className="homePage">
+        <div className="home">
             <h1>Trending Now..</h1>
-            <div className="homeImages">
+            <div className="home-images">
                 {images.map((image, index)=>(
                     <img key={index} src={image} alt="img"/>
                 ))}
@@ -55,7 +50,7 @@ export function Home(){
                 {items.length>0 && (
                     <>
                         <h1>Latest Items..</h1>
-                        <div className="latestItems">
+                        <div className="home-latest-items">
                             {items.slice(0, 6).map((item, index)=>(
                                 <Item item={item} key={index}/>
                             ))}

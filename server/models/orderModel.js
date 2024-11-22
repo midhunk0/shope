@@ -28,6 +28,10 @@ const itemSchema=new mongoose.Schema({
         type: Number,
         required: true,
         min: 1
+    },
+    reviewed: {
+        type: Boolean,
+        default: false
     }
 }, { _id: false });
 

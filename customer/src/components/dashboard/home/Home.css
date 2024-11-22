@@ -1,11 +1,11 @@
-.homePage{
+.home{
     display: flex;
     background: var(--dark-1);
     padding: 20px 5%;
     flex-direction: column;
 }
 
-.homeImages{
+.home-images{
     display: flex;
     width: 100%;
     height: calc(100vh - 112px);
@@ -16,10 +16,11 @@
     scroll-behavior: smooth;
     padding: 0;
     margin: 0;
+    margin-bottom: 20px;
     border-radius: 16px;
 }
 
-.homeImages img{
+.home-images img{
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -30,13 +31,13 @@
     cursor: pointer;
 }
 
-h1{
-    margin: 20px 0;
+.home h1{
+    margin-bottom: 20px;
     color: var(--light-1);
-    font-size: 42px;
+    /* font-size: 42px; */
 }
 
-.latestItems{
+.home-latest-items{
     display: grid;
     gap: 20px;
     grid-template-columns: repeat(auto-fill, minmax(calc(33.33% - 20px), 1fr)); /* 3 columns with gap calculation */
@@ -44,23 +45,23 @@ h1{
 }
 
 @media (max-width: 1200px) {
-    .latestItems{
+    .home-latest-items{
         grid-template-columns: repeat(auto-fill, minmax(calc(50% - 20px), 1fr)); /* 2 columns for medium screens */
     }
 }
 
 @media(max-width: 992px){
-    .homePage{
+    .home{
         padding: 20px;
     }
 }
 
 @media (max-width: 768px) {
-    .homePage{
+    .home{
         padding: 20px;
     }
 
-    .latestItems{
+    .home-latest-items{
         grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); /* 1 column for small screens */
     }
 }

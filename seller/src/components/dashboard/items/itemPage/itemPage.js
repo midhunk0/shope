@@ -4,9 +4,13 @@ import "./ItemPage.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Item } from "../Item";
 import { toast } from "react-toastify";
+import { trefoil } from "ldrs";
 
 export function ItemPage(){
+    trefoil.register();
+
     const [item, setItem]=useState(null);
+    const [loading, setLoading]=useState(true);
     const navigate=useNavigate();
     const location=useLocation();
     const { itemId }=location.state;
@@ -20,6 +24,7 @@ export function ItemPage(){
             });
             const result=await response.json();
             if(response.ok){
+                setLoading(false);
                 setItem(result);
                 toast.success(result.message);
             }
@@ -41,17 +46,30 @@ export function ItemPage(){
     }
 
     return(
-        <div className="itemPage">
-            <div className="itemButtons">
-                <button type="button" onClick={goBack}>Back</button>
+        loading ? (
+            <div className="loading">
+                <l-trefoil
+                    size="50"
+                    stroke="5"
+                    stroke-length="0.15"
+                    bg-opacity="0.1"
+                    speed="1.4" 
+                    color="var(--red)"
+                ></l-trefoil>
             </div>
-            <div className="itemContainer">
-                {item ? (
-                    <Item item={item}/>
-                ):(
-                    <></>
-                )}
+        ) : (
+            <div className="itemPage">
+                <div className="itemButtons">
+                    <button type="button" onClick={goBack}>Back</button>
+                </div>
+                <div className="itemContainer">
+                    {item ? (
+                        <Item item={item}/>
+                    ):(
+                        <></>
+                    )}
+                </div>
             </div>
-        </div>
+        )
     )
 }

@@ -44,10 +44,14 @@
 .inputBlock input{
     padding: 16px;
     border: none;
-    outline: none;
     background: var(--dark-2);
     border-radius: 8px;
+    outline: none;
     color: var(--light-1);
+}
+
+.inputBlock input:focus{
+    outline: 1px solid var(--red);
 }
 
 .uploads{
@@ -105,14 +109,14 @@
     cursor: pointer;
 }
 
-@media(max-width: 1024px){
+@media(max-width: 1200px){
     .createInputs{
         padding: 0;
     }
 }
 
 
-@media(max-width: 768px){
+@media(max-width: 992px){
     .create{
         padding: 20px;
     }

@@ -28,7 +28,6 @@ const addToCart=async(req, res)=>{
     try{
         const userId=await returnUserId(req, res);
         const { itemId }=req.params;
-        const count=1;
         const item=await Item.findById(itemId);
         if(!item){
             return res.status(400).json({ message: "No item found" });
@@ -41,14 +40,14 @@ const addToCart=async(req, res)=>{
         if(!cart){
             return res.status(400).json({ message: "No cart found" });
         }
-        const index=cart.items.indexOf(itemId);
-        if(index===-1){
-            cart.items.push({ itemId, count });
-            cart.cost+=item.price;
-        }
-        else{
+        const itemExists=cart.items.find(cartItem=>cartItem.itemId.toString()===itemId);
+        if(itemExists){
             return res.status(400).json({ message: "Item already in the cart" });
         }
+        const count=1;
+        cart.items.push({ itemId, count });
+        cart.cost+=item.price;
+
         await cart.save();
         return res.status(200).json({ message: "Item added to the cart" });
     }

@@ -5,6 +5,11 @@ const transactionSchema=new mongoose.Schema({
         type: String,
         required: true
     },
+    date: {
+        type: Date,
+        default: Date.now,
+        required: true
+    },
     itemId: {
         type: String,
         required: true

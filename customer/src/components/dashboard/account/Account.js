@@ -102,39 +102,43 @@ export function Account(){
             console.log(error);
         }
     }
+
+    function handleInputChange(e){
+        setUpdateDetails({ ...updateDetails, [e.target.name]: e.target.value });
+    }
     
     return(
         <div className="account">
             <h1>Profile</h1>
-            <form>
-                <div className="imgDiv">
+            <form className="account-form">
+                <div className="account-form-image-div">
                     <img src="/images/bose.jpg" alt="img"/>
                 </div>
-                <div className="updateForm">
-                    <div className="updateDiv">
+                <div className="account-update-form">
+                    <div className="account-update-form-div">
                         <label>Name</label>
-                        <input type="text" value={updateDetails.name} onChange={(e)=>setUpdateDetails({...updateDetails, name: e.target.value})}/>
+                        <input type="text" value={updateDetails.name} name="name" onChange={handleInputChange}/>
                     </div>
-                    <div className="updateDiv">
+                    <div className="account-update-form-div">
                         <label>Username</label>
-                        <input type="text" value={updateDetails.username} onChange={(e)=>setUpdateDetails({...updateDetails, username: e.target.value})}/>
+                        <input type="text" value={updateDetails.username} name="username" onChange={handleInputChange}/>
                     </div>
-                    <div className="updateDiv">
+                    <div className="account-update-form-div">
                         <label>Email</label>
-                        <input type="email" value={updateDetails.email} onChange={(e)=>setUpdateDetails({...updateDetails, email: e.target.value})}/>
+                        <input type="email" value={updateDetails.email} name="email" onChange={handleInputChange}/>
                     </div>
-                    <div className="updateDiv">
+                    <div className="account-update-form-div">
                         <label>Phone</label>
-                        <input type="text" value={updateDetails.phone} onChange={(e)=>setUpdateDetails({...updateDetails, phone: e.target.value})}/>
+                        <input type="text" value={updateDetails.phone} name="phone" onChange={handleInputChange}/>
                     </div>
-                    <div className="updateDiv">
+                    <div className="account-update-form-div">
                         <label>Address</label>
-                        <input type="text" value={updateDetails.address} onChange={(e)=>setUpdateDetails({...updateDetails, address: e.target.value})}/>
+                        <input type="text" value={updateDetails.address} name="address" onChange={handleInputChange}/>
                     </div>
-                    <div className="profileButtons">
-                        <button type="button" className="updateButton" onClick={updateUser}>Update</button>
-                        <button type="button" className="logoutButton" onClick={logoutUser}>Logout</button>
-                        <button type="button" className="deleteButton" onClick={deleteUser}>Delete</button>
+                    <div className="account-update-form-buttons">
+                        <button type="button" className="account-update-form-update-button" onClick={updateUser}>Update</button>
+                        <button type="button" className="account-update-form-logout-button" onClick={logoutUser}>Logout</button>
+                        <button type="button" className="account-update-form-delete-button" onClick={deleteUser}>Delete</button>
                     </div>
                 </div>
             </form>

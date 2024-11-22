@@ -80,6 +80,10 @@
     color: var(--red);
 }
 
+.loginForm input:focus{
+    outline: 1px solid var(--red);
+}
+
 .loginPassword{
     position: relative;
     display: flex;

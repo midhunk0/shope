@@ -7,12 +7,16 @@
     min-height: calc(100vh - 112px);
 }
 
-.profileButtons{
+.account h1{
+    margin-bottom: 20px;
+}
+
+.account-update-form-buttons{
     display: flex;
     gap: 20px;
 }
 
-.profileButtons button{
+.account-update-form-buttons button{
     padding: 16px 40px;
     border-radius: 8px;
     border: none;
@@ -20,56 +24,41 @@
     cursor: pointer;
 }
 
-.activeTab{
-    background: var(--dark-2);
-    color: var(--light-1);
-}
-
-.inactiveTab{
-    background: var(--light-1);
-    color: var(--dark-2);
-}
-
-.account{
-    display: flex;
-    flex-direction: column;
-}
-
-.account form{
+.account-form{
     display: flex;
     gap: 20px;
 }
 
-.imgDiv{
+.account-form-image-div{
     width: 30%;
 }
 
-.imgDiv img{
+.account-form-image-div img{
     width: 100%;
     aspect-ratio: 1/1;
     object-fit: cover;
     border-radius: 8px;
 }
 
-.updateForm{
+.account-update-form{
     display: flex;
     flex-direction: column;
     width: 50%;
     gap: 20px;
 }
 
-.updateDiv{
+.account-update-form-div{
     display: flex;
     gap: 20px;
     width: 100%;
     align-items: center;
 }
 
-.updateDiv label{
+.account-update-form-div label{
     width: 20%;
 }
 
-.updateDiv input{
+.account-update-form-div input{
     padding: 16px;
     outline: none;
     border: none;
@@ -79,17 +68,17 @@
     color: var(--red);
 }
 
-.updateButton{
+.account-update-form-update-button{
     background: var(--green);
     color: var(--light-1);
 }
 
-.logoutButton{
+.account-update-form-logout-button{
     background: var(--dark-2);
     color: var(--light-1);
 }
 
-.deleteButton{
+.account-update-form-delete-button{
     background: var(--red);
     color: var(--light-1);
 }
@@ -99,47 +88,47 @@
         padding: 20px;
     }
 
-    .updateForm{
+    .account-update-form{
         width: 70%;
     }
 }
 
 @media(max-width: 768px){
-    .account form{
+    .account-form{
         flex-direction: column;
         align-items: center;
     }
 
-    .imgDiv, .updateForm{
+    .account-form-image-div, .account-update-form{
         width: 100%;
     }
 }
 
 @media(max-width: 576px){
-    .imgDiv, .updateForm{
+    .account-form-image-div, .account-update-form{
         width: 100%;
     }
 
-    .profileButtons{
+    .account-update-form-buttons{
         flex-direction: column;
     }
 
-    .profileButtons button{
+    .account-update-form-buttons button{
         width: 100%;
     }
 
-    .updateForm{
+    .account-update-form{
         gap: 20px;
     }
 
-    .updateDiv{
+    .account-update-form-div{
         flex-direction: column;
         width: 100%;
         gap: 4px;
         align-items: start;
     }
 
-    .updateDiv input{
+    .account-update-form-div input{
         width: calc(100% - 32px);
     }
 }

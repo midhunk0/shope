@@ -179,7 +179,9 @@ const fetchTransactions=async(req, res)=>{
                 return ({
                     user: user.username,
                     item: item.name,
-                    count: transaction.count
+                    date: transaction.date,
+                    count: transaction.count,
+                    status: transaction.status
                 })
             })
         )

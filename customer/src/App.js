@@ -14,6 +14,7 @@ import { Home } from './components/dashboard/home/Home';
 import { Account } from './components/dashboard/account/Account';
 import { Orders } from './components/dashboard/orders/Orders';
 import { Order } from './components/dashboard/orders/order/Order';
+import { Review } from './components/dashboard/items/review/Review';
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                     <Route path="" element={<Home/>}/>
                     <Route path="items" element={<ItemsPage/>}/>
                     <Route path="item/:itemId" element={<ItemPage/>}/>
+                    <Route path="review/:orderId/:itemId" element={<Review/>}/>
                     <Route path="wishlist" element={<Wishlist/>}/>
                     <Route path="cart" element={<Cart/>}/>
                     <Route path="orders" element={<Orders/>}/>

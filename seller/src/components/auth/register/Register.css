@@ -77,6 +77,10 @@
     color: var(--red);
 }
 
+.registerForm input:focus{
+    outline: 1px solid var(--red);
+}
+
 .registerPassword{
     position: relative;
     display: flex;

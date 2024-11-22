@@ -13,6 +13,7 @@ export function Create() {
         pieceLeft: ""
     });
     const [imageList, setImageList]=useState([]);
+    const [loading, setLoading]=useState(false);
     const navigate=useNavigate();
     const apiUrl=process.env.REACT_APP_BACKEND_URL;
 
@@ -52,6 +53,7 @@ export function Create() {
         e.preventDefault();
 
         try{
+            setLoading(true);
             const formData=new FormData();
             for(const key in itemData){
                 formData.append(key, itemData[key]);
@@ -63,21 +65,15 @@ export function Create() {
                 });
             }
 
-            const response=await toast.promise(
-                fetch(`${apiUrl}/createSellItem`, {
-                    method: "POST",
-                    body: formData,
-                    credentials: "include",
-                }),
-                {
-                    pending: "Creating item...",
-                    success: false,
-                    error: false
-                }
-            );
+            const response=await fetch(`${apiUrl}/createSellItem`, {
+                method: "POST",
+                body: formData,
+                credentials: "include",
+            })
 
             const result=await response.json();
             if(response.ok){
+                setLoading(false);
                 toast.success(result.message);
                 navigate("/dashboard");
             } 
@@ -91,53 +87,66 @@ export function Create() {
     }
 
     return (
-        <div className="create">
-            <form onSubmit={createSellItem}>
-                <div className="createButtons">
-                    <button type="submit">Create</button>
-                    <button type="button" onClick={goBack}>Back</button>
-                </div>
-                <div className="createInputs">
-                    <div className="inputBlock">
-                        <label htmlFor="name">Name</label>
-                        <input type="text" id="name" onChange={(e) => setItemData({ ...itemData, name: e.target.value })} />
+        loading ? (
+            <div className="loading">
+                <l-trefoil
+                    size="50"
+                    stroke="5"
+                    stroke-length="0.15"
+                    bg-opacity="0.1"
+                    speed="1.4" 
+                    color="var(--red)"
+                ></l-trefoil>
+            </div>
+        ) : (
+            <div className="create">
+                <form onSubmit={createSellItem}>
+                    <div className="createButtons">
+                        <button type="submit">Create</button>
+                        <button type="button" onClick={goBack}>Back</button>
                     </div>
-                    <div className="uploads">
-                        <p>Upload the Images</p>
-                        <div className="dropArea" onDrop={drop} onDragOver={drag}>
-                            <p>Drag and drop images here</p>
-                            <input type="file" id="images" onChange={fileInput} multiple />
-                            <label htmlFor="images">Browse Files</label>
+                    <div className="createInputs">
+                        <div className="inputBlock">
+                            <label htmlFor="name">Name</label>
+                            <input type="text" id="name" onChange={(e) => setItemData({ ...itemData, name: e.target.value })} />
                         </div>
-                        {imageList.length > 0 && (
-                            <div className="fileList">
-                                {imageList.map((file, index) => (
-                                    <div className="fileItem" key={index}>
-                                        <p>{file}</p>
-                                        <img src="/icons/close.png" alt="img" onClick={() => remove(index)} />
-                                    </div>
-                                ))}
+                        <div className="uploads">
+                            <p>Upload the Images</p>
+                            <div className="dropArea" onDrop={drop} onDragOver={drag}>
+                                <p>Drag and drop images here</p>
+                                <input type="file" id="images" onChange={fileInput} multiple />
+                                <label htmlFor="images">Browse Files</label>
                             </div>
-                        )}
+                            {imageList.length > 0 && (
+                                <div className="fileList">
+                                    {imageList.map((file, index) => (
+                                        <div className="fileItem" key={index}>
+                                            <p>{file}</p>
+                                            <img src="/icons/close.png" alt="img" onClick={() => remove(index)} />
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                        <div className="inputBlock">
+                            <label htmlFor="typetype">Type</label>
+                            <input type="text" id="type" onChange={(e) => setItemData({ ...itemData, type: e.target.value })} />
+                        </div>
+                        <div className="inputBlock">
+                            <label htmlFor="description">Description</label>
+                            <input type="text" id="description" onChange={(e) => setItemData({ ...itemData, description: e.target.value })} />
+                        </div>
+                        <div className="inputBlock">
+                            <label htmlFor="price">Price</label>
+                            <input type="text" id="price" onChange={(e) => setItemData({ ...itemData, price: e.target.value })} />
+                        </div>
+                        <div className="inputBlock">
+                            <label htmlFor="pieceLeft">Piece Left</label>
+                            <input type="text" id="pieceLeft" onChange={(e) => setItemData({ ...itemData, pieceLeft: e.target.value })} />
+                        </div>
                     </div>
-                    <div className="inputBlock">
-                        <label htmlFor="typetype">Type</label>
-                        <input type="text" id="type" onChange={(e) => setItemData({ ...itemData, type: e.target.value })} />
-                    </div>
-                    <div className="inputBlock">
-                        <label htmlFor="description">Description</label>
-                        <input type="text" id="description" onChange={(e) => setItemData({ ...itemData, description: e.target.value })} />
-                    </div>
-                    <div className="inputBlock">
-                        <label htmlFor="price">Price</label>
-                        <input type="text" id="price" onChange={(e) => setItemData({ ...itemData, price: e.target.value })} />
-                    </div>
-                    <div className="inputBlock">
-                        <label htmlFor="pieceLeft">Piece Left</label>
-                        <input type="text" id="pieceLeft" onChange={(e) => setItemData({ ...itemData, pieceLeft: e.target.value })} />
-                    </div>
-                </div>
-            </form>
-        </div>
+                </form>
+            </div>
+        )
     )
 }

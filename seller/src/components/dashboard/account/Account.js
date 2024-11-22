@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export function Account(){
-    const [switchTab, setSwitchTab]=useState("profile");
     const [userDetails, setUserDetails]=useState({
         name: "",
         username: "",
@@ -13,13 +12,8 @@ export function Account(){
         phone: "",
         address: ""
     });
-    const [transactions, setTransactions]=useState({});
     const navigate=useNavigate();
     const apiUrl=process.env.REACT_APP_BACKEND_URL;
-
-    function onSwitchTab(tab){
-        setSwitchTab(tab);
-    }
 
     useEffect(()=>{
         async function getProfile(){

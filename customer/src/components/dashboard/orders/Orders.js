@@ -49,9 +49,9 @@ export function Orders(){
             </div>
         ):(
             <div className="orders">
-                <h1>My Orders</h1>
                 {orders.length>0 ? (
                     <div className="orders-details">
+                        <h1>My Orders</h1>
                         {orders.map((order, index)=>(
                             <div key={index} className="orders-order-details" onClick={()=>gotoOrder(order.orderId)}>
                                 <div className="orders-order-items">
@@ -94,7 +94,9 @@ export function Orders(){
                         ))}
                     </div>
                 ) : (
-                    <p>Nothing purchesed</p>
+                    <div className="orders-empty">
+                        <p>Nothing purchesed</p>
+                    </div>
                 )}
             </div>
         )

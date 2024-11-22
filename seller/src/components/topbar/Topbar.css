@@ -71,6 +71,12 @@
     color: var(--dark-1);
 }
 
+@media(max-width: 992px){
+    .topbar{
+        padding: 20px;
+    }
+}
+
 @media (max-width: 768px){
     .topbarOptions{
         display: none;
@@ -78,9 +84,5 @@
 
     .topbarDropdown{
         display: block;
-    }
-
-    .topbar{
-        padding: 20px;
     }
 }
