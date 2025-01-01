@@ -58,6 +58,12 @@ const fetchItems=async(req, res)=>{
             return res.status(400).json({ message: "No user found" });
         }
         const items=((await Item.find({ pieceLeft: { $gt: 0 }}).sort({ updatedAt: -1 })));
+        const userIds=[...new Set(items.map(item=>item.userId))];
+        const users=await User.find({ _id: { $in: userIds }}).select("_id name");
+        const userMap=users.reduce((acc, user)=>{
+            acc[user._id]=user.name;
+            return acc;
+        }, {});
         const itemsWithImages=items.map((item)=>{
             const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${item._id}/${index}`);
             const rating=item.ratings.length>0 ? item.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/item.ratings.length : 0;
@@ -65,7 +71,8 @@ const fetchItems=async(req, res)=>{
             return{
                 ...itemWithImages,
                 imageUrls, 
-                rating
+                rating,
+                brand: userMap[item.userId]
             };
         });
         return res.status(200).json(itemsWithImages);

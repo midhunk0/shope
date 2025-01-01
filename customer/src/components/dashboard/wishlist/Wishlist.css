@@ -60,7 +60,7 @@
     }
 
     .wishlist-search input{
-        width: calc(50% - 42px);
+        width: 100%;
     }
 }
 
