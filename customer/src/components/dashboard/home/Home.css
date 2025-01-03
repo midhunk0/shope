@@ -40,19 +40,23 @@
 .home-latest-items{
     display: grid;
     gap: 20px;
-    grid-template-columns: repeat(auto-fill, minmax(calc(33.33% - 20px), 1fr)); /* 3 columns with gap calculation */
+    grid-template-columns: repeat(auto-fill, minmax(calc(33.33% - 20px), 1fr)); 
     justify-content: space-between;
 }
 
 @media (max-width: 1200px) {
     .home-latest-items{
-        grid-template-columns: repeat(auto-fill, minmax(calc(50% - 20px), 1fr)); /* 2 columns for medium screens */
+        grid-template-columns: repeat(auto-fill, minmax(calc(50% - 20px), 1fr)); 
     }
 }
 
 @media(max-width: 992px){
     .home{
         padding: 20px;
+    }
+
+    .home-images{
+        height: auto;
     }
 }
 
@@ -62,6 +66,6 @@
     }
 
     .home-latest-items{
-        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); /* 1 column for small screens */
+        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
     }
 }

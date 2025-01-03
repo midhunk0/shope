@@ -22,7 +22,7 @@
     justify-content: space-between;
     padding: 20px;
     border-radius: 8px;
-    border: 1px solid var(--light-1);
+    background: var(--dark-2);
     cursor: pointer;
 }
 
@@ -35,9 +35,8 @@
 
 .orders-order-item{
     display: flex;
-    /* gap: 20px; */
     text-transform: capitalize;
-    background: var(--dark-2);
+    background: var(--dark-1);
     border-radius: 8px;
 }
 
@@ -46,6 +45,7 @@
     display: flex;
     gap: 20px;
     overflow-x: auto; 
+    background: var(--dark-2);
     scroll-snap-type: x mandatory; 
     scroll-padding: 0 ; 
     scroll-behavior: smooth;
