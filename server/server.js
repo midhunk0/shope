@@ -11,6 +11,7 @@ const wishlistRouter=require("./routes/wishlistRoute");
 const cartRouter=require("./routes/cartRoute");
 const sellRouter=require("./routes/sellRoute");
 const orderRouter=require("./routes/orderRoute");
+const adminRouter=require("./routes/adminRoute");
 
 const app=express();
 
@@ -41,6 +42,7 @@ app.use("/", wishlistRouter);
 app.use("/", cartRouter);
 app.use("/", sellRouter);
 app.use("/", orderRouter);
+app.use("/", adminRouter);
 
 const port=process.env.PORT;
 app.listen(port, ()=>{

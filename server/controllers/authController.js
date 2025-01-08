@@ -1,4 +1,3 @@
-
 const { comparePassword, generateToken, hashPassword }=require("../config/authConfig");
 const User=require("../models/authModel");
 const Cart=require("../models/cartModel");
@@ -49,6 +48,9 @@ const registerUser=async(req, res)=>{
             })
             await orders.save();
         }
+        else if(role==="admin"){
+
+        }
         else{}
         const token=generateToken(user._id);
         res.cookie("auth", token, { httpOnly: true, secure: true, sameSite: "none" });
@@ -74,8 +76,11 @@ const loginUser=async(req, res)=>{
             if(role==="seller"){
                 return res.status(400).json({ message: "You are not a seller" });
             }
-            else{
+            else if(role==="customer"){
                 return res.status(400).json({ message: "You are not a customer" });
+            }
+            else{
+                return res.status(400).json({ message: "You are not admin" });
             }
         }
         const isPasswordValid=await comparePassword(password, user.password);
@@ -165,6 +170,20 @@ const isAuth=(req, res)=>{
     return res.status(200).json({ authenticated: false });
 }
 
+const isVerified=async(req, res)=>{
+    try{
+        const userId=await returnUserId(req, res);
+        const user=await User.findById(userId);
+        if(!user){
+            return res.status(400).json({ message: "User not found" });
+        }
+        return res.status(200).json({ verified: user.verified });    
+    }
+    catch(err){
+        return res.status(500).json({ error: err.message });
+    }
+}
+
 module.exports={
     registerUser, 
     loginUser, 
@@ -172,5 +191,6 @@ module.exports={
     getProfile,
     updateUser,
     deleteUser,
-    isAuth
+    isAuth,
+    isVerified
 }

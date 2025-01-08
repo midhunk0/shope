@@ -48,11 +48,17 @@ const itemsSchema=new mongoose.Schema({
         required: true,
         min: 0
     },
+    verified: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     images: [{
         imageName: String,
         imageType: String,
         image: Buffer,
     }],
+    
     reviews: {
         type: [reviewSchema]
     },
