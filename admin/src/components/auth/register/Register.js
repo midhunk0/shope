@@ -33,7 +33,7 @@ export function Register(){
     async function registerUser(e){
         e.preventDefault();
         try{
-            const response=await fetch(`${apiUrl}/registerUser`, {
+            const response=await fetch(`${apiUrl}/admin/registerUser`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(userData),

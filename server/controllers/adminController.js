@@ -1,18 +1,37 @@
 const { returnUserId } = require("../helpers/authHelper");
 const User=require("../models/authModel");
 const Item = require("../models/itemModel");
+const Orders = require("../models/orderModel");
 
-const getUsers=async(req, res)=>{
+const fetchUsers=async(req, res)=>{
     try{
         const adminId=await returnUserId(req, res);
         if(!adminId){
             return res.status(400).json({ message: "admin not logged in" })
         }
-        const users=await User.find({ role: { $ne: "admin" }});
+        const users=await User.find({ role: { $ne: "admin" }}).select("name username email role verified");
         if(!users.length){
             return res.status(400).json({ message: "there is no users" });
         }
         return res.status(200).json({ message: "Users fetched", users: users });
+    }
+    catch(err){
+        return res.status(500).json({ error: err.message });
+    }
+}
+
+const fetchUser=async(req, res)=>{
+    try{
+        const adminId=await returnUserId(req, res);
+        if(!adminId){
+            return res.status(400).json({ message: "admin not logged in" });
+        }
+        const { userId }=req.params;
+        const user=await User.findById(userId).select("name username email role verified");
+        if(!user){
+            return res.status(400).json({ message: "User not found" });
+        }
+        return res.status(200).json({ message: "User fetched", user });
     }
     catch(err){
         return res.status(500).json({ error: err.message });
@@ -25,7 +44,7 @@ const fetchSellers=async(req, res)=>{
         if(!adminId){
             return res.status(400).json({ message: "admin not logged in" });
         }
-        const sellers=await User.find({ role: "seller"});
+        const sellers=await User.find({ role: "seller"}).select("name username email role verified");
         if(!sellers.length){
             return res.status(400).json({ message: "there is no sellers" });
         }
@@ -42,11 +61,28 @@ const fetchCustomers=async(req, res)=>{
         if(!adminId){
             return res.status(400).json({ message: "admin not logged in" });
         }
-        const customers=await User.find({ role: "customer" });
+        const customers=await User.find({ role: "customer" }).select("name username email role verified");
         if(!customers.length){
             return res.status(400).json({ message: "there is no customers" });
         }
         return res.status(200).json({ message: "customers fetched", customers: customers });
+    }
+    catch(err){
+        return res.status(500).json({ message: err.message });
+    }
+}
+
+const fetchDeliveryAgents=async(req, res)=>{
+    try{
+        const adminId=await returnUserId(req, res);
+        if(!adminId){
+            return res.status(400).json({ message: "admin not logged in" });
+        }
+        const deliveryAgents=await User.find({ role: "deliveryAgent" }).select("name username email role verified");
+        if(!deliveryAgents.length){
+            return res.status(400).json({ message: "there is no delivery agents" });
+        }
+        return res.status(200).json({ message: "delivery agents fetched", deliveryAgents: deliveryAgents });
     }
     catch(err){
         return res.status(500).json({ message: err.message });
@@ -101,10 +137,30 @@ const toggleVerifyItem=async(req, res)=>{
     }
 }
 
+const fetchTransactions=async(req, res)=>{
+    try{
+        const adminId=await returnUserId(req, res);
+        if(!adminId){
+            return res.status(400).json({ message: "admin not logged in" });
+        }
+        const transactions=await Orders.find();
+        if(!transactions.length){
+            return res.sttus(400).json({ message: "There are no transactions" });
+        }
+        return res.status(200).json({ message: "Transactions are fetched", transactions: transactions });
+    }
+    catch(err){
+        return res.status(500).json({ error: err.message });
+    }
+}
+
 module.exports={
-    getUsers,
+    fetchUsers,
+    fetchUser,
     fetchSellers,
     fetchCustomers,
+    fetchDeliveryAgents,
     toggleVerifyUser,
-    toggleVerifyItem
+    toggleVerifyItem,
+    fetchTransactions
 }

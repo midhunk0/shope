@@ -1,0 +1,127 @@
+.users{
+    display: flex;
+    flex-direction: column;
+    padding: 20px 5%;
+    background: var(--dark-1);
+    color: var(--light-1);
+    height: calc(100vh - 112px);
+}
+
+img{
+    width: 24px;
+    filter: invert(1);
+}
+
+.users-tableContainer{
+    max-height: 100vh;
+    overflow: auto;
+    padding: 0;
+    margin-top: 16px; 
+    border-radius: 8px;
+}
+
+.users-table{
+    border-collapse: collapse;
+    width: 100%;
+    background: var(--dark-2);
+    border-radius: 8px;
+}
+
+.users-table thead{
+    position: sticky;
+    top: 0px;
+    z-index: 2;
+    background: var(--dark-3);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.users-table th, .users-table td {
+    padding: 16px;
+    text-align: center;
+    display: table-cell; 
+    vertical-align: middle; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.users-table th {
+    color: var(--light-1);
+    font-weight: bold;
+}
+
+.users-selectionButton{
+    display: flex;
+    background: var(--dark-3);
+    outline: none;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    cursor: pointer;
+    color: var(--light-1);
+    position: relative;
+}
+
+.users-tableOptions{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    top: 57px;
+    outline: none;
+    border: none;
+}
+
+.rolesOptions{
+    left: 380px;
+}
+
+.verificationOptions{
+    right: 140px;
+}
+
+.users-tableOptions button{
+    padding: 10px;
+    outline: none;
+    border: none;
+    background: var(--light-1);
+}
+
+.users-tableOptions button:hover{
+    background: var(--dark-1);
+    color: var(--light-1);
+}
+
+.users-table tbody tr td {
+    color: var(--light-3);
+}
+
+.users-table tbody tr:hover {
+    background-color: var(--dark-1);
+}
+
+.users-table tbody tr td:nth-child(2){
+    text-transform: capitalize;
+}
+
+.users-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.users-empty{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 112px);
+    background: var(--dark-1);
+    color: var(--light-1);
+    width: 100%;
+}
+
+@media(max-width: 992px){
+    .users{
+        padding: 20px;
+    }
+}

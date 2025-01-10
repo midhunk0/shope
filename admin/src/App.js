@@ -6,6 +6,7 @@ import { Register } from './components/auth/register/Register';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { Dashboard } from './components/dashboard/Dashboard';
+import { Users } from './components/dashboard/users/Users';
 
 function App() {
     return (
@@ -13,8 +14,10 @@ function App() {
             <Routes>
                 <Route path="/" element={<Navigate to="/login"/>}/>
                 <Route path="/login" element={<Login/>}/>
-                <Route path="/register" element={<Register/>}/>
-                <Route path="/dashboard" element={<Dashboard/>}/>
+                {/* <Route path="/register" element={<Register/>}/> */}
+                <Route path="/dashboard" element={<Dashboard/>}>
+                    <Route path="" element={<Users/>}/>
+                </Route>
             </Routes>
             <ToastContainer
 				toastStyle={{background: "#00D7FF"}}

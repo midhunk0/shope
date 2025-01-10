@@ -29,7 +29,7 @@ export function Login(){
     async function loginUser(e){
         e.preventDefault();
         try{
-            const response=await fetch(`${apiUrl}/loginUser`, {
+            const response=await fetch(`${apiUrl}/admin/loginUser`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(userData),
@@ -58,10 +58,10 @@ export function Login(){
             <div className="login-form">
                 <form onSubmit={loginUser}>
                     <h1>Login to account</h1>
-                    <span>
+                    {/* <span>
                         <p>Don't have an account?</p>
                         <Link to="/register">Register</Link>
-                    </span>
+                    </span> */}
                     <input type="text" name="credential" placeholder="Username or Email" onChange={handleInputChange}/>
                     <div className="login-password">
                         <input type={visible ? "text" : "password"} name="password" placeholder="Password" onChange={handleInputChange}/>

@@ -20,6 +20,12 @@ const registerUser=async(req, res)=>{
         if(emailExist){
             return res.status(400).json({ message: "This email has already a user" });
         }
+        if(role==="admin"){
+            const admin=await User.find({ role: "admin" });
+            if(admin){
+                return res.status(400).json({ message: "there is already an admin. cannot register another one" });
+            }
+        }
         const hashedPassword=await hashPassword(password);
         const user=new User({ name, username, email, phone, password: hashedPassword, role });
         await user.save();
@@ -48,10 +54,6 @@ const registerUser=async(req, res)=>{
             })
             await orders.save();
         }
-        else if(role==="admin"){
-
-        }
-        else{}
         const token=generateToken(user._id);
         res.cookie("auth", token, { httpOnly: true, secure: true, sameSite: "none" });
         return res.status(200).json( { user: user, message: "User registration successful" });
@@ -78,6 +80,9 @@ const loginUser=async(req, res)=>{
             }
             else if(role==="customer"){
                 return res.status(400).json({ message: "You are not a customer" });
+            }
+            else if(role==="deliveryAgent"){
+                return res.status(400).json({ message: "You are not in logistics" });
             }
             else{
                 return res.status(400).json({ message: "You are not admin" });

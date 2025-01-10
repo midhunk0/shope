@@ -42,7 +42,7 @@ app.use("/", wishlistRouter);
 app.use("/", cartRouter);
 app.use("/", sellRouter);
 app.use("/", orderRouter);
-app.use("/", adminRouter);
+app.use("/admin/", adminRouter);
 
 const port=process.env.PORT;
 app.listen(port, ()=>{
