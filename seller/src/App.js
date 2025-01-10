@@ -23,7 +23,7 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard/>}>
                     <Route path="" element={<Navigate to="items"/>}/>
                     <Route path="items" element={<ItemsPage/>}/>
-                    <Route path="item" element={<ItemPage/>}/>
+                    <Route path="item/:itemId" element={<ItemPage/>}/>
                     <Route path="add" element={<Create/>}/>
                     <Route path="update/:itemId" element={<Update/>}/>
                     <Route path="transactions" element={<Transactions/>}/>
