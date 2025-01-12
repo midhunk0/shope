@@ -27,6 +27,7 @@
     flex-shrink: 0;
     scroll-snap-align: center; 
     cursor: pointer;
+    filter:hue-rotate();
 }
 
 .login-logo{

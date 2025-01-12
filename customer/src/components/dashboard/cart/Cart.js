@@ -101,7 +101,7 @@ export function Cart(){
             const result=await response.json();
             if(response.ok){
                 toast.success(result.message);
-                navigate("/dashboard/order");
+                navigate("/dashboard/orders");
             }
         }
         catch(error){

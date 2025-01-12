@@ -19,6 +19,7 @@ export function Orders(){
                     credentials: "include"
                 });
                 const result=await response.json();
+                console.log(result);
                 if(response.ok){
                     setOrders(result);
                     setLoading(false);

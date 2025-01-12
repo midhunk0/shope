@@ -22,7 +22,7 @@ const registerUser=async(req, res)=>{
         }
         if(role==="admin"){
             const admin=await User.find({ role: "admin" });
-            if(admin){
+            if(admin.length==1){
                 return res.status(400).json({ message: "there is already an admin. cannot register another one" });
             }
         }

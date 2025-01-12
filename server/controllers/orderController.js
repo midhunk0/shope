@@ -30,7 +30,7 @@ const makeOrder=async(req, res)=>{
                     if(seller){
                         seller.transactions.push({
                             customerId: userId,
-                            date: new Date(),
+                            // date: new Date(),
                             itemId: item.itemId, 
                             count: item.count,
                             status: "pending"
@@ -46,7 +46,7 @@ const makeOrder=async(req, res)=>{
         )
         order.orders.push({
             shippingAddress,
-            date: new Date(),
+            // date: new Date(),
             items: cart.items,
             total: cart.cost,
             status: "pending"
@@ -74,7 +74,7 @@ const fetchOrders=async(req, res)=>{
         if(!orders){
             return res.status(400).json({ message: "Orders list not found" });
         }
-        const sortedOrders=orders.orders.sort((a, b)=>new Date(b.date) - new Date(a.date));
+        const sortedOrders=orders.orders.sort((a, b)=>new Date(b.createdAt) - new Date(a.createdAt));
         const orderDetails=await Promise.all(
             sortedOrders.map(async (order)=>{
                 const orderItems=await Promise.all(
@@ -94,7 +94,7 @@ const fetchOrders=async(req, res)=>{
                     })
                 )
                 return{
-                    date: order.date,
+                    date: order.createdAt,
                     items: orderItems,
                     total: order.total,
                     status: order.status,
@@ -129,6 +129,7 @@ const fetchOrder=async(req, res)=>{
         const itemDetails=await Promise.all(
             order.items.map(async (item)=>{
                 const orderItem=await Item.findById(item.itemId);
+                // console.log(orderItem);
                 if(orderItem){
                     const imageUrls=orderItem.images.map((_, index)=>`${apiUrl}/fetchImage/${orderItem._id}/${index}`);
                     const rating=orderItem.ratings.length>0 ? orderItem.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/orderItem.ratings.length : 0;
@@ -137,6 +138,7 @@ const fetchOrder=async(req, res)=>{
                         ...itemWithImages,
                         imageUrls, 
                         rating,
+                        date: item.createdAt,
                         count: item.count,
                         reviewed: item.reviewed
                     } 

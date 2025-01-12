@@ -1,0 +1,8 @@
+.not-verified{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--dark-1);
+    color: var(--light-1);
+    height: calc(100vh - 72px);
+}

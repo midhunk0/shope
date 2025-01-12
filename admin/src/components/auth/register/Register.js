@@ -33,13 +33,14 @@ export function Register(){
     async function registerUser(e){
         e.preventDefault();
         try{
-            const response=await fetch(`${apiUrl}/admin/registerUser`, {
+            const response=await fetch(`${apiUrl}/registerUser`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(userData),
                 credentials: "include"
             });
             const result=await response.json();
+            console.log(result);
             if(response.ok){
                 toast.success(result.message);
                 navigate("/dashboard");

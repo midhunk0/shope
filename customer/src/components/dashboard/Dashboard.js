@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Topbar } from "../topbar/Topbar";
 import { useAuth } from "../../hooks/useAuth";
-
+import "./Dashboard.css";
 
 export function Dashboard(){
     useAuth();
@@ -28,15 +28,15 @@ export function Dashboard(){
         isVerified();
     }, isVerified)
 
-    if(verified===null){
-        return <div>Loading...</div>
-    }
     return(
         <div>
             <Topbar/>
-            <p>{isVerified}</p>
             {verified ? 
-                <Outlet/> : <h1>hello</h1>
+                <Outlet/> : (
+                    <div className="not-verified">
+                        <h2>{`You are not verified yet, wait for some times :)`}</h2>
+                    </div>
+                )
             }
         </div>
     )

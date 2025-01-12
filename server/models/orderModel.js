@@ -40,11 +40,11 @@ const orderDetailsSchema=new mongoose.Schema({
         type: shippingAddressSchema,
         required: true,
     },
-    date: {
-        type: Date,
-        default: Date.now,
-        required: true
-    },
+    // date: {
+    //     type: Date,
+    //     default: Date.now,
+    //     required: true
+    // },
     items: {
         type: [itemSchema],
         required: true
@@ -58,7 +58,7 @@ const orderDetailsSchema=new mongoose.Schema({
         enum: ["pending", "completed", "shipped", "cancelled"],
         default: "pending"
     }
-})
+}, { timestamps: true });
 
 const orderSchema=new mongoose.Schema({
     userId: {
@@ -69,7 +69,7 @@ const orderSchema=new mongoose.Schema({
         type: [orderDetailsSchema],
         required: true
     }
-}, { timestamps: true });
+});
 
 const Orders=mongoose.model("Orders", orderSchema);
 

@@ -20,6 +20,7 @@ export function Order(){
                     credentials: "include"
                 });
                 const result=await response.json();
+                console.log(result);
                 if(response.ok){
                     setOrder(result);
                     setLoading(false);
@@ -93,7 +94,8 @@ export function Order(){
                             ))}
                         </div>
                         <div className="order-other-details">
-                            <p>{new Date(order.date).toLocaleDateString()}</p>
+                            <p>{new Date(order.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</p>
+                            {/* <p>{new Date(order.createdAt).toLocaleDateString()}</p> */}
                             <p className={`status-${order.status}`}>{order.status}</p>
                             <p>Total: <span>${order.total}</span></p>
                         </div>
