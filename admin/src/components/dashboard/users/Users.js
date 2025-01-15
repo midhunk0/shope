@@ -5,6 +5,7 @@ import { trefoil } from "ldrs";
 
 export const Users=()=>{
     const [users, setUsers]=useState([]);
+    const [user, setUser]=useState();
     const [loading, setLoading]=useState(true);
     const apiUrl=process.env.REACT_APP_BACKEND_URL;
 
@@ -18,17 +19,56 @@ export const Users=()=>{
                     credentials: "include",
                 });
                 const result=await response.json();
-                if (response.ok) {
+                if(response.ok) {
                     setLoading(false);
                     setUsers(result.users);
                 }
             }
             catch(error){
-                console.error("Error fetching users:", error);
+                console.log("Error fetching users:", error);
             }
         };
         fetchUsers();
     }, []);
+
+    const toggleVerifyUser=async(userId)=>{
+        try{
+            const response=await fetch(`${apiUrl}/admin/toggleVerifyUser/${userId}`, {
+                method: "PUT",
+                credentials: "include"
+            });
+            const result=await response.json();
+            if(response.ok){
+                setUsers((prevUsers)=>
+                    prevUsers.map((user)=>
+                        user._id===userId ? {
+                            ...user, 
+                            verified: !user.verified
+                        } : user
+                    )
+                )
+            }
+        }
+        catch(error){
+            console.log("Error while toggle verification: ", error);
+        }
+    }
+
+    const fetchUser=async(userId)=>{
+        try{
+            const response=await fetch(`${apiUrl}/admin/fetchUser/${userId}`, {
+                method: "GET",
+                credentials: "include"
+            });
+            const result=await response.json();
+            if(response.ok){
+                setUser(result.user);
+            }
+        }
+        catch(error){
+            console.log("Error while fetching the user: ", error);
+        }
+    }
 
     return loading ? (
         <div className="loading">
@@ -47,25 +87,44 @@ export const Users=()=>{
             {users.length > 0 ? (
                 <>
                     <h1>Users</h1>
-                    <div className="users-tableContainer">
+                    <div className="users-details">
                         <table className="users-table">
                             <thead>
                                 <tr>
                                     <th>Username</th>
+                                    <th>Email</th>
                                     <th>Role</th>
                                     <th>Verified</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {users.map(user => (
-                                    <tr key={user._id}>
+                                {users.map(user=>(
+                                    <tr key={user._id} onClick={()=>fetchUser(user._id)}>
                                         <td>{user.username}</td>
+                                        <td>{user.email}</td>
                                         <td>{user.role}</td>
-                                        <td>{user.verified ? "Verified" : "Not Verified"}</td>
+                                        <td><button className={user.verified ? "remove" : "verify"} onClick={()=>toggleVerifyUser(user._id)}>{user.verified ? "Remove" : "Verify"}</button></td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
+                        {user ? (
+                            <div className="user-details">
+                                <p>{user.username}</p>
+                                <p>{user.email}</p>
+                                <p>{user.role}</p>
+                                <button 
+                                    className={user.verified ? "remove" : "verify"} 
+                                    onClick={()=>toggleVerifyUser(user._id)}
+                                >
+                                    {user.verified ? "Remove" : "Verify"}
+                                </button>
+                            </div>
+                        ):(
+                            <div className="user-empty">
+                                <p>nothing selected</p>
+                            </div>
+                        )}
                     </div>
                 </>
             ) : (

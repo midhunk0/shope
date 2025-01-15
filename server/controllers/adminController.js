@@ -1,3 +1,4 @@
+// @ts-nocheck
 const { returnUserId } = require("../helpers/authHelper");
 const User=require("../models/authModel");
 const Item = require("../models/itemModel");
@@ -102,7 +103,7 @@ const toggleVerifyUser=async(req, res)=>{
         }
         user.verified=!user.verified;
         await user.save();
-        return res.status(200).json({ message: `User ${!user.verified ? "not verified" : "verified"}`, user: user});    
+        return res.status(200).json({ message: `User ${!user.verified ? "not verified" : "verified"}`});    
     }
     catch(err){
         return res.status(500).json({ error: err.message });
@@ -143,11 +144,24 @@ const fetchTransactions=async(req, res)=>{
         if(!adminId){
             return res.status(400).json({ message: "admin not logged in" });
         }
-        const transactions=await Orders.find();
-        if(!transactions.length){
+        const allOrders=await Orders.find();
+        if(!allOrders.length){
             return res.sttus(400).json({ message: "There are no transactions" });
         }
-        return res.status(200).json({ message: "Transactions are fetched", transactions: transactions });
+        const transactions=await Promise.all(
+            allOrders.map(async (userOrders)=>{
+                const user=await User.findById(userOrders.userId);
+                console.log(user);
+                return userOrders.orders.map((order)=>({
+                    username: user.username,
+                    userId: userOrders.userId,
+                    orderId: order._id,
+                    status: order.status,
+                }))
+            })
+        )
+        const validTransactions=transactions.flat();
+        return res.status(200).json({ message: "Transactions are fetched", transactions: validTransactions });
     }
     catch(err){
         return res.status(500).json({ error: err.message });
