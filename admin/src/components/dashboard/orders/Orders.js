@@ -1,33 +1,33 @@
 // @ts-nocheck
 import React, { useEffect, useState } from "react";
-import "./Transactions.css";
+import "./Orders.css";
 import { trefoil } from "ldrs";
 
-export const Transactions=()=>{
-    const [transactions, setTransactions]=useState([]);
+export const Orders=()=>{
+    const [orders, setOrders]=useState([]);
     const [loading, setLoading]=useState(true);
     const apiUrl=process.env.REACT_APP_BACKEND_URL;
 
     trefoil.register();
 
     useEffect(()=>{
-        const fetchTransactions=async()=>{
+        const fetchOrders=async()=>{
             try{
-                const response=await fetch(`${apiUrl}/admin/fetchTransactions`, {
+                const response=await fetch(`${apiUrl}/admin/fetchOrders`, {
                     method: "GET",
                     credentials: "include"
                 });
                 const result=await response.json();
                 if(response.ok){
                     setLoading(false);
-                    setTransactions(result.transactions);
+                    setOrders(result.orders);
                 };
             }
             catch(error){
                 console.log("Error fetching transactions:", error);
             };
         };
-        fetchTransactions();
+        fetchOrders();
     }, []);
 
     return loading ? (
@@ -42,12 +42,12 @@ export const Transactions=()=>{
             ></l-trefoil>
         </div>
     ) : (
-        <div className="transactions">
-            {transactions.length>0 ? (
+        <div className="orders">
+            {orders.length>0 ? (
                 <>
-                    <h1>Transactions</h1>
-                    <div className="transactions-tableContainer">
-                        <table className="transactions-table">
+                    <h1>Orders</h1>
+                    <div className="orders-tableContainer">
+                        <table className="orders-table">
                             <thead>
                                 <tr>
                                     <th>Username</th>
@@ -56,7 +56,7 @@ export const Transactions=()=>{
                                 </tr>
                             </thead>
                             <tbody>
-                                {transactions.map(transaction=>(
+                                {orders.map(transaction=>(
                                     <tr key={transaction.orderId}>
                                         <td>{transaction.username}</td>
                                         <td>{transaction.orderId}</td>
@@ -68,8 +68,8 @@ export const Transactions=()=>{
                     </div>
                 </>
             ):( 
-                <div className="transactions-empty">
-                    <p>No transactions</p>
+                <div className="orders-empty">
+                    <p>No orders</p>
                 </div>
             )}
         </div>

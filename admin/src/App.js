@@ -8,8 +8,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { Dashboard } from './components/dashboard/Dashboard';
 import { Users } from './components/dashboard/users/Users';
 import { Home } from './components/dashboard/home/Home';
-import { Transactions } from './components/dashboard/transactions/Transactions';
+import { Orders } from './components/dashboard/orders/Orders';
 import { Account } from './components/dashboard/account/Account';
+import { Items } from './components/dashboard/items/Items';
 
 function App() {
     return (
@@ -21,7 +22,8 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard/>}>
                     <Route path="" element={<Home/>}/>
                     <Route path="users" element={<Users/>}/>
-                    <Route path="transactions" element={<Transactions/>}/>
+                    <Route path="items" element={<Items/>}/>
+                    <Route path="orders" element={<Orders/>}/>
                     <Route path="account" element={<Account/>}/>
                 </Route>
             </Routes>

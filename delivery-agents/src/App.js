@@ -6,6 +6,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { Login } from './components/auth/login/Login';
 import { Register } from './components/auth/register/Register';
 import { Dashboard } from './components/dashboard/Dashboard';
+import { Orders } from './components/dashboard/orders/Orders';
+import { Home } from './components/dashboard/home/Home';
+import { Account } from './components/dashboard/account/Account';
 
 function App() {
     return (
@@ -15,7 +18,9 @@ function App() {
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/dashboard" element={<Dashboard/>}>
-                
+                    <Route path="" element={<Home/>}/>
+                    <Route path="orders" element={<Orders/>}/>
+                    <Route path="account" element={<Account/>}/>
                 </Route>
             </Routes>
             <ToastContainer

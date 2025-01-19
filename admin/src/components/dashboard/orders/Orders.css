@@ -1,4 +1,4 @@
-.transactions{
+.orders{
     display: flex;
     flex-direction: column;
     padding: 20px 5%;
@@ -12,7 +12,7 @@ img{
     filter: invert(1);
 }
 
-.transactions-tableContainer{
+.orders-tableContainer{
     max-height: 100vh;
     overflow: auto;
     padding: 0;
@@ -20,14 +20,14 @@ img{
     border-radius: 8px;
 }
 
-.transactions-table{
+.orders-table{
     border-collapse: collapse;
     width: 100%;
     background: var(--dark-2);
     border-radius: 8px;
 }
 
-.transactions-table thead{
+.orders-table thead{
     position: sticky;
     top: 0px;
     z-index: 2;
@@ -36,7 +36,7 @@ img{
     border-top-right-radius: 8px;
 }
 
-.transactions-table th, .transactions-table td {
+.orders-table th, .orders-table td {
     padding: 16px;
     text-align: center;
     display: table-cell; 
@@ -46,12 +46,12 @@ img{
     text-overflow: ellipsis; 
 }
 
-.transactions-table th {
+.orders-table th {
     color: var(--light-1);
     font-weight: bold;
 }
 
-.transactions-selectionButton{
+.orders-selectionButton{
     display: flex;
     background: var(--dark-3);
     outline: none;
@@ -64,7 +64,7 @@ img{
     position: relative;
 }
 
-.transactions-tableOptions{
+.orders-tableOptions{
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -82,35 +82,35 @@ img{
     right: 140px;
 }
 
-.transactions-tableOptions button{
+.orders-tableOptions button{
     padding: 10px;
     outline: none;
     border: none;
     background: var(--light-1);
 }
 
-.transactions-tableOptions button:hover{
+.orders-tableOptions button:hover{
     background: var(--dark-1);
     color: var(--light-1);
 }
 
-.transactions-table tbody tr td {
+.orders-table tbody tr td {
     color: var(--light-3);
 }
 
-.transactions-table tbody tr:hover {
+.orders-table tbody tr:hover {
     background-color: var(--dark-1);
 }
 
-.transactions-table tbody tr td:nth-child(2){
+.orders-table tbody tr td:nth-child(2){
     text-transform: capitalize;
 }
 
-.transactions-table tbody tr:last-child td {
+.orders-table tbody tr:last-child td {
     border-bottom: none;
 }
 
-.transactions-empty{
+.orders-empty{
     display: flex;
     align-items: center;
     justify-content: center;

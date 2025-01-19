@@ -10,7 +10,7 @@ const fetchUsers=async(req, res)=>{
         if(!adminId){
             return res.status(400).json({ message: "admin not logged in" })
         }
-        const users=await User.find({ role: { $ne: "admin" }}).select("name username email role verified");
+        const users=await User.find({ role: { $ne: "admin" } }).select("name username email role verified");
         if(!users.length){
             return res.status(400).json({ message: "there is no users" });
         }
@@ -110,6 +110,68 @@ const toggleVerifyUser=async(req, res)=>{
     }
 }
 
+const fetchItems=async(req, res)=>{
+    try{
+        const adminId=await returnUserId(req, res);
+        if(!adminId){
+            return res.status(400).json({ message: "admin not logged in" });
+        }
+
+        const verifiedUserIds=await User.find({ verified: true }).distinct("_id");
+        if(!verifiedUserIds.length){
+            return res.status(400).json({ message: "No verified users found" });
+        }
+        
+        const items=await Item.find({ userId: { $in: verifiedUserIds } }).select("userId name type price pieceLeft verified");
+        if(!items.length){
+            return res.status(400).json({ message: "There are no items" });
+        }
+        const itemsDetails=await Promise.all(
+            items.map(async (item)=>{
+                const user=await User.findById(item.userId).select("username");
+                return{
+                    ...item.toObject(), 
+                    username: user.username
+                }
+            })
+        )
+        return res.status(200).json({ message: "Items are fetched", items: itemsDetails });
+    }
+    catch(err){
+        return res.status(500).json({ error: err.message });
+    }
+};
+
+const fetchItem=async(req, res)=>{
+    try{
+        const adminId=await returnUserId(req, res);
+        if(!adminId){
+            return res.status(400).json({ message: "admin not logged in" });
+        }
+        const apiUrl=process.env.API_URL;
+        const { itemId }=req.params;
+        const item=await Item.findById(itemId).select("userId name type price pieceLeft verified images");
+        if(!item){
+            return res.status(400).json({ message: "Item not found" });
+        }
+
+        const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${itemId}/${index}`);
+        const { images, ...itemData }=item.toObject();
+        const user=await User.findById(item.userId);
+        const itemWithImages={
+            ...itemData,
+            imageUrls,
+            username: user.username
+        }
+        return res.status(200).json({ message: "Item fetched", item: itemWithImages});
+
+        // return res.status(200).json({ message: "Item fetched", item: item });
+    }
+    catch(err){
+        return res.status(500).json({ error: err.message });
+    }
+};
+
 const toggleVerifyItem=async(req, res)=>{
     try{
         const adminId=await returnUserId(req, res);
@@ -138,7 +200,7 @@ const toggleVerifyItem=async(req, res)=>{
     }
 }
 
-const fetchTransactions=async(req, res)=>{
+const fetchOrders=async(req, res)=>{
     try{
         const adminId=await returnUserId(req, res);
         if(!adminId){
@@ -148,7 +210,7 @@ const fetchTransactions=async(req, res)=>{
         if(!allOrders.length){
             return res.sttus(400).json({ message: "There are no transactions" });
         }
-        const transactions=await Promise.all(
+        const orders=await Promise.all(
             allOrders.map(async (userOrders)=>{
                 const user=await User.findById(userOrders.userId);
                 console.log(user);
@@ -160,13 +222,13 @@ const fetchTransactions=async(req, res)=>{
                 }))
             })
         )
-        const validTransactions=transactions.flat();
-        return res.status(200).json({ message: "Transactions are fetched", transactions: validTransactions });
+        const validOrdes=orders.flat();
+        return res.status(200).json({ message: "Orders are fetched", orders: validOrdes });
     }
     catch(err){
         return res.status(500).json({ error: err.message });
     }
-}
+};
 
 module.exports={
     fetchUsers,
@@ -175,6 +237,8 @@ module.exports={
     fetchCustomers,
     fetchDeliveryAgents,
     toggleVerifyUser,
+    fetchItems,
+    fetchItem,
     toggleVerifyItem,
-    fetchTransactions
+    fetchOrders
 }

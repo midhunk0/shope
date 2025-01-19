@@ -46,7 +46,8 @@ export const Users=()=>{
                             verified: !user.verified
                         } : user
                     )
-                )
+                );
+                setUser({...user, verified: !user.verified});
             }
         }
         catch(error){
@@ -80,7 +81,7 @@ export const Users=()=>{
                 speed="1.4"
                 color="var(--red)"
             ></l-trefoil>
-            <p>Loading users...</p>
+            {/* <p>Loading users...</p> */}
         </div>
     ) : (
         <div className="users">
@@ -103,20 +104,20 @@ export const Users=()=>{
                                         <td>{user.username}</td>
                                         <td>{user.email}</td>
                                         <td>{user.role}</td>
-                                        <td><button className={user.verified ? "remove" : "verify"} onClick={()=>toggleVerifyUser(user._id)}>{user.verified ? "Remove" : "Verify"}</button></td>
+                                        <td><button className={user.verified ? "remove" : "verify"} onClick={()=>toggleVerifyUser(user._id)}>
+                                            {user.verified ? "Remove" : "Verify"}
+                                        </button></td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                         {user ? (
                             <div className="user-details">
+                                <img src="/images/profile.png" alt=""/>
                                 <p>{user.username}</p>
                                 <p>{user.email}</p>
                                 <p>{user.role}</p>
-                                <button 
-                                    className={user.verified ? "remove" : "verify"} 
-                                    onClick={()=>toggleVerifyUser(user._id)}
-                                >
+                                <button className={user.verified ? "remove" : "verify"} onClick={()=>toggleVerifyUser(user._id)}>
                                     {user.verified ? "Remove" : "Verify"}
                                 </button>
                             </div>

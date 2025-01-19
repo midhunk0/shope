@@ -5,9 +5,11 @@ const {
     fetchCustomers, 
     toggleVerifyUser, 
     toggleVerifyItem, 
-    fetchTransactions, 
+    fetchOrders, 
     fetchUser, 
-    fetchDeliveryAgents 
+    fetchDeliveryAgents, 
+    fetchItems,
+    fetchItem
 } = require("../controllers/adminController");
 const router=express.Router();
 
@@ -17,7 +19,9 @@ router.get("/fetchSellers", fetchSellers);
 router.get("/fetchCustomers", fetchCustomers);
 router.get("/fetchDeliveryAgents", fetchDeliveryAgents);
 router.put("/toggleVerifyUser/:userId", toggleVerifyUser);
+router.get("/fetchItems", fetchItems);
+router.get("/fetchItem/:itemId", fetchItem);
 router.put("/toggleVerifyItem/:userId/:itemId", toggleVerifyItem);
-router.get("/fetchTransactions", fetchTransactions);
+router.get("/fetchOrders", fetchOrders);
 
 module.exports=router;

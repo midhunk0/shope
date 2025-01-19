@@ -10,18 +10,13 @@ export function Topbar(){
         setClosed(!closed);
     }
 
-    function logoutUser(){
-
-    }
-
     return(
         <div className="topbar">
-            <h4><Link to="/dashboard" className={location.pathname==="/dashboard" ? "active" : ""}>Shope.</Link></h4>
+            <h4><Link to="/dashboard">Shope.</Link></h4>
             <div className="topbarOptions">
                 <h6><Link to="/dashboard" className={location.pathname==="/dashboard" ? "active" : ""}>Home</Link></h6>
-                <h6><Link to="/dashboard/users" className={location.pathname==="/dashboard/users" ? "active" : ""}>Users</Link></h6>
-                <h6><Link to="/dashboard/items" className={location.pathname==="/dashboard/items" ? "active" : ""}>Items</Link></h6>
                 <h6><Link to="/dashboard/orders" className={location.pathname==="/dashboard/orders" ? "active" : ""}>Orders</Link></h6>
+                {/* <h6><Link to="/dashboard/transactions" className={location.pathname==="/dashboard/transactions" ? "active" : ""}>Transactions</Link></h6> */}
                 <h6><Link to="/dashboard/account" className={location.pathname==="/dashboard/account" ? "active" : ""}>Account</Link></h6>
             </div>
             <div className="topbarDropdown" onClick={toggleDropdown}>
@@ -29,9 +24,8 @@ export function Topbar(){
                 {!closed ? (
                     <div className="dropdownOptions">
                         <h6><Link to="/dashboard" className={location.pathname==="/dashboard" ? "active" : ""}>Home</Link></h6>
-                        <h6><Link to="/dashboard/users" className={location.pathname==="/dashboard/users" ? "active" : ""}>Users</Link></h6>
-                        <h6><Link to="/dashboard/items" className={location.pathname==="/dashboard/items" ? "active" : ""}>Items</Link></h6>
                         <h6><Link to="/dashboard/orders" className={location.pathname==="/dashboard/orders" ? "active" : ""}>Orders</Link></h6>
+                        {/* <h6><Link to="/dashboard/transactions" className={location.pathname==="/dashboard/transactions" ? "active" : ""}>Transactions</Link></h6> */}
                         <h6><Link to="/dashboard/account" className={location.pathname==="/dashboard/account" ? "active" : ""}>Account</Link></h6>
                     </div>
                 ) : (
