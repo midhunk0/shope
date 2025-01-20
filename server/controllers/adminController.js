@@ -12,7 +12,7 @@ const fetchUsers=async(req, res)=>{
         }
         const users=await User.find({ role: { $ne: "admin" } }).select("name username email role verified");
         if(!users.length){
-            return res.status(400).json({ message: "there is no users" });
+            return res.status(400).json({ message: "There is no users" });
         }
         return res.status(200).json({ message: "Users fetched", users: users });
     }
@@ -117,11 +117,10 @@ const fetchItems=async(req, res)=>{
             return res.status(400).json({ message: "admin not logged in" });
         }
 
-        const verifiedUserIds=await User.find({ verified: true }).distinct("_id");
+        const verifiedUserIds=await User.find({ verified: true, role: "seller" }).distinct("_id");
         if(!verifiedUserIds.length){
             return res.status(400).json({ message: "No verified users found" });
         }
-        
         const items=await Item.find({ userId: { $in: verifiedUserIds } }).select("userId name type price pieceLeft verified");
         if(!items.length){
             return res.status(400).json({ message: "There are no items" });
@@ -164,8 +163,6 @@ const fetchItem=async(req, res)=>{
             username: user.username
         }
         return res.status(200).json({ message: "Item fetched", item: itemWithImages});
-
-        // return res.status(200).json({ message: "Item fetched", item: item });
     }
     catch(err){
         return res.status(500).json({ error: err.message });
@@ -208,17 +205,16 @@ const fetchOrders=async(req, res)=>{
         }
         const allOrders=await Orders.find();
         if(!allOrders.length){
-            return res.sttus(400).json({ message: "There are no transactions" });
+            return res.sttus(400).json({ message: "There are no orders" });
         }
         const orders=await Promise.all(
             allOrders.map(async (userOrders)=>{
                 const user=await User.findById(userOrders.userId);
                 console.log(user);
                 return userOrders.orders.map((order)=>({
+                    ...order.toObject(),
                     username: user.username,
-                    userId: userOrders.userId,
-                    orderId: order._id,
-                    status: order.status,
+                    userId: user._id
                 }))
             })
         )
@@ -230,6 +226,45 @@ const fetchOrders=async(req, res)=>{
     }
 };
 
+const fetchOrder=async(req, res)=>{
+    try{
+        const adminId=await returnUserId(req, res);
+        if(!adminId){
+            return res.status(400).json({ message: "admin not logged in" });
+        }
+        const apiUrl=process.env.API_URL;
+        const { userId, orderId }=req.params;
+
+        const user=await User.findById(userId);
+        if(!user){
+            return res.status(400).json({ message: "User not found" });
+        }
+        const ordersDetails=await Orders.findOne({ userId: userId });
+        if(!ordersDetails){
+            return res.status(400).json({ message: "Orders list not found" });
+        }
+        const order=ordersDetails.orders.find((order)=>order._id.toString()===orderId);
+        if(!order){
+            return res.status(400).json({ message: "Order not found" });
+        } 
+        const itemsDetails=await Promise.all(
+            order.items.map(async (item)=>{
+                const itemDetails=await Item.findById(item.itemId).select("userId name type price");
+                const seller=await User.findOne({ _id:  itemDetails.userId });
+                return{
+                    ...itemDetails.toObject(),
+                    count: item.count,
+                    username: seller.username
+                }
+            })
+        )
+        return res.status(200).json({ message: "Order fetched successfully", items: itemsDetails, username: user.username, status: order.status, total: order.total });
+    }
+    catch(err){
+        return res.status(500).json({ error: err.message });
+    }
+}
+
 module.exports={
     fetchUsers,
     fetchUser,
@@ -240,5 +275,6 @@ module.exports={
     fetchItems,
     fetchItem,
     toggleVerifyItem,
-    fetchOrders
+    fetchOrders,
+    fetchOrder
 }

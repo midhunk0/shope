@@ -9,7 +9,8 @@ const {
     fetchUser, 
     fetchDeliveryAgents, 
     fetchItems,
-    fetchItem
+    fetchItem,
+    fetchOrder
 } = require("../controllers/adminController");
 const router=express.Router();
 
@@ -23,5 +24,6 @@ router.get("/fetchItems", fetchItems);
 router.get("/fetchItem/:itemId", fetchItem);
 router.put("/toggleVerifyItem/:userId/:itemId", toggleVerifyItem);
 router.get("/fetchOrders", fetchOrders);
+router.get("/fetchOrder/:userId/:orderId", fetchOrder);
 
 module.exports=router;

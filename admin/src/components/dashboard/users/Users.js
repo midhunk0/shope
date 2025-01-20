@@ -7,6 +7,7 @@ export const Users=()=>{
     const [users, setUsers]=useState([]);
     const [user, setUser]=useState();
     const [loading, setLoading]=useState(true);
+    const [error, setError]=useState();
     const apiUrl=process.env.REACT_APP_BACKEND_URL;
 
     trefoil.register();
@@ -19,9 +20,14 @@ export const Users=()=>{
                     credentials: "include",
                 });
                 const result=await response.json();
-                if(response.ok) {
+                if(response){
                     setLoading(false);
+                }
+                if(response.ok) {
                     setUsers(result.users);
+                }
+                else{
+                    setError(result.message);
                 }
             }
             catch(error){
@@ -29,7 +35,7 @@ export const Users=()=>{
             }
         };
         fetchUsers();
-    }, []);
+    }, [apiUrl]);
 
     const toggleVerifyUser=async(userId)=>{
         try{
@@ -37,7 +43,6 @@ export const Users=()=>{
                 method: "PUT",
                 credentials: "include"
             });
-            const result=await response.json();
             if(response.ok){
                 setUsers((prevUsers)=>
                     prevUsers.map((user)=>
@@ -71,68 +76,71 @@ export const Users=()=>{
         }
     }
 
-    return loading ? (
-        <div className="loading">
-            <l-trefoil
-                size="50"
-                stroke="5"
-                stroke-length="0.15"
-                bg-opacity="0.1"
-                speed="1.4"
-                color="var(--red)"
-            ></l-trefoil>
-            {/* <p>Loading users...</p> */}
-        </div>
-    ) : (
+    if(loading){
+        return(
+            <div className="loading">
+                <l-trefoil
+                    size="50"
+                    stroke="5"
+                    stroke-length="0.15"
+                    bg-opacity="0.1"
+                    speed="1.4"
+                    color="var(--red)"
+                ></l-trefoil>
+            </div>
+        ) 
+    }
+
+    if(users.length===0){
+        return(
+            <div className="users-empty">
+                <p>{error}</p>
+            </div>
+        )
+    }
+
+    return(
         <div className="users">
-            {users.length > 0 ? (
-                <>
-                    <h1>Users</h1>
-                    <div className="users-details">
-                        <table className="users-table">
-                            <thead>
-                                <tr>
-                                    <th>Username</th>
-                                    <th>Email</th>
-                                    <th>Role</th>
-                                    <th>Verified</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {users.map(user=>(
-                                    <tr key={user._id} onClick={()=>fetchUser(user._id)}>
-                                        <td>{user.username}</td>
-                                        <td>{user.email}</td>
-                                        <td>{user.role}</td>
-                                        <td><button className={user.verified ? "remove" : "verify"} onClick={()=>toggleVerifyUser(user._id)}>
-                                            {user.verified ? "Remove" : "Verify"}
-                                        </button></td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        {user ? (
-                            <div className="user-details">
-                                <img src="/images/profile.png" alt=""/>
-                                <p>{user.username}</p>
-                                <p>{user.email}</p>
-                                <p>{user.role}</p>
-                                <button className={user.verified ? "remove" : "verify"} onClick={()=>toggleVerifyUser(user._id)}>
+            <h1>Users</h1>
+            <div className="users-details">
+                <table className="users-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Verified</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {users.map(user=>(
+                            <tr key={user._id} onClick={()=>fetchUser(user._id)}>
+                                <td>{user.username}</td>
+                                <td>{user.email}</td>
+                                <td>{user.role}</td>
+                                <td><button className={user.verified ? "remove" : "verify"} onClick={()=>toggleVerifyUser(user._id)}>
                                     {user.verified ? "Remove" : "Verify"}
-                                </button>
-                            </div>
-                        ):(
-                            <div className="user-empty">
-                                <p>nothing selected</p>
-                            </div>
-                        )}
+                                </button></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                {user ? (
+                    <div className="user-details">
+                        <img src="/images/profile.png" alt=""/>
+                        <p>{user.username}</p>
+                        <p>{user.email}</p>
+                        <p>{user.role}</p>
+                        <button className={user.verified ? "remove" : "verify"} onClick={()=>toggleVerifyUser(user._id)}>
+                            {user.verified ? "Remove" : "Verify"}
+                        </button>
                     </div>
-                </>
-            ) : (
-                <div className="users-empty">
-                    <p>No Users</p>
-                </div>
-            )}
+                ):(
+                    <div className="user-empty">
+                        <p>Nothing selected</p>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

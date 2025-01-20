@@ -7,20 +7,14 @@
     height: calc(100vh - 112px);
 }
 
-img{
-    width: 24px;
-    filter: invert(1);
-}
-
 .users-details{
     display: flex;
     gap: 20px;
-    overflow-x: scroll;
-    width: 100%;
+    overflow: auto;
+    margin-top: 16px;
 }
 
 .users-table{
-    margin-top: 16px;
     border-collapse: collapse;
     width: 100%;
     background: var(--dark-2);
@@ -28,21 +22,18 @@ img{
     height: fit-content;
 }
 
+.users-table thead{
+    position: sticky;
+    top: 0px;
+    background: var(--dark-3);
+}
+
 .users-table th, .users-table td {
     padding: 16px;
-    width: fit-content;
     text-align: center;
-    display: table-cell; 
-    vertical-align: middle; 
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; 
-}
-
-.users-table th {
-    color: var(--light-1);
-    background: var(--dark-3);
-    font-weight: bold;
 }
 
 .users-table th:first-child{
@@ -53,111 +44,44 @@ img{
     border-top-right-radius: 8px;
 }
 
-.users-selectionButton{
-    display: flex;
-    background: var(--dark-3);
-    outline: none;
-    border: none;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    cursor: pointer;
-    color: var(--light-1);
-    position: relative;
-}
-
-.users-tableOptions{
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    width: fit-content;
-    top: 57px;
-    outline: none;
-    border: none;
-}
-
-.rolesOptions{
-    left: 380px;
-}
-
-.verificationOptions{
-    right: 140px;
-}
-
-.users-tableOptions button{
-    padding: 10px;
-    outline: none;
-    border: none;
-    background: var(--light-1);
-}
-
-.users-tableOptions button:hover{
-    background: var(--dark-1);
-    color: var(--light-1);
-}
-
-.users-table tr td{
-    color: var(--light-3);
-}
-
-.users-table tr td .remove{
+.users-table tr td .remove,
+.users-table tr td .verify,
+.user-details .verify,
+.user-details .remove{
     padding: 8px;
     border: none;
     border-radius: 4px;
+    cursor: pointer;
+    color: var(--light-1);
+    min-width: 80px;
+}
+
+.users-table tr td .remove,
+.user-details .remove{
     background: var(--red);
-    cursor: pointer;
-    color: var(--light-1);
-    min-width: 80px;
 }
 
-.users-table tr td .verify{
-    padding: 8px;
-    border: none;
-    border-radius: 4px;
+.users-table tr td .verify,
+.user-details .verify{
     background: var(--green);
-    cursor: pointer;
-    color: var(--light-1);
-    min-width: 80px;
 }
 
 .users-table tr:hover {
     background-color: var(--dark-1);
 }
 
-.users-table tr td:nth-child(3){
-    text-transform: capitalize;
-}
-
-.users-table tr:last-child td {
-    border-bottom: none;
-}
-
-.users-empty{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: calc(100vh - 112px);
-    background: var(--dark-1);
-    color: var(--light-1);
-    width: 100%;
-}
-
 .user-details, .user-empty{
     padding: 16px;
     background: var(--dark-2);
-    margin-top: 16px;
     border-radius: 8px;
     width: 30%;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    display: flex;
     height: fit-content;
 }
 
-.user-details img {
-    display: block;
-    margin: 0 auto;
+.user-details img{
     filter: grayscale(1);
     width: 100%;
     border-radius: 8px;
@@ -169,24 +93,14 @@ img{
     border-radius: 4px;
 }
 
-.user-details .remove{
-    padding: 8px;
-    border: none;
-    border-radius: 4px;
-    background: var(--red);
-    cursor: pointer;
+.users-empty{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 112px);
+    background: var(--dark-1);
     color: var(--light-1);
-    min-width: 80px;
-}
-
-.user-details .verify{
-    padding: 8px;
-    border: none;
-    border-radius: 4px;
-    background: var(--green);
-    cursor: pointer;
-    color: var(--light-1);
-    min-width: 80px;
+    width: 100%;
 }
 
 @media(max-width: 992px){
