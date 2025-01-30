@@ -210,7 +210,6 @@ const fetchOrders=async(req, res)=>{
         const orders=await Promise.all(
             allOrders.map(async (userOrders)=>{
                 const user=await User.findById(userOrders.userId);
-                console.log(user);
                 return userOrders.orders.map((order)=>({
                     ...order.toObject(),
                     username: user.username,
@@ -263,7 +262,68 @@ const fetchOrder=async(req, res)=>{
     catch(err){
         return res.status(500).json({ error: err.message });
     }
-}
+};
+
+const usersCount=async(req, res)=>{
+    try{
+        const adminId=await returnUserId(req, res);
+        if(!adminId){
+            return res.status(400).json({ message: "admin not logged in" });
+        }
+        const users=await User.aggregate([{
+            $group: {
+                _id: "$role",
+                count: { $sum: 1 }
+            }
+        }])
+        if(!users.length){
+            return res.status(400).json({ message: "No users" });
+        }
+        const usersCountByRole=users.filter(userType=>userType._id!=="admin").map(userType=>({
+            role: userType._id,
+            count: userType.count
+        }))
+        return res.status(200).json({ users: usersCountByRole });
+    }
+    catch(err){
+        return res.status(500).json({ error: err.message });
+    }
+};
+
+const ordersPerMonth = async (req, res) => {
+    try {
+        const adminId = await returnUserId(req, res);
+        if (!adminId) {
+            return res.status(400).json({ message: "Admin not logged in" });
+        }
+
+        const allOrders = await Orders.find();
+        if (!allOrders.length) {
+            return res.status(400).json({ message: "There are no orders" });
+        }
+
+        const orders = allOrders.flatMap((userOrders) =>
+            userOrders.orders.map((order) => ({
+                createdAt: order.createdAt,
+            }))
+        );
+
+        // Object to store orders count per month
+        const ordersCountPerMonth = {};
+
+        orders.forEach((order) => {
+            const date = new Date(order.createdAt);
+            const monthYear = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`; // Format: YYYY-MM
+
+            ordersCountPerMonth[monthYear] = (ordersCountPerMonth[monthYear] || 0) + 1;
+        });
+
+        return res.status(200).json({ ordersPerMonth: ordersCountPerMonth });
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+};
+
 
 module.exports={
     fetchUsers,
@@ -276,5 +336,7 @@ module.exports={
     fetchItem,
     toggleVerifyItem,
     fetchOrders,
-    fetchOrder
+    fetchOrder,
+    usersCount,
+    ordersPerMonth
 }
