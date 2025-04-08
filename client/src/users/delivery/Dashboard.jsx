@@ -10,7 +10,7 @@ export function DeliveryDashboard(){
     useAuth();
     const location=useLocation();
     const [verified, setVerified]=useState(null);
-    const apiUrl=import.meta.env.VITE_APP_DEV_URL;
+    const apiUrl=import.meta.env.VITE_APP_API_URL;
     const excludedPage=["/delivery/dashboard/account"];
     const isVerified=useCallback(async()=>{
         try{

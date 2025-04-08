@@ -9,7 +9,7 @@ export function Order(){
     const [order, setOrder]=useState();
     const [loading, setLoading]=useState(true);
     const { orderId }=useParams();
-    const apiUrl=import.meta.env.VITE_APP_DEV_URL;
+    const apiUrl=import.meta.env.VITE_APP_API_URL;
     trefoil.register();
     const navigate=useNavigate();
 

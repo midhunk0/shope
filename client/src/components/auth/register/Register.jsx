@@ -6,7 +6,7 @@ import { toast } from "react-toastify"
 
 export function Register({ role }){
     const navigate=useNavigate();
-    const apiUrl=import.meta.env.VITE_APP_DEV_URL;
+    const apiUrl=import.meta.env.VITE_APP_API_URL;
     
     const [registerData, setRegisterData]=useState({
         username: "",

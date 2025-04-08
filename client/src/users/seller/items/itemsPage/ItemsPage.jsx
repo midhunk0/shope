@@ -14,7 +14,7 @@ export function ItemsPage(){
     const [searchItem, setSearchItem]=useState("");
     const [filteredItems, setFilteredItems]=useState([]);
     const [loading, setLoading]=useState(true);
-    const apiUrl=import.meta.env.VITE_APP_DEV_URL;
+    const apiUrl=import.meta.env.VITE_APP_API_URL;
     const navigate=useNavigate();
 
     async function fetchSellItems(){

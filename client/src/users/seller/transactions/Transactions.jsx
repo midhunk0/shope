@@ -6,7 +6,7 @@ import { trefoil } from "ldrs";
 export function Transactions(){
     const [transactions, setTransactions]=useState({});
     const [loading, setLoading]=useState(true);
-    const apiUrl=import.meta.env.VITE_APP_DEV_URL;
+    const apiUrl=import.meta.env.VITE_APP_API_URL;
     trefoil.register();
 
     useEffect(()=>{

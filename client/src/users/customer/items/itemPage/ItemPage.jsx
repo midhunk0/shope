@@ -10,7 +10,7 @@ export function ItemPage(){
     const [item, setItem]=useState(null);
     const navigate=useNavigate();
     const { itemId }=useParams();
-    const apiUrl=import.meta.env.VITE_APP_DEV_URL;
+    const apiUrl=import.meta.env.VITE_APP_API_URL;
 
     async function fetchSellItem(){
         try{

@@ -8,7 +8,7 @@ export const Items=()=>{
     const [item, setItem]=useState();
     const [loading, setLoading]=useState(true);
     const [error, setError]=useState();
-    const apiUrl=import.meta.env.VITE_APP_DEV_URL;
+    const apiUrl=import.meta.env.VITE_APP_API_URL;
 
     trefoil.register();
 

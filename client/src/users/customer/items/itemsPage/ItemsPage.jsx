@@ -25,7 +25,7 @@ export function ItemsPage(){
     const [priceRange, setPriceRange]=useState([0, 10000]);
     const [priceLimits, setPriceLimits]=useState(null);
     const [order, setOrder]=useState("increase");
-    const apiUrl=import.meta.env.VITE_APP_DEV_URL;
+    const apiUrl=import.meta.env.VITE_APP_API_URL;
     
     async function fetchSellItems(){
         try{

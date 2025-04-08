@@ -15,7 +15,7 @@ export function Home(){
         "/images/google.jpg",
         "/images/nothing.jpeg",
     ];
-    const apiUrl=import.meta.env.VITE_APP_DEV_URL;
+    const apiUrl=import.meta.env.VITE_APP_API_URL;
 
     async function fetchItems(){
         try{

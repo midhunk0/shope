@@ -8,7 +8,7 @@ import { trefoil } from "ldrs";
 export function Orders(){
     const [orders, setOrders]=useState({});
     const [loading, setLoading]=useState(true);
-    const apiUrl=import.meta.env.VITE_APP_DEV_URL;
+    const apiUrl=import.meta.env.VITE_APP_API_URL;
     const navigate=useNavigate();
     trefoil.register();
 

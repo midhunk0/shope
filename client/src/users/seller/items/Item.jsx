@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 export function Item({ item, onClick }){
     const navigate=useNavigate();
-    const apiUrl=import.meta.env.VITE_APP_DEV_URL;
+    const apiUrl=import.meta.env.VITE_APP_API_URL;
 
     function updateItem(e, itemId){
         e.stopPropagation();

@@ -21,7 +21,7 @@ export const Home=()=>{
         datasets: []
     })
 
-    const apiUrl=import.meta.env.VITE_APP_DEV_URL;
+    const apiUrl=import.meta.env.VITE_APP_API_URL;
     useEffect(()=>{
         const fetchRolesData=async()=>{
             try{

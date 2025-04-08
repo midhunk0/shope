@@ -11,7 +11,7 @@ export function Wishlist(){
     const [wishlistItems, setWishlistItems]=useState([]);
     const [searchItem, setSearchItem]=useState("");
     const [filteredItems, setFilteredItems]=useState([]);
-    const apiUrl=import.meta.env.VITE_APP_DEV_URL;
+    const apiUrl=import.meta.env.VITE_APP_API_URL;
 
     async function fetchWishlistItems(){
         try{
