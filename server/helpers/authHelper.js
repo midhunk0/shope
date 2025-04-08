@@ -12,7 +12,7 @@ async function returnUserId(req, res){
     }
     catch(err){
         return null;
-    }
+    } 
 }
 
 module.exports={

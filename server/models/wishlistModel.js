@@ -1,7 +1,7 @@
 const mongoose=require("mongoose");
 
 const wishlistSchema=new mongoose.Schema({
-    userId: {
+    customerId: {
         type: String,
         required: true
     },
@@ -12,7 +12,4 @@ const wishlistSchema=new mongoose.Schema({
 }, { timestamps: true });
 
 const Wishlist=mongoose.model("Wishlist", wishlistSchema);
-
 module.exports=Wishlist;
-
-

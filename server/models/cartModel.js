@@ -14,7 +14,7 @@ const itemSchema=new mongoose.Schema({
 }, { _id: false });
 
 const cartSchema=new mongoose.Schema({
-    userId: {
+    customerId: {
         type: String,
         required: true
     },
@@ -30,5 +30,4 @@ const cartSchema=new mongoose.Schema({
 }, { timestamps: true });
 
 const Cart=mongoose.model("Cart", cartSchema);
-
 module.exports=Cart;

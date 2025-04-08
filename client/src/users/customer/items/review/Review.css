@@ -1,0 +1,77 @@
+.customer-review{
+    display: flex;
+    flex-direction: column;
+    padding: 20px 5%;
+    background: var(--dark-1);
+    color: var(--light-1);
+    min-height: calc(100vh - 112px);
+}
+
+.customer-review-details{
+    display: flex;
+    gap: 20px;
+}
+
+.customer-review-item{
+    max-width: calc((100% - 40px)/3);
+}
+
+.customer-review-form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.customer-review-form form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+}
+
+.customer-review-form-rating{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.customer-review-form-rating-icons{
+    display: flex;
+    align-items: center;
+}
+
+.customer-review-form-review{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: 10px;
+}
+
+.customer-review-form-review textarea{
+    padding: 8px;
+    min-height: 100px;
+    max-height: 300px;
+    overflow-y: hidden;
+    resize: vertical;
+    border: none;
+    border-radius: 8px;
+}
+
+.customer-review-form-review textarea:focus{
+    outline: 1px solid var(--red);
+}
+
+.customer-review-form button{
+    padding: 16px;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    width: 50%;
+    background: var(--red);
+    color: var(--light-1);
+}
+
+.customer-review-form button:hover{
+    background: var(--light-1);
+    color: var(--dark-1);
+}

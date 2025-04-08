@@ -1,16 +1,16 @@
 // @ts-nocheck
 const { returnUserId }=require("../helpers/authHelper");
-const User=require("../models/authModel");
+const User=require("../models/userModel");
 const Item=require("../models/itemModel");
 
 const fetchImage=async(req, res)=>{
     try {
-        const { id, imageIndex }=req.params;
+        const { itemId, imageIndex }=req.params;
         const index=parseInt(imageIndex);
         if(isNaN(index) || index<0){
             return res.status(400).json({ message: "Invalid image index." });
         }
-        const item=await Item.findById(id);
+        const item=await Item.findById(itemId);
         if(!item){
             return res.status(404).json({ message: "Item not found." });
         }
@@ -34,13 +34,13 @@ const fetchItem=async(req, res)=>{
         if(!item){
             return res.status(400).json({ message: "Item not found" });
         }
-        const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${itemId}/${index}`);
+        // const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${itemId}/${index}`);
         const rating=item.ratings.length>0 ? item.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/item.ratings.length : 0;
         const { images, ratings, ...itemData }=item.toObject();
         const itemWithImages={
             ...itemData,
             rating,
-            imageUrls
+            // imageUrls
         }
         return res.status(200).json(itemWithImages);
     }
@@ -52,27 +52,27 @@ const fetchItem=async(req, res)=>{
 const fetchItems=async(req, res)=>{
     try{
         const apiUrl=process.env.API_URL;
-        const userId=await returnUserId(req, res);
-        const user=await User.findById(userId);
-        if(!user){
-            return res.status(400).json({ message: "No user found" });
+        const customerId=await returnUserId(req, res);
+        const customer=await User.findById(customerId);
+        if(!customer){
+            return res.status(400).json({ message: "Customer not found" });
         }
-        const items=((await Item.find({ pieceLeft: { $gt: 0 }}).sort({ updatedAt: -1 })));
-        const userIds=[...new Set(items.map(item=>item.userId))];
-        const users=await User.find({ _id: { $in: userIds }}).select("_id name");
-        const userMap=users.reduce((acc, user)=>{
-            acc[user._id]=user.name;
+        const items=await Item.find({ pieceLeft: { $gt: 0 }, verified: true}).sort({ updatedAt: -1 });
+        const sellerIds=[...new Set(items.map(item=>item.sellerId))];
+        const sellers=await User.find({ _id: { $in: sellerIds }}).select("_id name");
+        const sellerMap=sellers.reduce((acc, seller)=>{
+            acc[seller._id]=seller.name;
             return acc;
         }, {});
         const itemsWithImages=items.map((item)=>{
-            const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${item._id}/${index}`);
+            // const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${item._id}/${index}`);
             const rating=item.ratings.length>0 ? item.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/item.ratings.length : 0;
             const { images, ratings, ...itemWithImages }=item.toObject();
             return{
                 ...itemWithImages,
-                imageUrls, 
+                // imageUrls, 
                 rating,
-                brand: userMap[item.userId]
+                brand: sellerMap[item.sellerId]
             };
         });
         return res.status(200).json(itemsWithImages);

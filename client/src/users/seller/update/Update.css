@@ -1,0 +1,64 @@
+.seller-updatePage{
+    display: flex;
+    padding: 20px 5%;
+    color: var(--light-1);
+    background: var(--dark-1);
+    min-height: calc(100vh - 112px);
+}
+
+.seller-updatePage form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.seller-updateButtons{
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 20px;
+}
+
+.seller-updateButtons button{
+    padding: 14px 20px;
+    font-size: medium;
+    background: var(--dark-2);
+    color: var(--light-1);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.seller-updateInputs{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 20%;
+}
+
+.seller-updateInputBlock{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.seller-updateInputBlock input{
+    padding: 16px;
+    border: none;
+    outline: none;
+    background: var(--dark-2);
+    border-radius: 8px;
+    color: var(--light-1);
+}
+
+@media(max-width: 1024px){
+    .seller-updateInputs{
+        padding: 0;
+    }
+}
+
+
+@media(max-width: 768px){
+    .seller-updatePage{
+        padding: 20px;
+    }
+}

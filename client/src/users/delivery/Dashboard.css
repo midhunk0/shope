@@ -1,0 +1,12 @@
+.dashboard{
+    background: var(--dark-1);
+    height: 100vh;
+}
+
+.not-verified{
+    display: grid;
+    place-items: center;
+    height: calc(100vh - 72px);
+    background-color: var(--dark-1);
+    color: var(--light-1);
+}

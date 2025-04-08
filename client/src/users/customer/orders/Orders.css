@@ -1,0 +1,243 @@
+.customer-orders{
+    display: flex;
+    flex-direction: column;
+    padding: 20px 5%;
+    background: var(--dark-1);
+    color: var(--light-1);
+    height: calc(100vh - 72px);
+}
+
+.customer-orders h1{
+    margin-bottom: 20px;
+}
+
+.customer-orders-details{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.customer-orders-order-details{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 8px;
+    background: var(--dark-2);
+    cursor: pointer;
+}
+
+.customer-orders-order-items{
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.customer-orders-order-item{
+    display: flex;
+    text-transform: capitalize;
+    background: var(--dark-1);
+    border-radius: 8px;
+}
+
+.customer-orders-order-item-images{
+    width: 40%;
+    display: flex;
+    gap: 20px;
+    overflow-x: auto; 
+    background: var(--dark-2);
+    scroll-snap-type: x mandatory; 
+    scroll-padding: 0 ; 
+    scroll-behavior: smooth;
+    border-radius: 8px;
+}
+
+.customer-orders-order-item-images img{
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    scroll-snap-align: center; 
+    aspect-ratio: 1/1;
+    object-fit: contain;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.customer-orders-order-item-details{
+    width: 60%;
+    display: flex;
+    padding: 20px;
+    justify-content: space-between;
+}
+
+.customer-orders-order-item-first{
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    width: 60%;
+}
+
+.customer-orders-order-item-first h3{
+    font-size: x-large;
+    color: var(--green);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.customer-orders-order-item-first h4{
+    font-size: larger;
+    color: var(--green);
+}
+
+.customer-orders-order-item-first p{
+    color: var(--light-3);
+}
+
+.customer-orders-order-item-ratings{
+    display: flex;
+}
+
+.customer-orders-order-item-ratings img{
+    width: 24px;
+    height: 24px;
+}
+
+.customer-orders-order-item-second{
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    text-align: right;
+    width: 40%;
+}
+
+.customer-orders-order-item-second p{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.customer-status-completed{
+    color: var(--green);
+}
+
+.customer-status-pending{
+    color: var(--yellow);
+}
+
+.customer-orders-order-other-details{
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+    gap: 10px;
+    text-transform: capitalize;
+    text-align: right;
+    width: 30%;
+}
+
+.customer-orders-order-other-details span{
+    color: var(--green);
+}
+
+.customer-orders-order-other-details p{
+    font-size: medium;
+}
+
+.customer-orders-order-other-details p:last-child{
+    font-size: x-large;
+}
+
+.customer-orders-empty{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 112px);
+    background: var(--dark-1);
+    color: var(--light-1);
+    width: 100%;
+}
+
+@media(max-width: 1200px){
+    .customer-orders-order-items{
+        width: 70%;
+    }
+}
+
+@media(max-width: 992px){
+    .customer-orders{
+        padding: 20px;
+    }
+}
+
+@media(max-width: 768px){
+    .customer-orders-order-items{
+        width: 70%;
+    }
+
+    .customer-orders-order-item{
+        flex-direction: column;
+        width: 80%;
+    }
+
+    .customer-orders-order-item-images{
+        width: 100%;
+    }
+
+    .customer-orders-order-item-details{
+        width: calc(100% - 40px);
+    }
+}
+
+@media(max-width: 576px){
+    .customer-orders-order-details{
+        flex-direction: column-reverse;
+    }
+
+    .customer-orders-order-items{
+        width: 100%;
+    }
+
+    .customer-orders-order-item{
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .customer-orders-order-item-images{
+        width: 40%;
+        display: none;
+    }
+
+    .customer-orders-order-item-details{
+        width: 100%;
+    }
+
+    .customer-orders-order-other-details{
+        width: 100%;
+        padding: 0;
+        padding-bottom: 20px;
+        text-align: left;
+    }
+}
+
+@media(max-width: 384px){
+    .customer-orders-order-item-details{
+        flex-direction: column;
+    }
+
+    .customer-orders-order-item-first{
+        width: 100%;
+    }
+
+    .customer-orders-order-item-ratings{
+        display: none;
+    }
+
+    .customer-orders-order-item-second{
+        margin-top: 10px;
+        width: 100%;
+        text-align: left;
+    }
+}

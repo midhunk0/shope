@@ -1,0 +1,143 @@
+.admin-items{
+    display: flex;
+    flex-direction: column;
+    padding: 20px 5%;
+    background: var(--dark-1);
+    color: var(--light-1);
+    height: calc(100vh - 112px);
+}
+
+.admin-items-details{
+    display: flex;
+    gap: 20px;
+    overflow-x: scroll;
+    margin-top: 16px;
+}
+
+.admin-items-table{
+    border-collapse: collapse;
+    width: 100%;
+    background: var(--dark-2);
+    border-radius: 8px;
+    height: fit-content;
+}
+
+.admin-items-table thead {
+    position: sticky;
+    top: 0px;
+    background: var(--dark-3);
+}
+
+.admin-items-table th, .admin-items-table td {
+    padding: 16px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.admin-items-table tbody tr{
+    cursor: pointer;
+}
+
+.admin-items-table th:first-child{
+    border-top-left-radius: 8px;
+}
+
+.admin-items-table th:last-child{
+    border-top-right-radius: 8px;
+}
+
+.admin-items-table tr td .remove, 
+.admin-items-table tr td .verify, 
+.admin-item-details .remove, 
+.admin-item-details .verify{
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--light-1);
+    min-width: 80px;
+}
+
+.admin-items-table tr td .remove, 
+.admin-item-details .remove{
+    background: var(--red);
+}
+
+.admin-items-table tr td .verify, 
+.admin-item-details .verify{
+    background: var(--green);
+}
+
+.admin-items-table tbody tr:hover {
+    background-color: var(--dark-1);
+}
+
+.admin-item-details, .admin-item-empty{
+    padding: 16px;
+    background: var(--dark-2);
+    border-radius: 8px;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: fit-content;
+}
+
+.admin-item-images{
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    overflow-x: auto; 
+    scroll-snap-type: x mandatory; 
+    scroll-padding: 0 ; 
+    scroll-behavior: smooth;
+    border-radius: 8px;
+}
+
+.admin-item-images img{
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    scroll-snap-align: center; 
+    aspect-ratio: 1/1;
+    filter: none;
+    object-fit: contain;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.admin-item-details p{
+    padding: 10px;
+    background: var(--dark-3);
+    border-radius: 4px;
+}
+
+.admin-items-empty{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 72px);
+    background: var(--dark-1);
+    color: var(--light-1);
+    width: 100%;
+}
+
+.admin-items-empty p{
+    text-transform: capitalize;
+}
+
+@media(max-width: 992px){
+    .admin-items{
+        padding: 20px;
+    }
+
+    .admin-item-details, .admin-item-empty{
+        display: none;
+    }
+}
+
+

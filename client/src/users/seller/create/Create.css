@@ -1,0 +1,123 @@
+.seller-create{
+    display: flex;
+    padding: 20px 5%;
+    color: var(--light-1);
+    background: var(--dark-1);
+    min-height: calc(100vh - 112px);
+}
+
+.seller-create form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.seller-createButtons{
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 20px;
+}
+
+.seller-createButtons button{
+    padding: 14px 20px;
+    font-size: medium;
+    background: var(--dark-2);
+    color: var(--light-1);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.seller-createInputs{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 20%;
+}
+
+.seller-inputBlock{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.seller-inputBlock input{
+    padding: 16px;
+    border: none;
+    background: var(--dark-2);
+    border-radius: 8px;
+    outline: none;
+    color: var(--light-1);
+}
+
+.seller-inputBlock input:focus{
+    outline: 1px solid var(--red);
+}
+
+.seller-uploads{
+    text-transform: capitalize;
+}
+
+.seller-dropArea{
+    margin-top: 4px;
+    background-color: var(--dark-2);
+    border-radius: 8px;
+    padding: 12px;
+    position: relative;
+    height: 100px;
+}
+
+.seller-uploads input{
+    display: none;
+}
+
+.seller-uploads label{
+    cursor: pointer;
+    position: absolute;
+    bottom: 12px;
+    padding: 14px 20px;
+    background-color: var(--dark-1);
+    color: var(--light-1);
+    border-radius: 8px;
+}
+
+.seller-fileList{
+    display: flex;
+    margin-top: 12px;
+    gap: 12px;
+    max-width: 100%;
+    flex-wrap: wrap;
+}
+
+.seller-fileItem{
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    background-color: var(--dark-2);
+    padding: 13px 20px;
+    border-radius: 8px;
+}
+
+.seller-fileItem p{
+    width: 100%;
+}
+
+.seller-fileItem img{
+    width: 24px;
+    height: 24px;
+    margin-left: 12px;
+    cursor: pointer;
+}
+
+@media(max-width: 1200px){
+    .seller-createInputs{
+        padding: 0;
+    }
+}
+
+
+@media(max-width: 992px){
+    .seller-create{
+        padding: 20px;
+    }
+}

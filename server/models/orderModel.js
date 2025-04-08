@@ -57,11 +57,15 @@ const orderDetailsSchema=new mongoose.Schema({
         type: String,
         enum: ["pending", "completed", "shipped", "cancelled"],
         default: "pending"
-    }
+    },
+    deliveryAgentId: {
+        type: String,
+        default: null
+    },
 }, { timestamps: true });
 
 const orderSchema=new mongoose.Schema({
-    userId: {
+    customerId: {
         type: String, 
         required: true
     },
@@ -71,6 +75,5 @@ const orderSchema=new mongoose.Schema({
     }
 });
 
-const Orders=mongoose.model("Orders", orderSchema);
-
-module.exports=Orders;
+const Order=mongoose.model("Order", orderSchema);
+module.exports=Order;

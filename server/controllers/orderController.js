@@ -1,23 +1,23 @@
 // @ts-nocheck
 const Cart=require("../models/cartModel");
-const User=require("../models/authModel");
-const Orders=require("../models/orderModel");
+const User=require("../models/userModel");
+const Order=require("../models/orderModel");
 const Item=require("../models/itemModel");
 const Sell=require("../models/sellModel");
 const { returnUserId }=require("../helpers/authHelper");
 
 const makeOrder=async(req, res)=>{
     try{
-        const userId=await returnUserId(req, res);
-        const user=await User.findById(userId);
-        if(!user){
-            return res.status(400).json({ message: "User not found" });
+        const customerId=await returnUserId(req, res);
+        const customer=await User.findById(customerId);
+        if(!customer){
+            return res.status(400).json({ message: "Customer not found" });
         }
-        const cart=await Cart.findOne({ userId: userId });
+        const cart=await Cart.findOne({ customerId: customerId });
         if(!cart){
             return res.status(400).json({ message: "No cart found" });
         }
-        const order=await Orders.findOne({ userId: userId });
+        const order=await Order.findOne({ customerId: customerId });
         if(!order){
             return res.status(400).json({ message: "Orders list not found" });
         }
@@ -26,10 +26,10 @@ const makeOrder=async(req, res)=>{
             cart.items.map(async (item)=>{
                 const cartItem=await Item.findById(item.itemId);
                 if(cartItem){
-                    const seller=await Sell.findOne({ userId: cartItem.userId });
+                    const seller=await Sell.findOne({ sellerId: cartItem.sellerId });
                     if(seller){
                         seller.transactions.push({
-                            customerId: userId,
+                            customerId: customerId,
                             // date: new Date(),
                             itemId: item.itemId, 
                             count: item.count,
@@ -65,12 +65,12 @@ const makeOrder=async(req, res)=>{
 const fetchOrders=async(req, res)=>{
     try{
         const apiUrl=process.env.API_URL;
-        const userId=await returnUserId(req, res);
-        const user=await User.findById(userId);
-        if(!user){
-            return res.status(400).json({ message: "User not found" });
+        const customerId=await returnUserId(req, res);
+        const customer=await User.findById(customerId);
+        if(!customer){
+            return res.status(400).json({ message: "Customer not found" });
         }
-        const orders=await Orders.findOne({ userId: userId });
+        const orders=await Order.findOne({ customerId: customerId });
         if(!orders){
             return res.status(400).json({ message: "Orders list not found" });
         }
@@ -81,12 +81,12 @@ const fetchOrders=async(req, res)=>{
                     order.items.map(async (item)=>{
                         const orderItem=await Item.findById(item.itemId);
                         if(orderItem){
-                            const imageUrls=orderItem.images.map((_, index)=>`${apiUrl}/fetchImage/${orderItem._id}/${index}`);
+                            // const imageUrls=orderItem.images.map((_, index)=>`${apiUrl}/fetchImage/${orderItem._id}/${index}`);
                             const rating=orderItem.ratings.length>0 ? orderItem.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/orderItem.ratings.length : 0;
                             const { images, ratings, ...itemWithImages }=orderItem.toObject();
                             return{
                                 ...itemWithImages,
-                                imageUrls, 
+                                // imageUrls, 
                                 rating,
                                 count: item.count
                             };
@@ -112,12 +112,12 @@ const fetchOrders=async(req, res)=>{
 const fetchOrder=async(req, res)=>{
     try{
         const apiUrl=process.env.API_URL;
-        const userId=await returnUserId(req, res);
-        const user=await User.findById(userId);
-        if(!user){
+        const customerId=await returnUserId(req, res);
+        const customer=await User.findById(customerId);
+        if(!customer){
             return res.status(400).json({ message: "User not found" });
         }
-        const orders=await Orders.findOne({ userId: userId });
+        const orders=await Order.findOne({ customerId: customerId });
         if(!orders){
             return res.status(400).json({ message: "Orders list not found" });
         } 
@@ -129,14 +129,13 @@ const fetchOrder=async(req, res)=>{
         const itemDetails=await Promise.all(
             order.items.map(async (item)=>{
                 const orderItem=await Item.findById(item.itemId);
-                // console.log(orderItem);
                 if(orderItem){
-                    const imageUrls=orderItem.images.map((_, index)=>`${apiUrl}/fetchImage/${orderItem._id}/${index}`);
+                    // const imageUrls=orderItem.images.map((_, index)=>`${apiUrl}/fetchImage/${orderItem._id}/${index}`);
                     const rating=orderItem.ratings.length>0 ? orderItem.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/orderItem.ratings.length : 0;
                     const { images, ratings, ...itemWithImages }=orderItem.toObject();
                     return{
                         ...itemWithImages,
-                        imageUrls, 
+                        // imageUrls, 
                         rating,
                         date: item.createdAt,
                         count: item.count,
@@ -155,13 +154,13 @@ const fetchOrder=async(req, res)=>{
 
 const fetchOrderItem=async(req, res)=>{
     try{
-        const userId=await returnUserId(req, res);
-        const user=await User.findById(userId);
+        const customerId=await returnUserId(req, res);
+        const customer=await User.findById(customerId);
         const apiUrl=process.env.API_URL;
-        if(!user){
-            return res.status(400).json({ message: "User not found" });
+        if(!customer){
+            return res.status(400).json({ message: "Customer not found" });
         }
-        const orders=await Orders.findOne({ userId: userId });
+        const orders=await Order.findOne({ customerId: customerId });
         if(!orders){
             return res.status(400).json({ message: "Order list not found" });
         }
@@ -175,14 +174,14 @@ const fetchOrderItem=async(req, res)=>{
             return res.status(400).json({ message: "Item not found" });
         }
         const orderItem=await Item.findById(item.itemId);
-        const myRating=orderItem.ratings.find((rating)=>rating.customerId===userId)?.rating || 0;
-        const myReview=orderItem.reviews.find((review)=>review.customerId===userId)?.review || "";
-        const imageUrls=orderItem.images.map((_, index)=>`${apiUrl}/fetchImage/${orderItem._id}/${index}`);
+        const myRating=orderItem?.ratings.find((rating)=>rating.customerId===customerId)?.rating || 0;
+        const myReview=orderItem?.reviews.find((review)=>review.customerId===customerId)?.review || "";
+        // const imageUrls=orderItem.images.map((_, index)=>`${apiUrl}/fetchImage/${orderItem._id}/${index}`);
         const rating=orderItem.ratings.length>0 ? orderItem.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/orderItem.ratings.length : 0;
         const { images, ratings, reviews, ...itemWithImages }=orderItem.toObject();
         const itemDetails={
             ...itemWithImages,
-            imageUrls, 
+            // imageUrls, 
             rating,
             myRating, 
             myReview,
@@ -198,13 +197,13 @@ const fetchOrderItem=async(req, res)=>{
 
 const addRatingAndReview=async(req, res)=>{
     try{
-        const userId=await returnUserId(req, res);
-        const user=await User.findById(userId);
-        if(!user){
-            return res.status(400).json({ message: "User not found" });
+        const customerId=await returnUserId(req, res);
+        const customer=await User.findById(customerId);
+        if(!customer){
+            return res.status(400).json({ message: "Customer not found" });
         }
         const { itemId }=req.params;
-        const orders=await Orders.findOne({ userId: userId });
+        const orders=await Order.findOne({ customerId: customerId });
         if(!orders){
             return res.status(400).json({ message: "Orders list not found" });
         }
@@ -223,13 +222,13 @@ const addRatingAndReview=async(req, res)=>{
         if(!item){
             return res.status(400).json({ message: "Item not found" });
         }
-        const ratingPresent=item.ratings.find((rating)=>(rating.customerId===userId));
+        const ratingPresent=item.ratings.find((rating)=>(rating.customerId===customerId));
         if(rating && !ratingPresent){
-            item.ratings.push({ rating: rating, customerId: userId });
+            item.ratings.push({ rating: rating, customerId: customerId });
         }
-        const reviewPresent=item.reviews.find((review)=>(review.customerId===userId));
+        const reviewPresent=item.reviews.find((review)=>(review.customerId===customerId));
         if(review && !reviewPresent){
-            item.reviews.push({ review: review, customerId: userId });
+            item.reviews.push({ review: review, customerId: customerId });
         }
         if(ratingPresent || reviewPresent){
             return res.status(400).json({ message: "You have already added" });
@@ -252,13 +251,13 @@ const addRatingAndReview=async(req, res)=>{
 
 const updateRatingAndReview=async(req, res)=>{
     try{
-        const userId=await returnUserId(req, res);
-        const user=await User.findById(userId);
-        if(!user){
-            return res.status(400).json({ message: "User not found" });
+        const customerId=await returnUserId(req, res);
+        const customer=await User.findById(customerId);
+        if(!customer){
+            return res.status(400).json({ message: "Customer not found" });
         }
         const { itemId }=req.params;
-        const orders=await Orders.findOne({ userId: userId });
+        const orders=await Order.findOne({ customerId: customerId });
         if(!orders){
             return res.status(400).json({ message: "Orders list not found" });
         }
@@ -277,12 +276,12 @@ const updateRatingAndReview=async(req, res)=>{
         if(!item){
             return res.status(400).json({ message: "Item not found" });
         }
-        const ratingIndex=item.ratings.findIndex((rating)=>(rating.customerId===userId));
+        const ratingIndex=item.ratings.findIndex((rating)=>(rating.customerId===customerId));
         if(ratingIndex===-1){
             return res.status(400).json({ message: "No rating found" });
         }
         item.ratings[ratingIndex].rating=rating;
-        const reviewIndex=item.reviews.findIndex((review)=>(review.customerId===userId));
+        const reviewIndex=item.reviews.findIndex((review)=>(review.customerId===customerId));
         if(reviewIndex===-1){
             return res.status(400).json({ message: "No review found" });
         }

@@ -1,10 +1,11 @@
 const { comparePassword, generateToken, hashPassword }=require("../config/authConfig");
-const User=require("../models/authModel");
+const User=require("../models/userModel");
 const Cart=require("../models/cartModel");
 const Wishlist=require("../models/wishlistModel");
 const Sell=require("../models/sellModel");
 const { returnUserId } = require("../helpers/authHelper");
-const Orders = require("../models/orderModel");
+const Order = require("../models/orderModel");
+const Delivery = require("../models/deliveryModel");
 
 const registerUser=async(req, res)=>{
     try{
@@ -31,7 +32,7 @@ const registerUser=async(req, res)=>{
         await user.save();
         if(role==="seller"){
             const sellItems=new Sell({
-                userId: user._id,
+                sellerId: user._id,
                 itemIds: [],
                 transactions: []
             });
@@ -39,20 +40,27 @@ const registerUser=async(req, res)=>{
         }
         else if(role==="customer"){
             const cart=new Cart({
-                userId: user._id,
+                customerId: user._id,
                 itemIds: []
             })
             await cart.save();
             const wishlist=new Wishlist({
-                userId: user._id,
+                customerId: user._id,
                 itemIds: []
             })
             await wishlist.save();
-            const orders=new Orders({
-                userId: user._id,
+            const order=new Order({
+                customerId: user._id,
                 orders: []
             })
-            await orders.save();
+            await order.save();
+        }
+        else if(role==="deliveryAgent"){
+            const deliveryOrders=new Delivery({ 
+                deliveryAgentId: user._id,
+                orders: []
+            });
+            await deliveryOrders.save();
         }
         const token=generateToken(user._id);
         res.cookie("auth", token, { httpOnly: true, secure: true, sameSite: "none" });

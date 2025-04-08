@@ -1,18 +1,18 @@
 // @ts-nocheck
 const Cart=require("../models/cartModel");
-const User=require("../models/authModel");
+const User=require("../models/userModel");
 const Item=require("../models/itemModel");
 const { returnUserId }=require("../helpers/authHelper");
 
 const inCart=async(req, res)=>{
     try{
-        const userId=await returnUserId(req, res);
+        const customerId=await returnUserId(req, res);
         const { itemId }=req.params;
-        const user=await User.findById(userId);
-        if(!user){
-            return res.status(400).json({ message: "User not found" });
+        const customer=await User.findById(customerId);
+        if(!customer){
+            return res.status(400).json({ message: "Customer not found" });
         }
-        const cart=await Cart.findOne({ userId: userId });
+        const cart=await Cart.findOne({ customerId: customerId });
         if(!cart){
             return res.status(400).json({ message: "No cart found" });
         }
@@ -26,17 +26,17 @@ const inCart=async(req, res)=>{
 
 const addToCart=async(req, res)=>{
     try{
-        const userId=await returnUserId(req, res);
+        const customerId=await returnUserId(req, res);
         const { itemId }=req.params;
         const item=await Item.findById(itemId);
         if(!item){
             return res.status(400).json({ message: "No item found" });
         }
-        const user=await User.findById(userId);
-        if(!user){
-            return res.status(400).json({ message: "User not found" });
+        const customer=await User.findById(customerId);
+        if(!customer){
+            return res.status(400).json({ message: "Customer not found" });
         }
-        const cart=await Cart.findOne({ userId: userId });
+        const cart=await Cart.findOne({ customerId: customerId });
         if(!cart){
             return res.status(400).json({ message: "No cart found" });
         }
@@ -58,17 +58,17 @@ const addToCart=async(req, res)=>{
 
 const removeFromCart=async(req, res)=>{
     try{
-        const userId=await returnUserId(req, res);
+        const customerId=await returnUserId(req, res);
         const { itemId }=req.params;
         const item=await Item.findById(itemId);
         if(!item){
             return res.status(400).json({ message: "No item found" });
         }
-        const user=await User.findById(userId);
-        if(!user){
+        const customer=await User.findById(customerId);
+        if(!customer){
             return res.status(400).json({ message: "User not found" });
         }
-        const cart=await Cart.findOne({ userId: userId });
+        const cart=await Cart.findOne({ customerId: customerId });
         if(!cart){
             return res.status(400).json({ message: "No cart found" });
         }
@@ -90,9 +90,9 @@ const removeFromCart=async(req, res)=>{
 
 const changeCount=async(req, res)=>{
     try{
-        const userId=await returnUserId(req, res);
+        const customerId=await returnUserId(req, res);
         const { itemId, op }=req.body;
-        const cart=await Cart.findOne({ userId: userId });
+        const cart=await Cart.findOne({ customerId: customerId });
         if(!cart){
             return res.status(400).json({ message: "No cart found" });
         }
@@ -121,12 +121,12 @@ const changeCount=async(req, res)=>{
 const fetchCart=async(req, res)=>{
     try{
         const apiUrl=process.env.API_URL;
-        const userId=await returnUserId(req, res);
-        const user=await User.findById(userId);
-        if(!user){
-            return res.status(400).json({ message: "User not found" });
+        const customerId=await returnUserId(req, res);
+        const customer=await User.findById(customerId);
+        if(!customer){
+            return res.status(400).json({ message: "Customer not found" });
         }
-        const cart=await Cart.findOne({ userId: userId });
+        const cart=await Cart.findOne({ customerId: customerId });
         if(!cart){
             return res.status(400).json({ message: "No cart found" });
         }
@@ -134,12 +134,12 @@ const fetchCart=async(req, res)=>{
             cart.items.map(async (item)=>{
                 const cartItem=await Item.findById(item.itemId);
                 if(cartItem){
-                    const imageUrls=cartItem.images.map((_, index)=>`${apiUrl}/fetchImage/${item.itemId}/${index}`);
+                    // const imageUrls=cartItem.images.map((_, index)=>`${apiUrl}/fetchImage/${item.itemId}/${index}`);
                     const rating=cartItem.ratings.length>0 ? cartItem.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/cartItem.ratings.length : 0;
                     const { images, ratings, ...itemWithImages }=cartItem.toObject();
                     return{
                         ...itemWithImages,
-                        imageUrls, 
+                        // imageUrls, 
                         rating,
                         count: item.count
                     };
@@ -155,13 +155,13 @@ const fetchCart=async(req, res)=>{
 
 const cartCheckout=async(req, res)=>{
     try{
-        const userId=await returnUserId(req, res);
-        const user=await User.findById(userId);
+        const customerId=await returnUserId(req, res);
+        const customer=await User.findById(customerId);
         const { cost }=req.body;
-        if(!user){
-            return res.status(400).json({ message: "User not found" });
+        if(!customer){
+            return res.status(400).json({ message: "Customer not found" });
         }
-        const cart=await Cart.findOne({ userId: userId });
+        const cart=await Cart.findOne({ customerId: customerId });
         if(!cart){
             return res.status(400).json({ mesage: "No cart found" });
         }

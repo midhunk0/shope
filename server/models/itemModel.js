@@ -23,7 +23,7 @@ const ratingSchema=new mongoose.Schema({
 }, { _id: false });
 
 const itemsSchema=new mongoose.Schema({
-    userId: {
+    sellerId: {
         type: String,
         required: true
     },
@@ -58,7 +58,6 @@ const itemsSchema=new mongoose.Schema({
         imageType: String,
         image: Buffer,
     }],
-    
     reviews: {
         type: [reviewSchema]
     },
@@ -68,5 +67,4 @@ const itemsSchema=new mongoose.Schema({
 }, { timestamps: true });
 
 const Item=mongoose.model("Item", itemsSchema);
-
 module.exports=Item;

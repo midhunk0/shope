@@ -1,5 +1,5 @@
 // @ts-nocheck
-const User=require("../models/authModel");
+const User=require("../models/userModel");
 const Sell=require("../models/sellModel");
 const Item=require("../models/itemModel");
 const { returnUserId }=require("../helpers/authHelper");
@@ -7,14 +7,14 @@ const { returnUserId }=require("../helpers/authHelper");
 
 const createSellItem=async(req, res)=>{
     try{
-        const userId=await returnUserId(req, res);
+        const sellerId=await returnUserId(req, res);
         const { name, type, description, price, pieceLeft }=req.body;
         if(!name || !type || !price || !pieceLeft){
             return res.status(400).json({ message: "All items are required" });
         }
-        const user=await User.findById(userId);
-        if(!user){
-            return res.status(400).json({ message: "User not found" });
+        const seller=await User.findById(sellerId);
+        if(!seller){
+            return res.status(400).json({ message: "Seller not found" });
         }
         let images;
         if(Array.isArray(req.files)){
@@ -24,13 +24,13 @@ const createSellItem=async(req, res)=>{
                 image: file.buffer
             }));
         }
-        const item=new Item({ userId, name, type, description, price, pieceLeft, images });
+        const item=new Item({ sellerId, name, type, description, price, pieceLeft, images });
         await item.save();
-        const selling=await Sell.findOne({ userId: userId });
+        const selling=await Sell.findOne({ sellerId: sellerId });
         if(!selling){
             return res.status(400).json({ message: "Not a seller" });
         }
-        await selling.itemIds.push(item._id);
+        selling.itemIds.push(item._id);
         await selling.save();
         return res.status(200).json({ item, message: "New item created" });
     }
@@ -42,23 +42,23 @@ const createSellItem=async(req, res)=>{
 const fetchSellItems=async(req, res)=>{
     try{
         const apiUrl=process.env.API_URL;
-        const userId=await returnUserId(req, res);
-        const user=await User.findById(userId);
-        if(!user){
-            return res.status(400).json({ message: "User not found" });
+        const sellerId=await returnUserId(req, res);
+        const seller=await User.findById(sellerId);
+        if(!seller){
+            return res.status(400).json({ message: "Seller not found" });
         }
-        const selling=await Sell.findOne({ userId: userId });
+        const selling=await Sell.findOne({ sellerId: sellerId });
         if(!selling){
             return res.status(400).json({ message: "Not a seller" });
         }
         const sellItems=await Promise.all(
-            selling.itemIds.map(async(id)=>{
-                const sellItem=await Item.findById(id);
+            selling.itemIds.map(async(itemId)=>{
+                const sellItem=await Item.findById(itemId);
                 if(sellItem){
-                    const imageUrls=sellItem.images.map((_, index)=>`${apiUrl}/fetchImage/${id}/${index}`);
+                    // const imageUrls=sellItem.images.map((_, index)=>`${apiUrl}/fetchImage/${id}/${index}`);
                     return{
                         ...sellItem.toObject(),
-                        imageUrls
+                        // imageUrls
                     }
                 }
                 return null;
@@ -74,17 +74,17 @@ const fetchSellItems=async(req, res)=>{
 const fetchSellItem=async(req, res)=>{
     try{
         const apiUrl=process.env.API_URL;
-        const userId=await returnUserId(req, res);
-        const user=await User.findById(userId);
-        if(!user){
-            return res.status(400).json({ message: "User not found" });
+        const sellerId=await returnUserId(req, res);
+        const seller=await User.findById(sellerId);
+        if(!seller){
+            return res.status(400).json({ message: "Seller not found" });
         }
-        const selling=await Sell.findOne({ userId: userId });
+        const selling=await Sell.findOne({ sellerId: sellerId });
         if(!selling){
             return res.status(400).json({ message: "Not a seller" });
         }
         const { itemId }=req.params;
-        const sellItemIndex=selling.itemIds.findIndex((id)=>id.toString()===itemId);
+        const sellItemIndex=selling.itemIds.findIndex((itemId)=>itemId.toString()===itemId);
         if(sellItemIndex===-1){
             return res.status(400).json({ message: "Item not found" });
         }
@@ -92,10 +92,10 @@ const fetchSellItem=async(req, res)=>{
         if(!item){
             return res.status(400).json({ message: "Item not found" });
         }
-        const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${itemId}/${index}`);
+        // const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${itemId}/${index}`);
         const sellItem={
             ...item.toObject(),
-            imageUrls
+            // imageUrls
         }
         return res.status(200).json(sellItem);
     }
@@ -106,17 +106,17 @@ const fetchSellItem=async(req, res)=>{
 
 const updateSellItem=async(req, res)=>{
     try{
-        const userId=await returnUserId(req, res);
-        const user=await User.findById(userId);
-        if(!user){
-            return res.status(400).json({ message: "User not found" });
+        const sellerId=await returnUserId(req, res);
+        const seller=await User.findById(sellerId);
+        if(!seller){
+            return res.status(400).json({ message: "Seller not found" });
         }
-        const selling=await Sell.findOne({ userId: userId });
+        const selling=await Sell.findOne({ sellerId: sellerId });
         if(!selling){
             return res.status(400).json({ message: "Not a seller" });
         }
         const { itemId }=req.params;
-        const sellItemIndex=selling.itemIds.findIndex((id)=>id.toString()===itemId);
+        const sellItemIndex=selling.itemIds.findIndex((itemId)=>itemId.toString()===itemId);
         if(sellItemIndex===-1){
             return res.status(400).json({ message: "Item not found"});
         }
@@ -134,17 +134,17 @@ const updateSellItem=async(req, res)=>{
 
 const deleteSellItem=async(req, res)=>{
     try{
-        const userId=await returnUserId(req, res);
-        const user=await User.findById(userId);
-        if(!user){
-            return res.status(400).json({ message: "User not found" });
+        const sellerId=await returnUserId(req, res);
+        const seller=await User.findById(sellerId);
+        if(!seller){
+            return res.status(400).json({ message: "Seller not found" });
         }
-        const selling=await Sell.findOne({ userId: userId });
+        const selling=await Sell.findOne({ sellerId: sellerId });
         if(!selling){
             return res.status(400).json({ message: "Not a seller" });
         }
         const { itemId }=req.params;
-        const sellItemIndex=selling.itemIds.findIndex((id)=>id.toString()===itemId);
+        const sellItemIndex=selling.itemIds.findIndex((itemId)=>itemId.toString()===itemId);
         if(sellItemIndex===-1){
             return res.status(400).json({ message: "Item not found" });
         }
@@ -163,22 +163,22 @@ const deleteSellItem=async(req, res)=>{
 
 const fetchTransactions=async(req, res)=>{
     try{
-        const userId=await returnUserId(req, res);
-        const user=await User.findById(userId);
-        if(!user){
-            return res.status(400).json({ message: "User not found" });
+        const sellerId=await returnUserId(req, res);
+        const seller=await User.findById(sellerId);
+        if(!seller){
+            return res.status(400).json({ message: "Seller not found" });
         }
-        const sell=await Sell.findOne({ userId: userId });
+        const sell=await Sell.findOne({ sellerId: sellerId });
         if(!sell){
             return res.status(400).json({ message: "Sell list not found" });
         }
         const transactionDetails=await Promise.all(
             sell.transactions.map(async (transaction)=>{
-                const user=await User.findById(transaction.customerId);
+                const customer=await User.findById(transaction.customerId);
                 const item=await Item.findById(transaction.itemId);
-                return ({
-                    user: user.username,
-                    item: item.name,
+                return({
+                    user: customer?.username,
+                    item: item?.name,
                     date: transaction.date,
                     count: transaction.count,
                     status: transaction.status

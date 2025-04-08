@@ -27,7 +27,7 @@ const transactionSchema=new mongoose.Schema({
 }, { _id: false });
 
 const sellSchema=new mongoose.Schema({
-    userId: {
+    sellerId: {
         type: String,
         required: true
     },
@@ -42,5 +42,4 @@ const sellSchema=new mongoose.Schema({
 }, { timestamps: true });
 
 const Sell=mongoose.model("Sell", sellSchema);
-
 module.exports=Sell;

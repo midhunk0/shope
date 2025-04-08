@@ -11,13 +11,14 @@ const wishlistRouter=require("./routes/wishlistRoute");
 const cartRouter=require("./routes/cartRoute");
 const sellRouter=require("./routes/sellRoute");
 const orderRouter=require("./routes/orderRoute");
+const deliveryRouter=require("./routes/deliveryRoute");
 const adminRouter=require("./routes/adminRoute");
 
 const app=express();
 
 app.use(
     cors({
-        origin: process.env.FRONT_END_API,
+        origin: "http://localhost:5173" || process.env.FRONT_END_API ,
         credentials: true,
     })
 )
@@ -42,6 +43,7 @@ app.use("/", wishlistRouter);
 app.use("/", cartRouter);
 app.use("/", sellRouter);
 app.use("/", orderRouter);
+app.use("/", deliveryRouter);
 app.use("/admin/", adminRouter);
 
 const port=process.env.PORT;
