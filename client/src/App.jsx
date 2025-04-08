@@ -21,7 +21,7 @@ import { Review as CustomerReview } from "./users/customer/items/review/Review";
 import { Wishlist as CustomerWishlist } from "./users/customer/wishlist/Wishlist";
 import { Cart as CustomerCart } from "./users/customer/cart/Cart";
 import { Orders as CustomerOrders } from "./users/customer/orders/Orders";
-import { Order as CustomerOrder } from "./users/customer/orders/Order/Order";
+import { Order as CustomerOrder } from "./users/customer/orders/order/Order";
 import { Account as CustomerAccount } from "./users/customer/account/Account";
 
 import { SellerDashboard } from "./users/seller/Dashboard";
