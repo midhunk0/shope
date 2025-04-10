@@ -22,10 +22,25 @@
     height: fit-content;
 }
 
+.admin-user-details button {
+    background: var(--dark-1);
+    color: var(--light-1);
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
 .admin-users-table thead{
     position: sticky;
     top: 0px;
     background: var(--dark-3);
+}
+
+.admin-user-verify{
+    display: flex;
+    justify-content: center;
 }
 
 .admin-users-table th, .admin-users-table td {
@@ -46,6 +61,18 @@
 
 .admin-users-table th:last-child{
     border-top-right-radius: 8px;
+}
+
+.admin-users-table tr td img{
+    width: 24px;
+}
+
+.admin-user-verify-button{
+    display: flex;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
 }
 
 .admin-users-table tr td .remove,
@@ -70,8 +97,12 @@
     background: var(--green);
 }
 
-.admin-users-table tr:hover {
+.admin-users-table tr:hover{
     background-color: var(--dark-1);
+}
+
+.admin-users-table tr td:nth-last-child(3), .admin-users-table tr td:last-child{
+    text-transform: capitalize;
 }
 
 .admin-user-details, .admin-user-empty{
@@ -97,6 +128,10 @@
     border-radius: 4px;
 }
 
+.admin-user-details p:nth-last-child(2){
+    text-transform: capitalize;
+}
+
 .admin-users-empty{
     display: flex;
     align-items: center;
@@ -111,12 +146,36 @@
     text-transform: capitalize;
 }
 
+.show{
+    display: flex;
+}
+
+.not-show{
+    display: none;
+}
+
 @media(max-width: 992px){
     .admin-users{
         padding: 20px;
     }
 
-    .admin-user-details, .admin-user-empty{
+    .admin-user-details{
+        width: 30%;
+    }
+
+    .admin-user-empty{
         display: none;
+    }
+}
+
+@media(max-width: 768px){
+    .admin-user-details{
+        width: calc(50% - 32px);
+    }
+}
+
+@media(max-width: 496px){
+    .admin-user-details{
+        width: 100%;
     }
 }

@@ -11,7 +11,7 @@ const fetchUsers=async(req, res)=>{
         if(!adminId){
             return res.status(400).json({ message: "admin not logged in" })
         }
-        const users=await User.find({ role: { $ne: "admin" } }).select("name username email role verified").sort({ createdAt: -1 });
+        const users=await User.find({ role: { $ne: "admin" } }).select("name username email role verified createdAt").sort({ createdAt: -1 });
         if(!users.length){
             return res.status(400).json({ message: "No users" });
         }
@@ -80,7 +80,7 @@ const fetchDeliveryAgents=async(req, res)=>{
         if(!adminId){
             return res.status(400).json({ message: "admin not logged in" });
         }
-        const deliveryAgents=await User.find({ role: "delivery" }).select("name username email role verified _id");
+        const deliveryAgents=await User.find({ role: "deliveryAgent" }).select("name username email role verified _id");
         if(deliveryAgents.length===0){
             return res.status(400).json({ message: "there is no delivery agents" });
         }
@@ -150,7 +150,7 @@ const fetchItem=async(req, res)=>{
         }
         const apiUrl=process.env.API_URL;
         const { itemId }=req.params;
-        const item=await Item.findById(itemId).select("userId name type price pieceLeft verified images");
+        const item=await Item.findById(itemId).select("userId name type price pieceLeft verified images sellerId");
         if(!item){
             return res.status(400).json({ message: "Item not found" });
         }
@@ -214,7 +214,7 @@ const fetchOrders=async(req, res)=>{
                 return customerOrders.orders.map((order)=>({
                     ...order.toObject(),
                     username: customer?.username,
-                    userId: customer?._id
+                    customerId: customer?._id
                 }));
             })
         )
@@ -258,7 +258,7 @@ const fetchOrder=async(req, res)=>{
                 }
             })
         )
-        return res.status(200).json({ message: "Order fetched successfully", items: itemsDetails, username: customer.username, userId: customer._id, orderId: order._id, status: order.status, total: order.total });
+        return res.status(200).json({ message: "Order fetched successfully", items: itemsDetails, username: customer.username, userId: customer._id, orderId: order._id, deliveryAgentId: order.deliveryAgentId, status: order.status, total: order.total });
     }
     catch(err){
         return res.status(500).json({ error: err.message });
@@ -364,7 +364,7 @@ const assignDeliveryAgent=async(req, res)=>{
             return res.status(400).json({ message: "admin not logged in" });
         }
         const { customerId, orderId, deliveryAgentId}=req.params;
-        const deliveryAgent=await Delivery.findOne({  userId: deliveryAgentId });
+        const deliveryAgent=await Delivery.findOne({  deliveryAgentId: deliveryAgentId });
         if(!deliveryAgent){
             return res.status(400).json({ message: "Delivery agent not found" });
         }
@@ -381,7 +381,7 @@ const assignDeliveryAgent=async(req, res)=>{
         }
         deliveryAgent.orders.push({ 
             orderId: orderId.toString(), 
-            userId: customerId.toString(), 
+            customerId: customerId.toString(), 
             status: "shipped" 
         });
         order.deliveryAgentId=deliveryAgentId;

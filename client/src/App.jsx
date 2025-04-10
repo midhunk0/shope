@@ -109,7 +109,7 @@ function App() {
                         <Route path="account" element={<SellerAccount/>}/>
                     </Route>
                 </Route>
-                <Route path="/delivery" element={<DeliveryLayout/>}>
+                <Route path="/deliveryAgent" element={<DeliveryLayout/>}>
                     <Route index element={<Navigate to="/login"/>}/>
                     <Route path="login" element={<Login role="deliveryAgent"/>}/>
                     <Route path="register" element={<Register role="deliveryAgent"/>}/>

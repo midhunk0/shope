@@ -9,6 +9,14 @@ export const Items=()=>{
     const [loading, setLoading]=useState(true);
     const [error, setError]=useState();
     const apiUrl=import.meta.env.VITE_APP_API_URL;
+    const [width, setWidth]=useState(window.innerWidth);
+    const [showDetails, setShowDetails]=useState(false);
+    
+    useEffect(() => {
+        const handleResize = () => setWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     trefoil.register();
 
@@ -46,6 +54,7 @@ export const Items=()=>{
             const result=await response.json();
             if(response.ok){
                 setItem(result.item);
+                if(width<992) setShowDetails(true);
             }
         }
         catch(error){
@@ -104,6 +113,7 @@ export const Items=()=>{
         <div className="admin-items">
             <h1>Items</h1>
             <div className="admin-items-details">
+            {(width>=992 || !showDetails) && (
                 <table className="admin-items-table">
                     <thead>
                         <tr>
@@ -123,15 +133,18 @@ export const Items=()=>{
                                 <td>{item.price}</td>
                                 <td>{item.username}</td>
                                 <td>{item.pieceLeft}</td>
-                                <td><button className={item.verified ? "remove" : "verify"} onClick={(e)=>{e.stopPropagation(), toggleVerifyItem({ sellerId: item.sellerId, itemId: item._id })}}>
-                                    {item.verified ? "Remove" : "Verify"}    
-                                </button></td>
+                                <td>{item.verified ? <img src="/icons/check.png"/> : <img src="/icons/close.png"/>}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
-                {item ? (
+            )}
+            {(width>=992 || showDetails) && (
+                item ? (
                     <div className="admin-item-details">
+                        {width<992 && (
+                            <button onClick={() => setShowDetails(false)}>Back</button>
+                        )}
                         <div className="admin-item-images">
                             {item && item.imageUrls?.length>0 ? (
                                 item.imageUrls.map((imageUrl, index)=>(
@@ -152,7 +165,8 @@ export const Items=()=>{
                     <div className="admin-item-empty">
                         <p>Nothing selected</p>
                     </div>
-                )}
+                )
+            )}
             </div>
         </div>
     )

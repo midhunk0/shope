@@ -9,6 +9,14 @@ export const Users=()=>{
     const [loading, setLoading]=useState(true);
     const [error, setError]=useState();
     const apiUrl=import.meta.env.VITE_APP_API_URL;
+    const [width, setWidth]=useState(window.innerWidth);
+    const [showDetails, setShowDetails]=useState(false);
+   
+    useEffect(() => {
+        const handleResize = () => setWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     trefoil.register();
 
@@ -67,6 +75,7 @@ export const Users=()=>{
             const result=await response.json();
             if(response.ok){
                 setUser(result.user);
+                if (width < 992) setShowDetails(true);
             }
         }
         catch(error){
@@ -101,42 +110,58 @@ export const Users=()=>{
         <div className="admin-users">
             <h1>Users</h1>
             <div className="admin-users-details">
-                <table className="admin-users-table">
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Verified</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {users.map(user=>(
-                            <tr key={user._id} onClick={()=>fetchUser(user._id)}>
-                                <td>{user.username}</td>
-                                <td>{user.email}</td>
-                                <td>{user.role}</td>
-                                <td><button className={user.verified ? "remove" : "verify"} onClick={(e)=>{e.stopPropagation(); toggleVerifyUser(user._id)}}>
-                                    {user.verified ? "Remove" : "Verify"}
-                                </button></td>
+                {(width>=992 || !showDetails) && (
+                    <table className="admin-users-table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Registered On</th>
+                                <th>Verified</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-                {user ? (
-                    <div className="admin-user-details">
-                        <img src="/images/profile.png" alt=""/>
-                        <p>{user.username}</p>
-                        <p>{user.email}</p>
-                        <p>{user.role}</p>
-                        <button className={user.verified ? "remove" : "verify"} onClick={(e)=>{e.stopPropagation(); toggleVerifyUser(user._id)}}>
-                            {user.verified ? "Remove" : "Verify"}
-                        </button>
-                    </div>
-                ):(
-                    <div className="admin-user-empty">
-                        <p>Nothing selected</p>
-                    </div>
+                        </thead>
+                        <tbody>
+                            {users.map(user=>(
+                                <tr key={user._id} onClick={()=>fetchUser(user._id)}>
+                                    <td>{user.username}</td>
+                                    <td>{user.email}</td>
+                                    <td>{user.role==="deliveryAgent" ? "delivery agent" : user.role}</td>
+                                    <td>{new Date(user.createdAt).toLocaleDateString("en-IN", {
+                                        year: "numeric",
+                                        month: "2-digit",
+                                        day: "2-digit",
+                                    })}</td>
+                                    <td className="admin-user-verify">
+                                            {user.verified ? <img src="/icons/check.png"/> : <img src="/icons/close.png"/>}
+                                        {/* <button className="admin-user-verify-button" onClick={(e)=>{ e.stopPropagation(); toggleVerifyUser(user._id)}}> */}
+                                        {/* </button> */}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+                
+                {(width>=992 || showDetails) && (
+                    user ? (
+                        <div className="admin-user-details">
+                            {width<992 && (
+                                <button onClick={() => setShowDetails(false)}>Back</button>
+                            )}
+                            <img src="/images/profile.png" alt=""/>
+                            <p>{user.username}</p>
+                            <p>{user.email}</p>
+                            <p>{user.role === "deliveryAgent" ? "delivery agent" : user.role}</p>
+                            <button className={user.verified ? "remove" : "verify"} onClick={(e) => { e.stopPropagation(); toggleVerifyUser(user._id)}}>
+                                {user.verified ? "Remove" : "Verify"}
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="admin-user-empty">
+                            <p>Nothing selected</p>
+                        </div>
+                    )
                 )}
             </div>
         </div>

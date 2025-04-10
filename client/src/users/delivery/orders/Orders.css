@@ -2,8 +2,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 72px);
+    height: calc(100vh - 112px);
     color: var(--light-1);
+    width: 100%;
     background-color: var(--dark-1);
 }
 
@@ -23,8 +24,50 @@
     gap: 16px;
 }
 
-.delivery-order-details{
-    display: flex;
+.delivery-orders-details h1{
+    margin-bottom: 16px;
+}
+
+
+
+.delivery-orders-table{
+    border-collapse: collapse;
     width: 100%;
-    justify-content: space-between;
+    background: var(--dark-2);
+    border-radius: 8px;
+    height: fit-content;
+}
+
+.delivery-orders-table thead{
+    position: sticky;
+    top: 0px;
+    background: var(--dark-3);
+}
+
+.delivery-orders-table th, .delivery-orders-table td {
+    padding: 16px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.delivery-orders-table tbody tr{
+    cursor: pointer;
+}
+
+.delivery-orders-table tbody tr td:last-child{
+    text-transform: capitalize;
+}
+
+.delivery-orders-table th:first-child{
+    border-top-left-radius: 8px;
+}
+
+.delivery-orders-table th:last-child{
+    border-top-right-radius: 8px;
+}
+
+.delivery-orders-table tbody tr:hover {
+    background-color: var(--dark-1);
 }

@@ -7,11 +7,18 @@ export const Orders=()=>{
     const [orders, setOrders]=useState([]);
     const [order, setOrder]=useState(null);
     const [loading, setLoading]=useState(true);
-    const [error, setError]=useState(null);
     const [expandMenu, setExpandMenu]=useState(false);
     const [deliveryAgents, setDeliveryAgents]=useState([]);
     const [showMenu, setShowMenu]=useState(false);
     const apiUrl=import.meta.env.VITE_APP_API_URL;
+    const [width, setWidth]=useState(window.innerWidth);
+    const [showDetails, setShowDetails]=useState(false);
+    
+    useEffect(() => {
+        const handleResize = () => setWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     trefoil.register();
 
@@ -27,9 +34,6 @@ export const Orders=()=>{
                 if(response.ok){
                     setOrders(result.orders);
                 }
-                else{
-                    setError(result.message);
-                }
             }
             catch(error){
                 console.log("Error fetching transactions:", error);
@@ -38,9 +42,24 @@ export const Orders=()=>{
         fetchOrders();
     }, [apiUrl]);
 
-    const fetchOrder=async({ orderId })=>{
-        const order=orders.find(order=>order._id===orderId);
-        setOrder(order);
+    const fetchOrder=async({ customerId, orderId })=>{
+        try{
+            const response=await fetch(`${apiUrl}/admin/fetchOrder/${customerId}/${orderId}`, {
+                method: "GET",
+                credentials: "include"
+            });
+            const result=await response.json();
+            setLoading(false);
+            if(response.ok){
+                setOrder(result)
+                if(width<992){
+                    setShowDetails(true);
+                }
+            }
+        }
+        catch(error){
+            console.log("Error fetching transactions:", error);
+        };
     }
 
     useEffect(()=>{     
@@ -82,15 +101,8 @@ export const Orders=()=>{
         )
     }
 
-    if(orders.length===0){
-        return(
-            <div className="admin-orders-empty">
-                <p>{error}</p>
-            </div>
-        )
-    }
-
     const handleAssignDeliveryAgent=async({ customerId, orderId, deliveryAgentId })=>{
+        console.log(customerId, orderId, deliveryAgentId);
         try{
             const response=await fetch(`${apiUrl}/admin/assignDeliveryAgent/${customerId}/${orderId}/${deliveryAgentId}`, {
                 method: "POST",
@@ -131,61 +143,74 @@ export const Orders=()=>{
         return "Select delivery agent";
     }
 
+    if(orders.length===0){
+        return(
+            <div className="admin-orders-empty">
+                <p>No orders</p>
+            </div>
+        )
+    }
+
     return(
         <div className="admin-orders">
             <h1>Orders</h1>
             <div className="admin-orders-details">
-                <table className="admin-orders-table">
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Order ID</th>
-                            <th>Total</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {orders.map((order)=>(
-                            <tr key={order._id} onClick={()=>fetchOrder({ orderId: order._id})}>
-                                <td>{order.username}</td>
-                                <td>{order._id}</td>
-                                <td>{order.total}</td>
-                                <td>{order.status}</td>
+                {(width>=992 || !showDetails) && (
+                    <table className="admin-orders-table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Total</th>
+                                <th>Status</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-                {order ? (
-                    <div className="admin-order-details">
-                        <p>{order.username}</p>
-                        <div className="admin-order-items">
-                            <button onClick={toggleExpandMenu}>Items<img src={expandMenu ? "/icons/up.png" : "/icons/down.png"} alt=""/></button>
-                            {expandMenu && order.items.map((item)=>(
-                                <div className="admin-order-item-details" key={item._id}>
-                                    <p>{item.name}</p>
-                                    <p>{item.price}</p>
-                                </div>
+                        </thead>
+                        <tbody>
+                            {orders.map((order)=>(
+                                <tr key={order._id} onClick={()=>fetchOrder({ customerId: order.customerId, orderId: order._id})}>
+                                    <td>{order.username}</td>
+                                    <td>{order.total}</td>
+                                    <td>{order.status}</td>
+                                </tr>
                             ))}
-                        </div>
-                        <p>{order.total}</p>
-                        <div className="admin-order-status">
-                            <button onClick={()=>setShowMenu(prev=>!prev)}>
-                                {order.deliveryAgentId ? fetchDeliveryAgent({ deliveryAgentId: order.deliveryAgentId }) : "Select delivery agent"}
-                                {!order.deliveryAgentId && <img src={showMenu ? "/icons/up.png" : "/icons/down.png"} alt=""/>}
-                            </button>
-                            {showMenu && !order.deliveryAgentId && (
-                                <div className="admin-order-status-menu">
-                                    {deliveryAgents.map((deliveryAgent)=>(
-                                        <p key={deliveryAgent._id} onClick={()=>{handleAssignDeliveryAgent({ customerId: order.customerId, orderId: order._id, deliveryAgentId: deliveryAgent._id}), setShowMenu(false)}}>{deliveryAgent.username}</p>
-                                    ))}
-                                </div>
+                        </tbody>
+                    </table>
+                )}
+                {(width>=992 || showDetails) && (
+                    order ? (
+                        <div className="admin-order-details">
+                            {width<992 && (
+                                <button className="admin-order-back" onClick={() => setShowDetails(false)}>Back</button>
                             )}
+                            <p>{order.username}</p>
+                            <div className="admin-order-items">
+                                <button className="admin-order-details-button" onClick={toggleExpandMenu}>Items<img src={expandMenu ? "/icons/up.png" : "/icons/down.png"} alt=""/></button>
+                                {expandMenu && order.items.map((item)=>(
+                                    <div className="admin-order-item-details" key={item._id}>
+                                        <p>{item.name}</p>
+                                        <p>{item.price}</p>
+                                    </div>
+                                ))}
+                            </div>
+                            <p>{order.total}</p>
+                            <div className="admin-order-status">
+                                <button className="admin-order-details-button" onClick={()=>setShowMenu(prev=>!prev)}>
+                                    {order.deliveryAgentId ? fetchDeliveryAgent({ deliveryAgentId: order.deliveryAgentId }) : "Select delivery agent"}
+                                    {!order.deliveryAgentId && <img src={showMenu ? "/icons/up.png" : "/icons/down.png"} alt=""/>}
+                                </button>
+                                {showMenu && !order.deliveryAgentId && (
+                                    <div className="admin-order-status-menu">
+                                        {deliveryAgents.map((deliveryAgent)=>(
+                                            <p key={deliveryAgent._id} onClick={()=>{handleAssignDeliveryAgent({ customerId: order.customerId, orderId: order._id, deliveryAgentId: deliveryAgent._id}), setShowMenu(false)}}>{deliveryAgent.username}</p>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
                         </div>
-                    </div>
-                ):(
-                    <div className="admin-order-empty">
-                        <p>Nothing selected</p>
-                    </div>
+                    ):(
+                        <div className="admin-order-empty">
+                            <p>Nothing selected</p>
+                        </div>
+                    )
                 )}
             </div>
         </div>
