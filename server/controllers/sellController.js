@@ -3,6 +3,7 @@ const User=require("../models/userModel");
 const Sell=require("../models/sellModel");
 const Item=require("../models/itemModel");
 const { returnUserId }=require("../helpers/authHelper");
+const Transaction = require("../models/transactionModel");
 
 
 const createSellItem=async(req, res)=>{
@@ -164,16 +165,12 @@ const deleteSellItem=async(req, res)=>{
 const fetchTransactions=async(req, res)=>{
     try{
         const sellerId=await returnUserId(req, res);
-        const seller=await User.findById(sellerId);
-        if(!seller){
-            return res.status(400).json({ message: "Seller not found" });
-        }
-        const sell=await Sell.findOne({ sellerId: sellerId });
-        if(!sell){
-            return res.status(400).json({ message: "Sell list not found" });
+        const transactions=await Transaction.find({ sellerId: sellerId});
+        if(!transactions){
+            return res.status(400).json({ message: "Seller transactions not found" });
         }
         const transactionDetails=await Promise.all(
-            sell.transactions.map(async (transaction)=>{
+            transactions.map(async (transaction)=>{
                 const customer=await User.findById(transaction.customerId);
                 const item=await Item.findById(transaction.itemId);
                 return({

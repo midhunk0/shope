@@ -6,6 +6,7 @@ const Sell=require("../models/sellModel");
 const { returnUserId } = require("../helpers/authHelper");
 const Order = require("../models/orderModel");
 const Delivery = require("../models/deliveryModel");
+const Transaction = require("../models/transactionModel");
 
 const registerUser=async(req, res)=>{
     try{
@@ -34,7 +35,7 @@ const registerUser=async(req, res)=>{
             const sellItems=new Sell({
                 sellerId: user._id,
                 itemIds: [],
-                transactions: []
+                transactionIds: []
             });
             await sellItems.save();
         }

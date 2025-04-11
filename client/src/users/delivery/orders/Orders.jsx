@@ -7,10 +7,18 @@ import React, { useEffect, useState } from "react";
 export function Orders(){
     const [orders, setOrders]=useState({});
     const [order, setOrder]=useState();
-    const [menu, setMenu]=useState(false);
     const [showMenu, setShowMenu]=useState(false);
     const [loading, setLoading]=useState(true);
     const apiUrl=import.meta.env.VITE_APP_API_URL;
+    const [width, setWidth]=useState(window.innerWidth);
+    const [showDetails, setShowDetails]=useState(false);
+    
+    useEffect(() => {
+        const handleResize = () => setWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     trefoil.register();
 
     useEffect(()=>{
@@ -37,11 +45,12 @@ export function Orders(){
         if(orders.length>0){
             const order=orders.find((order)=>order._id===orderId);
             setOrder(order);
+            if(width<992) setShowDetails(true);
         }
     }
 
-    return(
-        loading ? (
+    if(loading){
+        return(
             <div className="loading">
                 <l-trefoil
                     size="50"
@@ -52,70 +61,74 @@ export function Orders(){
                     color="var(--red)"
                 ></l-trefoil>
             </div>
-        ):(
-            <div className="delivery-orders">
-                {orders && orders.length>0 ? (
-                    <div className="delivery-orders-details">
-                        <h1>My Orders</h1>
-                        <table className="delivery-orders-table">   
-                            <thead>
-                                <tr>
-                                    <th>Username</th>
-                                    <th>Phone</th>
-                                    <th>Address</th>
-                                    <th>Total</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {orders.map((order, index)=>(
-                                    <tr key={index} onClick={()=>fetchDeliveryOrder(order._id)}>
-                                        <td>{order.username}</td>
-                                        <td>{order.shippingAddress.phone}</td>
-                                        <td>{order.shippingAddress.address}</td>
-                                        <td>{order.total}</td>
-                                        <td>{order.status}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        {order && (
-                            <div className="delivery-order-details">
-                                {console.log(order)}
-                                <p>{order.username}</p>
-                                <div className="delivery-order-items">
-                                    <button onClick={()=>setMenu(prev=>!prev)}>Items<img src={menu ? "/icons/up.png" : "/icons/down.png"} alt=""/></button>
-                                    {menu && order.items.map((item, index)=>(
-                                        <div key={index} className="delivery-order-item-details">
-                                            <p>{item.name}</p>
-                                            <p>{item.price}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                                <p>{order.shippingAddress.phone}</p>
-                                <p>{order.shippingAddress.address}</p>
-                                <p>{order.total}</p>
-                                <div className="delivery-order-status">
-                                    <button onClick={()=>setShowMenu(prev=>!prev)}>
-                                        {order.status}
-                                        <img src={showMenu ? "/icons/up.png" : "/icons/down.png"}/>
-                                    </button>
-                                    {showMenu && (
-                                        <div className="delivery-order-status-menu">
-                                            <button onClick={()=>setShowMenu(false)}>Delivered</button>
-                                            <button onClick={()=>setShowMenu(false)}>Cancelled</button>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                ) : (
-                    <div className="delivery-orders-empty">
-                        <p>No Orders Found</p>
-                    </div>
-                )}
+        )
+    }
+
+    if(orders.length===0){
+        return(
+            <div className="delivery-orders-empty">
+                <p>No Orders Found</p>
             </div>
         )
+    }
+
+    return(
+        <div className="delivery-orders">
+            <h1>My Orders</h1>
+            <div className="delivery-orders-details">
+                {(width>=992 || !showDetails) && (
+                <table className="delivery-orders-table">   
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {orders.map((order, index)=>(
+                            <tr key={index} onClick={()=>fetchDeliveryOrder(order._id)}>
+                                <td>{order.username}</td>
+                                <td>{order.shippingAddress.phone}</td>
+                                <td>{order.shippingAddress.address}</td>
+                                <td>{order.total}</td>
+                                <td>{order.status}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>)}
+                {(width>=992 || showDetails) && (
+                    order ? (
+                        <div className="delivery-order-details">
+                            {width<992 && (
+                                <button className="delivery-order-back" onClick={() => setShowDetails(false)}>Back</button>
+                            )}
+                            <p>{order.username}</p>
+                            <p>{order.shippingAddress.phone}</p>
+                            <p>{order.shippingAddress.address}</p>
+                            <p>{order.total}</p>
+                            <div className="delivery-order-status">
+                                <button className="delivery-order-details-button" onClick={()=>setShowMenu(prev=>!prev)}>
+                                    {order.status}
+                                    <img src={showMenu ? "/icons/up.png" : "/icons/down.png"}/>
+                                </button>
+                                {showMenu && (
+                                    <div className="delivery-order-status-menu">
+                                        <p onClick={()=>setShowMenu(false)}>Delivered</p>
+                                        <p onClick={()=>setShowMenu(false)}>Cancelled</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    ):(
+                        <div className="delivery-order-empty">
+                            <p>Nothing selected</p>
+                        </div>
+                    )
+                )}
+            </div>
+        </div>
     )
 }

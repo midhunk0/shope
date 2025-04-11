@@ -4,6 +4,8 @@ const User=require("../models/userModel");
 const Item=require("../models/itemModel");
 const Order=require("../models/orderModel");
 const Delivery=require("../models/deliveryModel");
+const Sell = require("../models/sellModel");
+const Transaction = require("../models/transactionModel");
 
 const fetchUsers=async(req, res)=>{
     try{
@@ -258,7 +260,7 @@ const fetchOrder=async(req, res)=>{
                 }
             })
         )
-        return res.status(200).json({ message: "Order fetched successfully", items: itemsDetails, username: customer.username, userId: customer._id, orderId: order._id, deliveryAgentId: order.deliveryAgentId, status: order.status, total: order.total });
+        return res.status(200).json({ message: "Order fetched successfully", items: itemsDetails, username: customer.username, customerId: customer._id, orderId: order._id, deliveryAgentId: order.deliveryAgentId, status: order.status, total: order.total });
     }
     catch(err){
         return res.status(500).json({ error: err.message });
@@ -379,6 +381,15 @@ const assignDeliveryAgent=async(req, res)=>{
         if(order.deliveryAgentId){
             return res.status(400).json({ message: "Delivery agent already assigned" });
         }
+        await Promise.all(
+            order.items.map(async(item)=>{
+                const transaction=await Transaction.findById(item.transactionId);
+                if(transaction){
+                    transaction.status="shipped";
+                    await transaction.save();
+                }
+            })
+        )
         deliveryAgent.orders.push({ 
             orderId: orderId.toString(), 
             customerId: customerId.toString(), 

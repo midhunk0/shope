@@ -1,31 +1,5 @@
 const mongoose=require("mongoose");
 
-const transactionSchema=new mongoose.Schema({
-    customerId: {
-        type: String,
-        required: true
-    },
-    date: {
-        type: Date,
-        default: Date.now,
-        required: true
-    },
-    itemId: {
-        type: String,
-        required: true
-    },
-    count: {
-        type: Number,
-        required: true,
-        min: 1
-    },
-    status: {
-        type: String,
-        enum: ["pending", "completed", "shipped", "cancelled"],
-        default: "pending"
-    }
-}, { _id: false });
-
 const sellSchema=new mongoose.Schema({
     sellerId: {
         type: String,
@@ -35,8 +9,8 @@ const sellSchema=new mongoose.Schema({
         type: [String],
         required: true
     },
-    transactions: {
-        type: [transactionSchema],
+    transactionIds: {
+        type: [String],
         required: true
     }
 }, { timestamps: true });

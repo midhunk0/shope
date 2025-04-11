@@ -5,6 +5,7 @@ const Order=require("../models/orderModel");
 const Item=require("../models/itemModel");
 const Sell=require("../models/sellModel");
 const { returnUserId }=require("../helpers/authHelper");
+const Transaction = require("../models/transactionModel");
 
 const makeOrder=async(req, res)=>{
     try{
@@ -26,20 +27,27 @@ const makeOrder=async(req, res)=>{
             cart.items.map(async (item)=>{
                 const cartItem=await Item.findById(item.itemId);
                 if(cartItem){
-                    const seller=await Sell.findOne({ sellerId: cartItem.sellerId });
-                    if(seller){
-                        seller.transactions.push({
-                            customerId: customerId,
-                            // date: new Date(),
-                            itemId: item.itemId, 
-                            count: item.count,
-                            status: "pending"
-                        });
-                        await seller.save()
-                    }
+                    const transaction=new Transaction({
+                        sellerId: cartItem.sellerId,
+                        customerId: customerId,
+                        // date: new Date(),
+                        itemId: item.itemId, 
+                        count: item.count,
+                        status: "pending"
+                    });
+                    await transaction.save();
                     cartItem.pieceLeft-=item.count;
                     await cartItem.save();
-                    return { itemId: item.itemId, count: item.count }
+                    const seller=await Sell.findOne({ sellerId: cartItem.sellerId });
+                    if(seller){
+                        seller.transactionIds.push(transaction._id);
+                        await seller.save();
+                    }
+                    return { 
+                        itemId: item.itemId, 
+                        count: item.count, 
+                        transactionId: transaction._id
+                    }
                 }
                 return null;
             })
@@ -47,7 +55,7 @@ const makeOrder=async(req, res)=>{
         order.orders.push({
             shippingAddress,
             // date: new Date(),
-            items: cart.items,
+            items: cartItems,
             total: cart.cost,
             status: "pending"
         })

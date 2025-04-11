@@ -128,14 +128,13 @@ export const Users=()=>{
                                     <td>{user.email}</td>
                                     <td>{user.role==="deliveryAgent" ? "delivery agent" : user.role}</td>
                                     <td>{new Date(user.createdAt).toLocaleDateString("en-IN", {
-                                        year: "numeric",
-                                        month: "2-digit",
-                                        day: "2-digit",
-                                    })}</td>
+                                            year: "numeric",
+                                            month: "2-digit",
+                                            day: "2-digit",
+                                        })}
+                                    </td>
                                     <td className="admin-user-verify">
-                                            {user.verified ? <img src="/icons/check.png"/> : <img src="/icons/close.png"/>}
-                                        {/* <button className="admin-user-verify-button" onClick={(e)=>{ e.stopPropagation(); toggleVerifyUser(user._id)}}> */}
-                                        {/* </button> */}
+                                        {user.verified ? <img src="/icons/check.png"/> : <img src="/icons/close.png"/>}
                                     </td>
                                 </tr>
                             ))}

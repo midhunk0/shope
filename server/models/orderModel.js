@@ -32,6 +32,10 @@ const itemSchema=new mongoose.Schema({
     reviewed: {
         type: Boolean,
         default: false
+    },
+    transactionId: {
+        type: String,
+        required: true
     }
 }, { _id: false });
 

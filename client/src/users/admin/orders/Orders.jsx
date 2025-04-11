@@ -160,6 +160,7 @@ export const Orders=()=>{
                         <thead>
                             <tr>
                                 <th>Username</th>
+                                <th>Date</th>
                                 <th>Total</th>
                                 <th>Status</th>
                             </tr>
@@ -168,6 +169,12 @@ export const Orders=()=>{
                             {orders.map((order)=>(
                                 <tr key={order._id} onClick={()=>fetchOrder({ customerId: order.customerId, orderId: order._id})}>
                                     <td>{order.username}</td>
+                                    <td>{new Date(order.createdAt).toLocaleDateString("en-IN", {
+                                            year: "numeric",
+                                            month: "2-digit",
+                                            day: "2-digit",
+                                        })}
+                                    </td>
                                     <td>{order.total}</td>
                                     <td>{order.status}</td>
                                 </tr>
@@ -178,6 +185,7 @@ export const Orders=()=>{
                 {(width>=992 || showDetails) && (
                     order ? (
                         <div className="admin-order-details">
+                            {console.log(order)}
                             {width<992 && (
                                 <button className="admin-order-back" onClick={() => setShowDetails(false)}>Back</button>
                             )}
@@ -200,7 +208,7 @@ export const Orders=()=>{
                                 {showMenu && !order.deliveryAgentId && (
                                     <div className="admin-order-status-menu">
                                         {deliveryAgents.map((deliveryAgent)=>(
-                                            <p key={deliveryAgent._id} onClick={()=>{handleAssignDeliveryAgent({ customerId: order.customerId, orderId: order._id, deliveryAgentId: deliveryAgent._id}), setShowMenu(false)}}>{deliveryAgent.username}</p>
+                                            <p key={deliveryAgent._id} onClick={()=>{handleAssignDeliveryAgent({ customerId: order.customerId, orderId: order.orderId, deliveryAgentId: deliveryAgent._id}), setShowMenu(false)}}>{deliveryAgent.username}</p>
                                         ))}
                                     </div>
                                 )}
