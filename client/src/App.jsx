@@ -25,6 +25,7 @@ import { Order as CustomerOrder } from "./users/customer/orders/order/Order";
 import { Account as CustomerAccount } from "./users/customer/account/Account";
 
 import { SellerDashboard } from "./users/seller/Dashboard";
+import { Home as SellerHome } from "./users/seller/home/Home";
 import { ItemsPage as SellerItemsPage } from "./users/seller/items/itemsPage/ItemsPage";
 import { ItemPage as SellerItemPage } from "./users/seller/items/itemPage/ItemPage";
 import { Create as SellerCreate } from "./users/seller/create/Create";
@@ -36,6 +37,7 @@ import { DeliveryDashboard } from "./users/delivery/Dashboard";
 import { Home as DeliveryHome } from "./users/delivery/home/Home";
 import { Orders as DeliveryOrders } from "./users/delivery/orders/Orders";
 import { Account as DeliveryAccount } from "./users/delivery/account/Account";
+import Landing from "./landing/Landing";
 
 function CustomerLayout(){
     return(
@@ -65,11 +67,12 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Navigate to="/login"/>}/>
-                <Route path="/" element={<CustomerLayout/>}>
+                <Route path="/" element={<Landing/>}/>
+                <Route path="/customer" element={<CustomerLayout/>}>
+                    <Route index element={<Navigate to="login"/>}/>
                     <Route path="login" element={<Login role="customer"/>}/>
                     <Route path="register" element={<Register role="customer"/>}/>
-                    <Route path="dashboard" element={<CustomerDashboard/>}>
+                    <Route path="" element={<CustomerDashboard/>}>
                         <Route index element={<Navigate to="home"/>}/>
                         <Route path="home" element={<CustomerHome/>}/>
                         <Route path="items" element={<CustomerItemsPage/>}/>
@@ -86,7 +89,7 @@ function App() {
                     <Route index element={<Navigate to="login"/>}/>
                     <Route path="login" element={<Login role="admin"/>}/>
                     <Route path="register" element={<Register role="admin"/>}/>
-                    <Route path="dashboard" element={<AdminDashboard/>}>
+                    <Route path="" element={<AdminDashboard/>}>
                         <Route index element={<Navigate to="home"/>}/>
                         <Route path="home" element={<AdminHome/>}/>
                         <Route path="users" element={<AdminUsers/>}/>
@@ -99,8 +102,9 @@ function App() {
                     <Route index element={<Navigate to="login"/>}/>
                     <Route path="login" element={<Login role="seller"/>}/>
                     <Route path="register" element={<Register role="seller"/>}/>
-                    <Route path="dashboard" element={<SellerDashboard/>}>
-                        <Route index element={<Navigate to="items"/>}/>
+                    <Route path="" element={<SellerDashboard/>}>
+                        <Route index element={<Navigate to="home"/>}/>
+                        <Route path="home" element={<SellerHome/>}/>
                         <Route path="items" element={<SellerItemsPage/>}/>
                         <Route path="item" element={<SellerItemPage/>}/>
                         <Route path="add" element={<SellerCreate/>}/>
@@ -110,10 +114,10 @@ function App() {
                     </Route>
                 </Route>
                 <Route path="/deliveryAgent" element={<DeliveryLayout/>}>
-                    <Route index element={<Navigate to="/login"/>}/>
+                    <Route index element={<Navigate to="login"/>}/>
                     <Route path="login" element={<Login role="deliveryAgent"/>}/>
                     <Route path="register" element={<Register role="deliveryAgent"/>}/>
-                    <Route path="dashboard" element={<DeliveryDashboard/>}>
+                    <Route path="" element={<DeliveryDashboard/>}>
                         <Route index element={<Navigate to="home"/>}/>
                         <Route path="home" element={<DeliveryHome/>}/>
                         <Route path="orders" element={<DeliveryOrders/>}/>

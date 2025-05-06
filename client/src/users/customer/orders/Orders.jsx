@@ -33,7 +33,7 @@ export function Orders(){
     }, []);
 
     function gotoOrder(orderId){
-        navigate(`/dashboard/order/${orderId}`);
+        navigate(`/customer/order/${orderId}`);
     }
 
     return(

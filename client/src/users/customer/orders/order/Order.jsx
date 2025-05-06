@@ -34,7 +34,7 @@ export function Order(){
     }, []);
 
     function gotoReview(orderId, itemId){
-        navigate(`/dashboard/review/${orderId}/${itemId}`);
+        navigate(`/customer/review/${orderId}/${itemId}`);
     }
 
     return(

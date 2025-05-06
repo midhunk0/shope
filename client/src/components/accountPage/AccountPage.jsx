@@ -75,12 +75,7 @@ export function AccountPage({ user }){
             const result=await response.json();
             if(response.ok){
                 toast.success(result.message);
-                if(user==="customer"){
-                    navigate("/login");
-                }
-                else{
-                    navigate(`/${user}/login`);
-                }
+                navigate(`/${user}/login`);
             }
             else{
                 toast.error(result.message);
@@ -100,12 +95,7 @@ export function AccountPage({ user }){
             const result=await response.json();
             if(response.ok){
                 toast.success(result.message);
-                if(user==="customer"){
-                    navigate("/register");
-                }
-                else{
-                    navigate(`/${user}/register`);
-                }
+                navigate(`/${user}/register`);
             }
         }
         catch(error){

@@ -42,7 +42,6 @@
 
 .topbarOptions h6:hover::after, .dropdownOptions h6:hover::after{
     width: 100%;
-
 }
 
 .topbarDropdown{

@@ -35,7 +35,7 @@ export function Login({ role }){
             const result=await response.json();
             if(response.ok){
                 toast.success(result.message);
-                {role==="customer" ? navigate("/dashboard") : navigate(`/${role}/dashboard`) };
+                navigate(`/${role}/home`);
             }
             else{
                 toast.error(result.message);
@@ -60,7 +60,7 @@ export function Login({ role }){
                     <h1>Login to {role} account</h1>
                     <span>
                         <p>Don't have an account?</p>
-                        {role==="customer" ? <Link to="/register">Register</Link> : <Link to={`/${role}/register`}>Register</Link>}
+                        <Link to={`/${role}/register`}>Register</Link>
                     </span> 
                     <input type="text" name="credential" placeholder="Username or Email" onChange={handleInputChange}/>
                     <div className="login-password">

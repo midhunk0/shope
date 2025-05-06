@@ -7,11 +7,11 @@ export function Topbar() {
     const location = useLocation();
 
     const topbarItems = [
-        { path: "/dashboard/items", label: "Items" },
-        { path: "/dashboard/wishlist", label: "Wishlist" },
-        { path: "/dashboard/cart", label: "Cart" },
-        { path: "/dashboard/orders", label: "Orders" },
-        { path: "/dashboard/account", label: "Account" },
+        { path: "/customer/items", label: "Items" },
+        { path: "/customer/wishlist", label: "Wishlist" },
+        { path: "/customer/cart", label: "Cart" },
+        { path: "/customer/orders", label: "Orders" },
+        { path: "/customer/account", label: "Account" },
     ];
 
     function toggleDropdown() {
@@ -20,7 +20,7 @@ export function Topbar() {
 
     return (
         <div className="topbar">
-            <h4><Link to="/dashboard" className={location.pathname === "/dashboard" ? "active" : ""}>Shope.</Link></h4>
+            <h4><Link to="/customer/home" className={location.pathname === "/customer/home" ? "active" : ""}>Shope.</Link></h4>
             <div className="topbar-options">
                 {topbarItems.map((item) => (
                     <h6 key={item.path}>

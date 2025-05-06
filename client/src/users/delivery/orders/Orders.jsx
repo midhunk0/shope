@@ -49,6 +49,25 @@ export function Orders(){
         }
     }
 
+    const deliverOrder=async({ orderId, userId })=>{
+        try{
+            const response=await fetch(`${apiUrl}/deliverOrder/${orderId}/${userId}`, {
+                method: "PUT",
+                credentials: "include"
+            });
+            const result=await response.json();
+            if(response.ok){
+                setOrders(orders.filter((order)=>order._id!==orderId));
+                setOrder(null);
+                setShowMenu(false);
+                console.log(result.message);
+            }
+        }
+        catch(error){
+            console.log(error);
+        }
+    }
+
     if(loading){
         return(
             <div className="loading">
@@ -74,7 +93,7 @@ export function Orders(){
 
     return(
         <div className="delivery-orders">
-            <h1>My Orders</h1>
+            <h1>Orders</h1>
             <div className="delivery-orders-details">
                 {(width>=992 || !showDetails) && (
                 <table className="delivery-orders-table">   
@@ -116,8 +135,7 @@ export function Orders(){
                                 </button>
                                 {showMenu && (
                                     <div className="delivery-order-status-menu">
-                                        <p onClick={()=>setShowMenu(false)}>Delivered</p>
-                                        <p onClick={()=>setShowMenu(false)}>Cancelled</p>
+                                        <p onClick={()=>{setShowMenu(false); deliverOrder({ orderId: order._id, userId: order.userId })}}>Delivered</p>
                                     </div>
                                 )}
                             </div>

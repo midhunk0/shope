@@ -39,7 +39,7 @@ export function Register({ role }){
             console.log(result);
             if(response.ok){
                 toast.success(result.message);
-                {role==="customer" ? navigate("/dashboard") : navigate(`/${role}/dashboard`) };
+                navigate(`/${role}/dashboard`);
             }
             else{
                 toast.error(result.messsage);
@@ -64,7 +64,7 @@ export function Register({ role }){
                     <h1>Create an {role} account</h1>
                     <span>
                         <p>Already have an account?</p>
-                        {role==="customer" ? <Link to="/login">Login</Link> : <Link to={`/${role}/login`}>Login</Link>}
+                        <Link to={`/${role}/login`}>Login</Link>
                     </span>
                     <input type="text" name="username" placeholder="Username" onChange={handleInputChange}/>
                     <input type="text" name="name" placeholder="Name" onChange={handleInputChange}/>

@@ -6,6 +6,7 @@ import "./Review.css";
 import { useParams } from "react-router-dom";
 import { Item } from "../Item";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export function Review(){
     const [item, setItem]=useState();
@@ -13,6 +14,7 @@ export function Review(){
         rating: 0,
         review: ""
     });
+    const navigate=useNavigate();
     const [loading, setLoading]=useState(true);
     const apiUrl=import.meta.env.VITE_APP_API_URL;
     const { orderId, itemId }=useParams();
@@ -51,6 +53,7 @@ export function Review(){
             const result=await response.json();
             if(response.ok){
                 toast.success(result.message);
+                navigate(-1);
                 fetchOrderItem();
             }
         }
