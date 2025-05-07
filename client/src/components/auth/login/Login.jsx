@@ -75,7 +75,7 @@ export function Login({ role }){
                     <img key={index} src={image} alt="img"/>
                 ))}
                 <div className="login-logo">
-                    <h3>Shope.</h3>
+                    <a href="/"><h3>Shope.</h3></a>
                     <hr/>
                 </div>
             </div>

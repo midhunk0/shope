@@ -2,50 +2,29 @@
     padding: 20px;
     height: calc(100vh - 40px);
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
     color: var(--light-1);
     background: var(--dark-1);
     gap: 20px;
 }
 
-.landing-images{
-    width: 100%;
+.landing-page{
     display: flex;
-    gap: 20px;
-    overflow-x: auto; 
-    scroll-snap-type: x mandatory; 
-    scroll-padding: 0 ; 
-    scroll-behavior: smooth;
-    border-radius: 16px;
+    flex-direction: column;
+    width: 70%;
 }
 
-.landing-images img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 16px;
-    box-sizing: border-box;
-    flex-shrink: 0;
-    scroll-snap-align: center; 
-    cursor: pointer;
-    filter:hue-rotate();
-}
-
-.landing-logo{
-    position: absolute;
-    top: 40px;
-    left: 40px;
+.landing-page h1{
+    font-size: 100px;
     color: var(--red);
-}
-
-.landing-logo hr{
-    margin-top: 0;
 }
 
 .landing-links{
     display: flex;
-    /* flex-direction: column; */
-    width: calc(100% - 40px);
+    width: 70%;
+    justify-content: center;
     gap: 20px;
 }
 
@@ -53,10 +32,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
     width: 100%;
-    border: 1px solid var(--light-1);
-    height: fit-content;
+    gap: 20px;
     padding: 20px;
     border-radius: 8px;
     background-color: var(--dark-2);
@@ -76,12 +53,11 @@
     text-transform: capitalize;
     color: var(--light-1);
     text-decoration: none;
-    padding: 20px;
-    background-color: var(--dark-1);
+    padding: 10px 20px;
+    background-color: var(--red);
     border-radius: 8px;
     width: 100px;
     text-align: center;
-    box-shadow: 2px 2px var(--light-1);
 }
 
 .landing-links a:hover{
@@ -90,9 +66,34 @@
     color: var(--red);
 }
 
-.landing-links a:active{
-    background-color: var(--dark-1);
-    box-shadow: none;
-    color: var(--light-1);
+@media(max-width: 1080px){
+    .landing-page, .landing-links{
+        width: 90%;
+    }
 }
 
+@media(max-width: 780px){
+    .landing-page, .landing-links{
+        width: 100%;
+    }
+}
+
+@media(max-width: 720px){
+    .landing-links{
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        justify-content: flex-start;
+        overflow: scroll;
+    }
+
+    .landing-customer, .landing-seller, .landing-delivery{
+        width: 50%;
+    }
+}
+
+@media(max-width: 480px){
+    .landing-customer, .landing-seller, .landing-delivery{
+        width: calc(100% - 40px);
+    }
+}
