@@ -2,6 +2,7 @@ const { returnUserId }=require("../helpers/authHelper");
 const User=require("../models/userModel");
 const Delivery=require("../models/deliveryModel");
 const Order=require("../models/orderModel");
+const Transaction = require("../models/transactionModel");
 
 const fetchDeliveryOrders=async(req, res)=>{
     try{
@@ -63,7 +64,7 @@ const deliverOrder=async(req, res)=>{
         if(!order){
             return res.status(400).json({ message: "Order not found" });
         }
-        order.status="completed";
+        order.status="delivered";
         const user=await User.findById(userId);
         if(!user){
             return res.status(400).json({ message: "User not found" });
@@ -76,11 +77,24 @@ const deliverOrder=async(req, res)=>{
         if(!matchedOrder){
             return res.status(400).json({ message: "Order not found" });
         }
-        matchedOrder.status="completed";
+        matchedOrder.status="delivered";
+        matchedOrder.events.push({
+            date: new Date(),
+            event: "delivered"
+        });
+        await Promise.all(
+            matchedOrder.items.map(async(item)=>{
+                const transaction=await Transaction.findOne({ _id: item.transactionId });
+                if(!transaction){
+                    return res.status(400).json({ message: "Transaction not found" });
+                }
+                transaction.status="delivered";
+                await transaction.save();
+            })
+        ) 
         await orderDetails.save();
         await delivery.save();
         return res.status(200).json({ message: "Order delivered successfully" });
-
     }
     catch(err){
         res.status(500).json({ error: err.message });

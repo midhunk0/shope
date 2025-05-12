@@ -78,12 +78,12 @@ const fetchWishlist=async(req, res)=>{
             wishlist.itemIds.map(async(itemId)=>{
                 const wishlistItem=await Item.findById(itemId);
                 if(wishlistItem){
-                    // const imageUrls=wishlistItem.images.map((_, index)=>`${apiUrl}/fetchImage/${id}/${index}`);
+                    const imageUrls=wishlistItem.images.map((_, index)=>`${apiUrl}/fetchImage/${itemId}/${index}`);
                     const rating=wishlistItem.ratings.length>0 ? wishlistItem.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/wishlistItem.ratings.length : 0;
                     const { images, ratings, ...itemWithImages }=wishlistItem.toObject();
                     return{
                         ...itemWithImages,
-                        // imageUrls, 
+                        imageUrls, 
                         rating
                     };        
                 }

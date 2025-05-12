@@ -56,10 +56,10 @@ const fetchSellItems=async(req, res)=>{
             selling.itemIds.map(async(itemId)=>{
                 const sellItem=await Item.findById(itemId);
                 if(sellItem){
-                    // const imageUrls=sellItem.images.map((_, index)=>`${apiUrl}/fetchImage/${id}/${index}`);
+                    const imageUrls=sellItem.images.map((_, index)=>`${apiUrl}/fetchImage/${itemId}/${index}`);
                     return{
                         ...sellItem.toObject(),
-                        // imageUrls
+                        imageUrls
                     }
                 }
                 return null;
@@ -93,10 +93,10 @@ const fetchSellItem=async(req, res)=>{
         if(!item){
             return res.status(400).json({ message: "Item not found" });
         }
-        // const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${itemId}/${index}`);
+        const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${itemId}/${index}`);
         const sellItem={
             ...item.toObject(),
-            // imageUrls
+            imageUrls
         }
         return res.status(200).json(sellItem);
     }

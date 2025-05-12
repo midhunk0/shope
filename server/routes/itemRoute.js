@@ -4,7 +4,7 @@ const { fetchImage, fetchItem, fetchItems }=require("../controllers/itemControll
 const router=express.Router();
 
 router.get("/fetchItems", fetchItems);
-router.get("/fetchImage/:id/:imageIndex", fetchImage);
+router.get("/fetchImage/:itemId/:imageIndex", fetchImage);
 router.get("/fetchItem/:itemId", fetchItem);
 
 module.exports=router;

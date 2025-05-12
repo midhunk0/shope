@@ -27,7 +27,7 @@
     color: var(--light-1);
     padding: 8px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
 }
 
@@ -81,7 +81,8 @@
 .admin-user-details .remove{
     padding: 8px;
     border: none;
-    border-radius: 4px;
+    font-size: 16px;
+    border-radius: 8px;
     cursor: pointer;
     color: var(--light-1);
     min-width: 80px;
@@ -105,15 +106,24 @@
     text-transform: capitalize;
 }
 
-.admin-user-details, .admin-user-empty{
-    padding: 16px;
+.admin-user-details, 
+.admin-user-empty{
+    flex: 0 0 25%;
+    box-sizing: border-box;
     background: var(--dark-2);
-    border-radius: 8px;
-    width: 30%;
+    border-radius: 16px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 8px;
     height: fit-content;
+}
+
+.admin-user-details{
+    padding: 8px;
+}
+
+.admin-user-empty{
+    padding: 16px;
 }
 
 .admin-user-details img{
@@ -125,7 +135,7 @@
 .admin-user-details p{
     padding: 10px;
     background: var(--dark-3);
-    border-radius: 4px;
+    border-radius: 8px;
 }
 
 .admin-user-details p:nth-last-child(2){
@@ -154,28 +164,30 @@
     display: none;
 }
 
-@media(max-width: 992px){
-    .admin-users{
-        padding: 20px;
+@media(max-width: 1080px){
+    .admin-user-empty{
+        display: none;
     }
 
     .admin-user-details{
-        width: 30%;
+        flex: 0 0 40%;
     }
+}
 
-    .admin-user-empty{
-        display: none;
+@media(max-width: 992px){
+    .admin-users{
+        padding: 20px;
     }
 }
 
 @media(max-width: 768px){
     .admin-user-details{
-        width: calc(50% - 32px);
+        flex: 0 0 50%;
     }
 }
 
 @media(max-width: 496px){
     .admin-user-details{
-        width: 100%;
+        flex: 100%;
     }
 }

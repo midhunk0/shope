@@ -52,7 +52,7 @@ export const Orders=()=>{
             setLoading(false);
             if(response.ok){
                 setOrder(result)
-                if(width<992){
+                if(width<1080){
                     setShowDetails(true);
                 }
             }
@@ -102,7 +102,6 @@ export const Orders=()=>{
     }
 
     const handleAssignDeliveryAgent=async({ customerId, orderId, deliveryAgentId })=>{
-        console.log(customerId, orderId, deliveryAgentId);
         try{
             const response=await fetch(`${apiUrl}/admin/assignDeliveryAgent/${customerId}/${orderId}/${deliveryAgentId}`, {
                 method: "POST",
@@ -155,7 +154,7 @@ export const Orders=()=>{
         <div className="admin-orders">
             <h1>Orders</h1>
             <div className="admin-orders-details">
-                {(width>=992 || !showDetails) && (
+                {(width>=1080 || !showDetails) && (
                     <table className="admin-orders-table">
                         <thead>
                             <tr>
@@ -182,11 +181,10 @@ export const Orders=()=>{
                         </tbody>
                     </table>
                 )}
-                {(width>=992 || showDetails) && (
+                {(width>=1080 || showDetails) && (
                     order ? (
                         <div className="admin-order-details">
-                            {console.log(order)}
-                            {width<992 && (
+                            {width<1080 && (
                                 <button className="admin-order-back" onClick={() => setShowDetails(false)}>Back</button>
                             )}
                             <p>{order.username}</p>

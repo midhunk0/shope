@@ -30,7 +30,6 @@ const makeOrder=async(req, res)=>{
                     const transaction=new Transaction({
                         sellerId: cartItem.sellerId,
                         customerId: customerId,
-                        // date: new Date(),
                         itemId: item.itemId, 
                         count: item.count,
                         status: "pending"
@@ -54,10 +53,13 @@ const makeOrder=async(req, res)=>{
         )
         order.orders.push({
             shippingAddress,
-            // date: new Date(),
             items: cartItems,
             total: cart.cost,
-            status: "pending"
+            status: "pending",
+            events: [{
+                date: new Date(),
+                event: "order placed"
+            }]
         })
         await order.save();
         cart.items.splice(0, cart.items.length);
@@ -89,12 +91,12 @@ const fetchOrders=async(req, res)=>{
                     order.items.map(async (item)=>{
                         const orderItem=await Item.findById(item.itemId);
                         if(orderItem){
-                            // const imageUrls=orderItem.images.map((_, index)=>`${apiUrl}/fetchImage/${orderItem._id}/${index}`);
+                            const imageUrls=orderItem.images.map((_, index)=>`${apiUrl}/fetchImage/${orderItem._id}/${index}`);
                             const rating=orderItem.ratings.length>0 ? orderItem.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/orderItem.ratings.length : 0;
                             const { images, ratings, ...itemWithImages }=orderItem.toObject();
                             return{
                                 ...itemWithImages,
-                                // imageUrls, 
+                                imageUrls, 
                                 rating,
                                 count: item.count
                             };
@@ -106,6 +108,7 @@ const fetchOrders=async(req, res)=>{
                     items: orderItems,
                     total: order.total,
                     status: order.status,
+                    events: order.events,
                     orderId: order._id
                 }
             })
@@ -138,12 +141,12 @@ const fetchOrder=async(req, res)=>{
             order.items.map(async (item)=>{
                 const orderItem=await Item.findById(item.itemId);
                 if(orderItem){
-                    // const imageUrls=orderItem.images.map((_, index)=>`${apiUrl}/fetchImage/${orderItem._id}/${index}`);
+                    const imageUrls=orderItem.images.map((_, index)=>`${apiUrl}/fetchImage/${orderItem._id}/${index}`);
                     const rating=orderItem.ratings.length>0 ? orderItem.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/orderItem.ratings.length : 0;
                     const { images, ratings, ...itemWithImages }=orderItem.toObject();
                     return{
                         ...itemWithImages,
-                        // imageUrls, 
+                        imageUrls, 
                         rating,
                         date: item.createdAt,
                         count: item.count,
@@ -184,12 +187,12 @@ const fetchOrderItem=async(req, res)=>{
         const orderItem=await Item.findById(item.itemId);
         const myRating=orderItem?.ratings.find((rating)=>rating.customerId===customerId)?.rating || 0;
         const myReview=orderItem?.reviews.find((review)=>review.customerId===customerId)?.review || "";
-        // const imageUrls=orderItem.images.map((_, index)=>`${apiUrl}/fetchImage/${orderItem._id}/${index}`);
+        const imageUrls=orderItem.images.map((_, index)=>`${apiUrl}/fetchImage/${orderItem._id}/${index}`);
         const rating=orderItem.ratings.length>0 ? orderItem.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/orderItem.ratings.length : 0;
         const { images, ratings, reviews, ...itemWithImages }=orderItem.toObject();
         const itemDetails={
             ...itemWithImages,
-            // imageUrls, 
+            imageUrls, 
             rating,
             myRating, 
             myReview,

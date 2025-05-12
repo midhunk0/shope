@@ -1,22 +1,22 @@
 .seller-item{
     display: flex;
-    width: 100%;
+    width: calc(100% - 16px);
     flex-direction: column;
-    border-radius: 8px;
+    border-radius: 16px;
     background: var(--dark-2);
+    padding: 8px;
 }
 
 .seller-images{
     width: 100%;
     display: flex;
-    gap: 20px;
+    gap: 8px;
     overflow-x: auto; 
     scroll-snap-type: x mandatory; 
     scroll-padding: 0 ; 
     scroll-behavior: smooth;
-    background: var(--dark-1);
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    background: var(--dark-2);
+    border-radius: 8px;
 }
 
 .seller-images img{
@@ -27,8 +27,7 @@
     aspect-ratio: 1/1;
     object-fit: contain;
     background: white;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    border-radius: 8px;
     cursor: pointer;
 }
 

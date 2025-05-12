@@ -54,7 +54,7 @@ export const Items=()=>{
             const result=await response.json();
             if(response.ok){
                 setItem(result.item);
-                if(width<992) setShowDetails(true);
+                if(width<1080) setShowDetails(true);
             }
         }
         catch(error){
@@ -113,7 +113,7 @@ export const Items=()=>{
         <div className="admin-items">
             <h1>Items</h1>
             <div className="admin-items-details">
-            {(width>=992 || !showDetails) && (
+            {(width>=1080 || !showDetails) && (
                 <table className="admin-items-table">
                     <thead>
                         <tr>
@@ -139,10 +139,10 @@ export const Items=()=>{
                     </tbody>
                 </table>
             )}
-            {(width>=992 || showDetails) && (
+            {(width>=1080 || showDetails) && (
                 item ? (
                     <div className="admin-item-details">
-                        {width<992 && (
+                        {width<1080 && (
                             <button onClick={() => setShowDetails(false)}>Back</button>
                         )}
                         <div className="admin-item-images">

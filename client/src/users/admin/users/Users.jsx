@@ -110,7 +110,7 @@ export const Users=()=>{
         <div className="admin-users">
             <h1>Users</h1>
             <div className="admin-users-details">
-                {(width>=992 || !showDetails) && (
+                {(width>=1080 || !showDetails) && (
                     <table className="admin-users-table">
                         <thead>
                             <tr>
@@ -142,10 +142,10 @@ export const Users=()=>{
                     </table>
                 )}
                 
-                {(width>=992 || showDetails) && (
+                {(width>=1080 || showDetails) && (
                     user ? (
                         <div className="admin-user-details">
-                            {width<992 && (
+                            {width<1080 && (
                                 <button onClick={() => setShowDetails(false)}>Back</button>
                             )}
                             <img src="/images/profile.png" alt=""/>

@@ -134,12 +134,12 @@ const fetchCart=async(req, res)=>{
             cart.items.map(async (item)=>{
                 const cartItem=await Item.findById(item.itemId);
                 if(cartItem){
-                    // const imageUrls=cartItem.images.map((_, index)=>`${apiUrl}/fetchImage/${item.itemId}/${index}`);
+                    const imageUrls=cartItem.images.map((_, index)=>`${apiUrl}/fetchImage/${item.itemId}/${index}`);
                     const rating=cartItem.ratings.length>0 ? cartItem.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/cartItem.ratings.length : 0;
                     const { images, ratings, ...itemWithImages }=cartItem.toObject();
                     return{
                         ...itemWithImages,
-                        // imageUrls, 
+                        imageUrls, 
                         rating,
                         count: item.count
                     };

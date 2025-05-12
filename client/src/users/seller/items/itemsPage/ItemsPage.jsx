@@ -44,7 +44,7 @@ export function ItemsPage(){
     }, []);
 
     function viewItem(itemId){
-        navigate("/seller/dashboard/item", { state: { itemId }});
+        navigate("/seller/item", { state: { itemId }});
     }
 
     function searchItems(){
@@ -61,16 +61,8 @@ export function ItemsPage(){
         searchItems();
     }, [searchItem]);
 
-    if(filteredItems.length===0){
+    if(loading){
         return(
-            <div className="seller-itemsPage-empty">
-                <p>No items</p>
-            </div>
-        )
-    }
-
-    return(
-        loading ? (
             <div className="loading">
                 <l-trefoil
                     size="50"
@@ -81,21 +73,31 @@ export function ItemsPage(){
                     color="var(--red)"
                 ></l-trefoil>
             </div>
-        ) : (
-            <div className="seller-itemsPage">
-                <div className="seller-itemsSearch">
-                    <img src="/icons/search.png" alt="img"/>
-                    <input type="text" placeholder="Search" onChange={(e)=>setSearchItem(e.target.value)}/>
-                </div>
-                <div className="seller-items">
-                    {filteredItems.map((item, index)=>(
-                        item ? 
-                            <Item item={item} key={index} onClick={()=>viewItem(item._id)}/>
-                        :
-                            null
-                    ))}
-                </div>
+        )
+    }
+
+    if(filteredItems.length===0){
+        return(
+            <div className="seller-itemsPage-empty">
+                <p>No items</p>
             </div>
         )
+    }
+
+    return(
+        <div className="seller-itemsPage">
+            <div className="seller-itemsSearch">
+                <img src="/icons/search.png" alt="img"/>
+                <input type="text" placeholder="Search" onChange={(e)=>setSearchItem(e.target.value)}/>
+            </div>
+            <div className="seller-items">
+                {filteredItems.map((item, index)=>(
+                    item ? 
+                        <Item item={item} key={index} onClick={()=>viewItem(item._id)}/>
+                    :
+                        null
+                ))}
+            </div>
+        </div>
     )
 }

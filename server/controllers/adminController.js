@@ -156,12 +156,12 @@ const fetchItem=async(req, res)=>{
         if(!item){
             return res.status(400).json({ message: "Item not found" });
         }
-        // const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${itemId}/${index}`);
+        const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${itemId}/${index}`);
         const { images, ...itemData }=item.toObject();
         const seller=await User.findById(item.sellerId);
         const itemWithImages={
             ...itemData,
-            // imageUrls,
+            imageUrls,
             username: seller?.username
         }
         return res.status(200).json({ message: "Item fetched", item: itemWithImages});
@@ -397,6 +397,10 @@ const assignDeliveryAgent=async(req, res)=>{
         });
         order.deliveryAgentId=deliveryAgentId;
         order.status="shipped";
+        order.events.push({
+            date: new Date(),
+            event: "shipped"
+        });
         await ordersDetails.save();
         await deliveryAgent.save();
         return res.status(200).json({ message: "Delivery agent assigned" });

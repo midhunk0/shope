@@ -58,13 +58,19 @@
     border-radius: 8px;
     width: 100px;
     text-align: center;
+    transition: all 0.3s ease-in-out;
 }
 
 .landing-links a:hover{
-    background-color: var(--dark-3);
-    box-shadow: 2px 2px var(--red);
-    color: var(--red);
+    box-shadow: 4px 4px var(--dark-3);
+    transform: translate(-4px, -4px);
 }
+
+.landing-links a:active{
+    transform: translate(0px, 0px);
+    box-shadow: none;
+}
+
 
 @media(max-width: 1080px){
     .landing-page, .landing-links{

@@ -57,11 +57,11 @@ export function Order(){
                             {order.itemDetails.map((item, index)=>(
                                 <div key={index} className="customer-order-item">
                                     <div className="customer-order-item-images">
-                                        {/* {item.imageUrls.length>0 ? (
+                                        {item.imageUrls.length>0 ? (
                                             item.imageUrls.map((imageUrl, index)=>(
                                                 <img key={index} src={imageUrl} alt="img"/>
                                             ))
-                                        ):(<></>)} */}
+                                        ):(<></>)}
                                     </div>
                                     <div className="customer-order-item-details">
                                         <div className="customer-order-item-first">

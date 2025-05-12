@@ -23,12 +23,8 @@ export function Create() {
 
     function drop(e){
         e.preventDefault();
-        const newImages=[];
-        for (let i=0;i<e.dataTransfer.files.length;i++){
-            var image=e.dataTransfer.files[i].name;
-            newImages.push(image);
-        }
-        setImageList((prevImages)=>[...prevImages, ...newImages]);
+        const files=Array.from(e.dataTransfer.files);
+        setImageList(prevImages=>[...prevImages, ...files]);
     }
 
     function drag(e){
@@ -36,12 +32,8 @@ export function Create() {
     }
 
     function fileInput(e){
-        const newImages=[];
-        for (let i=0;i<e.target.files.length;i++) {
-            var image=e.target.files[i].name;
-            newImages.push(image);
-        }
-        setImageList((prevImages)=>[...prevImages, ...newImages]);
+        const files=Array.from(e.target.files);
+        setImageList(prevImages=>[...prevImages, ...files]);
     }
 
     function remove(index){
@@ -58,32 +50,33 @@ export function Create() {
             for(const key in itemData){
                 formData.append(key, itemData[key]);
             }
-            const images=document.getElementById("images");
-            if(images.files?.length){
-                Array.from(images.files).forEach((image)=>{
-                    formData.append("images", image);
-                });
-            }
+
+            imageList.forEach(file=>{
+                formData.append("images", file); 
+            });
 
             const response=await fetch(`${apiUrl}/createSellItem`, {
                 method: "POST",
                 body: formData,
                 credentials: "include",
-            })
+            });
 
             const result=await response.json();
             if(response.ok){
                 setLoading(false);
                 toast.success(result.message);
-                navigate("/seller/dashboard/items");
+                navigate("/seller/items");
             } 
             else{
+                setLoading(false);
                 toast.error(result.message);
             }
         } 
         catch(error){
-            console.log(error);
-        } 
+            setLoading(false);
+            console.error(error);
+            toast.error("Something went wrong.");
+        }
     }
 
     return (
@@ -121,7 +114,7 @@ export function Create() {
                                 <div className="seller-fileList">
                                     {imageList.map((file, index) => (
                                         <div className="seller-fileItem" key={index}>
-                                            <p>{file}</p>
+                                            <p>{file.name}</p>
                                             <img src="/icons/close.png" alt="img" onClick={() => remove(index)} />
                                         </div>
                                     ))}

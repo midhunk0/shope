@@ -25,7 +25,7 @@ const transactionSchema=new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["pending", "completed", "shipped", "cancelled"],
+        enum: ["pending", "confirmed", "shipped", "out for delivery", "delivered", "cancelled", "returned", "failed"],
         default: "pending"
     }
 });

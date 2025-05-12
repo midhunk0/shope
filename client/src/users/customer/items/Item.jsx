@@ -13,7 +13,7 @@ export function Item({ item, onClick, onItemsChanged }){
     const apiUrl=import.meta.env.VITE_APP_API_URL;
 
     function viewItem(itemId){
-        navigate(`/dashboard/item/${itemId}`);
+        navigate(`/customer/item/${itemId}`);
     }
 
     async function inWishlist(){
@@ -124,7 +124,7 @@ export function Item({ item, onClick, onItemsChanged }){
     async function buyItem(e){
         e.stopPropagation();
         await addToCart(e);
-        navigate("/dashboard/cart");
+        navigate("/customer/cart");
     }
 
     return(

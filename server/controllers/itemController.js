@@ -11,6 +11,7 @@ const fetchImage=async(req, res)=>{
             return res.status(400).json({ message: "Invalid image index." });
         }
         const item=await Item.findById(itemId);
+        console.log(itemId);
         if(!item){
             return res.status(404).json({ message: "Item not found." });
         }
@@ -34,13 +35,13 @@ const fetchItem=async(req, res)=>{
         if(!item){
             return res.status(400).json({ message: "Item not found" });
         }
-        // const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${itemId}/${index}`);
+        const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${itemId}/${index}`);
         const rating=item.ratings.length>0 ? item.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/item.ratings.length : 0;
         const { images, ratings, ...itemData }=item.toObject();
         const itemWithImages={
             ...itemData,
             rating,
-            // imageUrls
+            imageUrls
         }
         return res.status(200).json(itemWithImages);
     }
@@ -65,12 +66,12 @@ const fetchItems=async(req, res)=>{
             return acc;
         }, {});
         const itemsWithImages=items.map((item)=>{
-            // const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${item._id}/${index}`);
+            const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${item._id}/${index}`);
             const rating=item.ratings.length>0 ? item.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/item.ratings.length : 0;
             const { images, ratings, ...itemWithImages }=item.toObject();
             return{
                 ...itemWithImages,
-                // imageUrls, 
+                imageUrls, 
                 rating,
                 brand: sellerMap[item.sellerId]
             };
