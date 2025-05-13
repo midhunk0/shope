@@ -55,6 +55,11 @@ export function Orders(){
                         <h1>My Orders</h1>
                         {orders.map((order, index)=>(
                             <div key={index} className="customer-orders-order-details" onClick={()=>gotoOrder(order.orderId)}>
+                                <div className="customer-orders-order-other-details">
+                                    <p>{new Date(order.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</p>
+                                    <p className={`customer-status-${order.status}`}>{order.status}</p>
+                                    <p>Total: <span>${order.total}</span></p>
+                                </div>
                                 <div className="customer-orders-order-items">
                                     {order.items.map((item, index)=>(
                                         <div key={index} className="customer-orders-order-item">
@@ -66,30 +71,27 @@ export function Orders(){
                                                 ):(<></>)}
                                             </div> 
                                             <div className="customer-orders-order-item-details">
-                                                <div className="customer-orders-order-item-first">
-                                                    <h3>{item.name}</h3>
-                                                    <h4>${item.price}</h4>
-                                                    <div className="customer-orders-order-item-ratings">
-                                                        {Array.from({ length: item.rating }).map((_, index)=>(
-                                                            <img key={index} src="/icons/star-filled.png" alt="img"/>
-                                                        ))}
-                                                        {Array.from({ length: 5-item.rating }).map((_, index)=>(
-                                                            <img key={index} src="/icons/star.png" alt="img"/>
-                                                        ))}
+                                                <h3>{item.name}</h3>
+                                                <div className="customer-orders-order-item-full-details">
+                                                    <div className="customer-orders-order-item-first">
+                                                        <h4>${item.price}</h4>
+                                                        <p>{item.type}</p>
                                                     </div>
-                                                </div>
-                                                <div className="customer-orders-order-item-second">
-                                                    <p>{item.type}</p>
-                                                    <p>Qty : {item.count}</p>
+                                                    <div className="customer-orders-order-item-second">
+                                                        <div className="customer-orders-order-item-ratings">
+                                                            {Array.from({ length: item.rating }).map((_, index)=>(
+                                                                <img key={index} src="/icons/star-filled.png" alt="img"/>
+                                                            ))}
+                                                            {Array.from({ length: 5-item.rating }).map((_, index)=>(
+                                                                <img key={index} src="/icons/star.png" alt="img"/>
+                                                            ))}
+                                                        </div>
+                                                        <p>Quantity : {item.count}</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     ))}
-                                </div>
-                                <div className="customer-orders-order-other-details">
-                                    <p>{new Date(order.date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</p>
-                                    <p className={`status-${order.status}`}>{order.status}</p>
-                                    <p>Total: <span>${order.total}</span></p>
                                 </div>
                             </div>
                         ))}

@@ -102,7 +102,7 @@ export function Cart(){
             const result=await response.json();
             if(response.ok){
                 toast.success(result.message);
-                navigate("/dashboard/orders");
+                navigate("/customer/orders");
             }
         }
         catch(error){

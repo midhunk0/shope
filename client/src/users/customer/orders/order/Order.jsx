@@ -53,6 +53,11 @@ export function Order(){
             <div className="customer-order">
                 {order ? (
                     <div className="customer-order-details">
+                        <div className="customer-order-other-details">
+                            <p>{new Date(order.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</p>
+                            <p className={`customer-status-${order.status}`}>{order.status}</p>
+                            <p>Total: <span>${order.total}</span></p>
+                        </div>
                         <div className="customer-order-items">
                             {order.itemDetails.map((item, index)=>(
                                 <div key={index} className="customer-order-item">
@@ -64,40 +69,38 @@ export function Order(){
                                         ):(<></>)}
                                     </div>
                                     <div className="customer-order-item-details">
-                                        <div className="customer-order-item-first">
-                                            <h3>{item.name}</h3>
-                                            <h4>${item.price}</h4>
-                                            <div className="customer-order-item-ratings">
-                                                {Array.from({ length: item.rating }).map((_, index)=>(
-                                                    <img key={index} src="/icons/star-filled.png" alt="img"/>
-                                                ))}
-                                                {Array.from({ length: 5-item.rating }).map((_, index)=>(
-                                                    <img key={index} src="/icons/star.png" alt="img"/>
-                                                ))}
+                                        <h3>{item.name}</h3>
+                                        <div className="customer-order-item-full-details">
+                                            <div className="customer-order-item-first">
+                                                <h4>${item.price}</h4>
+                                                <p>{item.type}</p>
                                             </div>
-                                            {order.status==="completed" && (
-                                                <div className="customer-order-item-add-review">
-                                                    {item.reviewed ? (
-                                                        <button onClick={()=>gotoReview(orderId, item._id)}>Edit review</button>
-                                                    ):(
-                                                        <button onClick={()=>gotoReview(orderId, item._id)}>Add review</button>
-                                                    )}
+                                            <div className="customer-order-item-second">
+                                                <div className="customer-order-item-ratings">
+                                                    {Array.from({ length: item.rating }).map((_, index)=>(
+                                                        <img key={index} src="/icons/star-filled.png" alt="img"/>
+                                                    ))}
+                                                    {Array.from({ length: 5-item.rating }).map((_, index)=>(
+                                                        <img key={index} src="/icons/star.png" alt="img"/>
+                                                    ))}
                                                 </div>
-                                            )}
-                                        </div>
-                                        <div className="customer-order-item-second">
-                                            <p>{item.type}</p>
-                                            <p>Qty : {item.count}</p>
+                                                <p>Qty : {item.count}</p>
+                                            </div>
+                                            <div className="customer-order-item-third">
+                                                {order.status==="delivered" && (
+                                                    <div className="customer-order-item-add-review">
+                                                        {item.reviewed ? (
+                                                            <button onClick={()=>gotoReview(orderId, item._id)}>Edit review</button>
+                                                        ):(
+                                                            <button onClick={()=>gotoReview(orderId, item._id)}>Add review</button>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             ))}
-                        </div>
-                        <div className="customer-order-other-details">
-                            <p>{new Date(order.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</p>
-                            {/* <p>{new Date(order.createdAt).toLocaleDateString()}</p> */}
-                            <p className={`status-${order.status}`}>{order.status}</p>
-                            <p>Total: <span>${order.total}</span></p>
                         </div>
                     </div>
                 ) : (

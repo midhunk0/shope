@@ -85,8 +85,8 @@ export function Review(){
         setContent({ ...content, rating: newRating });
     }
 
-    return(
-        loading ? (
+    if(loading){
+        return(
             <div className="loading">
                 <l-trefoil
                     size="50"
@@ -97,44 +97,59 @@ export function Review(){
                     color="var(--red)"
                 ></l-trefoil>
             </div>
-        ) : (
-            item && (
-                <div className="customer-review">
-                    <div className="customer-review-details">
-                        <div className="customer-review-item">
-                            <Item item={item}/>
-                        </div>
-                        <div className="customer-review-form">
-                            {item.reviewed ? 
-                                <h1>Edit Review</h1>
-                            :
-                                <h1>Add Review</h1>
-                            }
-                            <form>
-                                <div className="customer-review-form-rating">
-                                    <label>Rating</label>
-                                    <div className="customer-review-form-rating-icons">
-                                        {Array.from({ length: 5 }).map((_, index)=>(
-                                            <img
-                                                key={index}
-                                                src={index<content.rating ? "/icons/star-filled.png" : "/icons/star.png"}
-                                                style={{ cursor: "pointer", width: "24px" }}
-                                                onClick={()=>handleRatingInput(index+1)}
-                                                alt="img"
-                                            />
-                                        ))}
-                                    </div>
+        )
+    }
+
+    return(
+        item && (
+            <div className="customer-review">
+                {item.reviewed ? 
+                    <h1>Edit Review</h1>
+                :
+                    <h1>Add Review</h1>
+                }
+                <div className="customer-review-details">
+                    <div className="customer-review-item">
+                        <div className="customer-review-item-images">
+                            {item.imageUrls.length>0 ? (
+                                item.imageUrls.map((imageUrl, index)=>(
+                                    <img key={index} src={imageUrl} alt="img"/>
+                                ))
+                            ):(<></>)}
+                        </div> 
+                        <div className="customer-review-item-details">
+                            <h3>{item.name}</h3>
+                            <div className="customer-review-item-full-details">
+                                <div className="customer-review-item-first">
+                                    <h4>${item.price}</h4>
+                                    <p>{item.type}</p>
                                 </div>
-                                <div className="customer-review-form-review">
-                                    <label>Review</label>
-                                    <textarea placeholder="Enter review..." value={content.review} onChange={(e)=>setContent({ ...content, review: e.target.value })}></textarea>
-                                </div>
-                                <button type="button" onClick={item.reviewed ? updateRatingAndReview : addRatingAndReview}>{item.reviewed ? "Update" : "Add"}</button>
-                            </form>
+                            </div>
                         </div>
                     </div>
+                    <form className="customer-review-form">
+                        <div className="customer-review-form-rating">
+                            <label>{item.reviewed ? "Update" : "Add"} Rating</label>
+                            <div className="customer-review-form-rating-icons">
+                                {Array.from({ length: 5 }).map((_, index)=>(
+                                    <img
+                                        key={index}
+                                        src={index<content.rating ? "/icons/star-filled.png" : "/icons/star.png"}
+                                        style={{ cursor: "pointer", width: "24px" }}
+                                        onClick={()=>handleRatingInput(index+1)}
+                                        alt="img"
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                        <div className="customer-review-form-review">
+                            <label>{item.reviewed ? "Update" : "Add"} Review</label>
+                            <textarea placeholder="Enter review..." value={content.review} onChange={(e)=>setContent({ ...content, review: e.target.value })}></textarea>
+                        </div>
+                        <button type="button" onClick={item.reviewed ? updateRatingAndReview : addRatingAndReview}>{item.reviewed ? "Update" : "Add"}</button>
+                    </form>
                 </div>
-            )
+            </div>
         )
     )
 }
