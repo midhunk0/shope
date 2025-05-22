@@ -14,7 +14,7 @@
     width: 100%;
     overflow-x: auto; 
     scroll-snap-type: x mandatory; 
-    scroll-padding: 0 ; 
+    scroll-padding: 0; 
     scroll-behavior: smooth;
     border-radius: 8px;
 }

@@ -36,7 +36,6 @@ export function Register({ role }){
                 credentials: "include"
             });
             const result=await response.json();
-            console.log(result);
             if(response.ok){
                 toast.success(result.message);
                 navigate(`/${role}/dashboard`);
