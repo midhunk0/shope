@@ -21,6 +21,7 @@ export function ItemPage(){
             const result=await response.json();
             if(response.ok){
                 setItem(result);
+                console.log(result);
                 toast.success(result.message);
             }
             else{
@@ -39,7 +40,7 @@ export function ItemPage(){
     function goBack(){
         navigate(-1);
     }
-
+    console.log(item);
     return(
         <div className="customer-itemPage">
             <div className="customer-itemPage-buttons">
@@ -47,7 +48,19 @@ export function ItemPage(){
             </div>
             <div className="customer-itemPage-item">
                 {item ? (
-                    <Item item={item}/>
+                    <div className="customer-itemPage-item-details">
+                        <Item item={item}/>
+                        {item.reviews.length!==0 && 
+                            <div className="customer-itemPage-item-reviews">
+                                {item.reviews.map((review, index)=>(
+                                    <div key={index} className="customer-itemPage-item-review">
+                                        <p>{review.username}</p>
+                                        <p>{review.review}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        }
+                    </div>
                 ):(
                     <></>
                 )}

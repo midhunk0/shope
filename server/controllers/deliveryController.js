@@ -35,7 +35,7 @@ const fetchDeliveryOrders=async(req, res)=>{
             })
         );
         if(!orders){
-            return res.status(400).json({ message: "No orders found" });
+            return res.status(200).json({ message: "No orders found" });
         }
         return res.status(200).json({ deliveryOrders: orders });
     }
@@ -94,7 +94,7 @@ const deliverOrder=async(req, res)=>{
         ) 
         await orderDetails.save();
         await delivery.save();
-        return res.status(200).json({ message: "Order delivered successfully" });
+        return res.status(200).json({ message: "Order delivered successfully", status: matchedOrder.status });
     }
     catch(err){
         res.status(500).json({ error: err.message });

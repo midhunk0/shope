@@ -13,9 +13,9 @@ export const Items=()=>{
     const [showDetails, setShowDetails]=useState(false);
     
     useEffect(() => {
-        const handleResize = () => setWidth(window.innerWidth);
+        const handleResize=()=>setWidth(window.innerWidth);
         window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
+        return ()=>window.removeEventListener("resize", handleResize);
     }, []);
 
     trefoil.register();

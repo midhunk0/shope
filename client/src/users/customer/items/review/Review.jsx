@@ -73,6 +73,7 @@ export function Review(){
             const result=await response.json();
             if(response.ok){
                 toast.success(result.message);
+                navigate(-1);
                 fetchOrderItem();
             }
         }

@@ -14,10 +14,10 @@ export const Orders=()=>{
     const [width, setWidth]=useState(window.innerWidth);
     const [showDetails, setShowDetails]=useState(false);
     
-    useEffect(() => {
-        const handleResize = () => setWidth(window.innerWidth);
+    useEffect(()=>{
+        const handleResize=()=>setWidth(window.innerWidth);
         window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
+        return ()=>window.removeEventListener("resize", handleResize);
     }, []);
 
     trefoil.register();
@@ -113,7 +113,7 @@ export const Orders=()=>{
                 setOrder(prev=>{
                     return {
                         ...prev,
-                        deliveryAgentId: result.deliveryAgentId
+                        deliveryAgentId: deliveryAgentId
                     }
                 });
                 setOrders(prev=>{
@@ -121,7 +121,8 @@ export const Orders=()=>{
                         if(order._id===orderId){
                             return {
                                 ...order,
-                                deliveryAgentId: result.deliveryAgentId
+                                status: result.status,
+                                deliveryAgentId: deliveryAgentId
                             }
                         }
                         return order;

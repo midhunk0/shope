@@ -38,7 +38,7 @@ export function Register({ role }){
             const result=await response.json();
             if(response.ok){
                 toast.success(result.message);
-                navigate(`/${role}/dashboard`);
+                navigate(`/${role}/home`);
             }
             else{
                 toast.error(result.messsage);

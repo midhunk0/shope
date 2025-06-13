@@ -52,7 +52,7 @@ export function Cart(){
                 credentials: "include"
             });
             const result=await response.json();
-            const filteredResult = result.cartItems.filter(item => item !== null);
+            const filteredResult=result.cartItems.filter(item=>item!==null && item.pieceLeft>0);
             if(response.ok){
                 setCost(result.cost);
                 setLoading(false);

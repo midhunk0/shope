@@ -124,7 +124,7 @@ const fetchItems=async(req, res)=>{
         if(!verifiedSellerIds.length){
             return res.status(400).json({ message: "No verified users found" });
         }
-        const items=await Item.find({ sellerId: { $in: verifiedSellerIds } }).select("sellerId name type price pieceLeft verified");
+        const items=await Item.find({ sellerId: { $in: verifiedSellerIds } }).select("sellerId name type price pieceLeft verified").sort({ createdAt: -1 });
         if(!items.length){
             return res.status(400).json({ message: "There are no items" });
         }
@@ -136,7 +136,7 @@ const fetchItems=async(req, res)=>{
                     username: seller?.username
                 }
             })
-        )
+        );
         return res.status(200).json({ message: "Items are fetched", items: itemsDetails });
     }
     catch(err){
@@ -403,7 +403,7 @@ const assignDeliveryAgent=async(req, res)=>{
         });
         await ordersDetails.save();
         await deliveryAgent.save();
-        return res.status(200).json({ message: "Delivery agent assigned" });
+        return res.status(200).json({ message: "Delivery agent assigned", status: order.status });
     }
     catch(error){
         return res.status(500).json({ error: error.message });

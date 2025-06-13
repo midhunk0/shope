@@ -23,34 +23,36 @@ const makeOrder=async(req, res)=>{
             return res.status(400).json({ message: "Orders list not found" });
         }
         const shippingAddress=req.body;
-        const cartItems=await Promise.all(
-            cart.items.map(async (item)=>{
-                const cartItem=await Item.findById(item.itemId);
-                if(cartItem){
-                    const transaction=new Transaction({
-                        sellerId: cartItem.sellerId,
-                        customerId: customerId,
-                        itemId: item.itemId, 
-                        count: item.count,
-                        status: "pending"
-                    });
-                    await transaction.save();
-                    cartItem.pieceLeft-=item.count;
-                    await cartItem.save();
-                    const seller=await Sell.findOne({ sellerId: cartItem.sellerId });
-                    if(seller){
-                        seller.transactionIds.push(transaction._id);
-                        await seller.save();
+        const cartItems=(
+            await Promise.all(
+                cart.items.map(async (item)=>{
+                    const cartItem=await Item.findById(item.itemId);
+                    if(cartItem && cartItem.pieceLeft>0){
+                        const transaction=new Transaction({
+                            sellerId: cartItem.sellerId,
+                            customerId: customerId,
+                            itemId: item.itemId, 
+                            count: item.count,
+                            status: "pending"
+                        });
+                        await transaction.save();
+                        cartItem.pieceLeft-=item.count;
+                        await cartItem.save();
+                        const seller=await Sell.findOne({ sellerId: cartItem.sellerId });
+                        if(seller){
+                            seller.transactionIds.push(transaction._id);
+                            await seller.save();
+                        }
+                        return { 
+                            itemId: item.itemId, 
+                            count: item.count, 
+                            transactionId: transaction._id
+                        }
                     }
-                    return { 
-                        itemId: item.itemId, 
-                        count: item.count, 
-                        transactionId: transaction._id
-                    }
-                }
-                return null;
-            })
-        )
+                    return null;
+                })
+            )
+        ).filter(Boolean);
         order.orders.push({
             shippingAddress,
             items: cartItems,
@@ -220,7 +222,7 @@ const addRatingAndReview=async(req, res)=>{
         }
         const eligible=orders.orders.some((order)=>{
             const orderItem=order.items.some((item)=>item.itemId===itemId);
-            return orderItem && order.status==="completed";
+            return orderItem && order.status==="delivered";
         })
         if(!eligible){
             return res.status(400).json({ message: "You are not eligible to rate or review this item" });
@@ -274,7 +276,7 @@ const updateRatingAndReview=async(req, res)=>{
         }
         const eligible=orders.orders.some((order)=>{
             const orderItem=order.items.some((item)=>item.itemId===itemId);
-            return orderItem && order.status==="completed";
+            return orderItem && order.status==="delivered";
         })
         if(!eligible){
             return res.status(400).json({ message: "You are not eligible to rate or review this item" });

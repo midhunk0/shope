@@ -37,11 +37,21 @@ const fetchItem=async(req, res)=>{
         }
         const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${itemId}/${index}`);
         const rating=item.ratings.length>0 ? item.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/item.ratings.length : 0;
-        const { images, ratings, ...itemData }=item.toObject();
+        const reviewsWithUsernames=await Promise.all(
+            item.reviews.map(async (review)=>{
+                const user=await User.findById(review.customerId);
+                return{ 
+                    review: review.review,
+                    username: user.username
+                }
+            })
+        )
+        const { images, ratings, reviews, ...itemData }=item.toObject();
         const itemWithImages={
             ...itemData,
             rating,
-            imageUrls
+            imageUrls,
+            reviews: reviewsWithUsernames
         }
         return res.status(200).json(itemWithImages);
     }
@@ -67,7 +77,7 @@ const fetchItems=async(req, res)=>{
         }, {});
         const itemsWithImages=items.map((item)=>{
             const imageUrls=item.images.map((_, index)=>`${apiUrl}/fetchImage/${item._id}/${index}`);
-            const rating=item.ratings.length>0 ? item.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/item.ratings.length : 0;
+            const rating=item.ratings.length>0 ? Math.round(item.ratings.reduce((sum, rating)=>sum+rating.rating, 0)/item.ratings.length) : 0;
             const { images, ratings, ...itemWithImages }=item.toObject();
             return{
                 ...itemWithImages,

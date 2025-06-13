@@ -10,7 +10,7 @@ export function Item({ item, onClick }){
 
     function updateItem(e, itemId){
         e.stopPropagation();
-        navigate(`/seller/dashboard/update/${itemId}`);
+        navigate(`/seller/update/${itemId}`);
     }
 
     async function deleteItem(e, itemId){
